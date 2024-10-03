@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="956.0" prefWidth="440.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.plataforma.controller.InicioControlador">
+   <children>
+      <BorderPane prefHeight="956.0" prefWidth="440.0" />
+   </children>
+</AnchorPane>

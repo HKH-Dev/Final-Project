@@ -1,0 +1,41 @@
+/* Set the entire background to black */
+.root {
+    -fx-background-color: #1e1e1e;
+}
+
+/* Set the labels (titles) to white */
+.label {
+    -fx-text-fill: gray;
+    -fx-font-size: 14px;
+}
+
+/* Set the text fields and text area to light gray */
+.text-field, .text-area, .date-picker {
+    -fx-background-color: #333333;
+    -fx-text-fill: gray; /* Text inside the fields will be white */
+    -fx-prompt-text-fill: #b3b3b3; /* Placeholder text color */
+    -fx-border-color: #555555; /* Border color of the text fields */
+    -fx-border-radius: 5; /* Rounded corners */
+    -fx-background-radius: 5;
+}
+
+/* Set the button to a dark style */
+.button {
+    -fx-background-color: #555555;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #999999;
+}
+
+.table-view {
+    -fx-background-color: #222222; /* Table background */
+    -fx-text-background-color: #222222;
+    -fx-table-cell-border-color: #333333;
+}
+
+.table-column-header {
+    -fx-background-color: #444444; /* Column headers background */
+    -fx-text-fill: white; /* Column header text */
+}
