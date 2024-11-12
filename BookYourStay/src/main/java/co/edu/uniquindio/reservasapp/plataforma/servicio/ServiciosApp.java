@@ -11,8 +11,13 @@ import java.util.Optional;
 
 public interface ServiciosApp {
     Persona login(String correo, String contrasena) throws Exception;
+    void registrarPersona(String cedula, String nombres, String apellidos, String email, String contrasena) throws Exception;
+    List<Reserva> listarTodasReservas();
 
-    void registrarPersona(String cedula, String nombres, String apellidos,  String email, String contrasena) throws Exception;
+
+//    Persona login(String correo, String contrasena) throws Exception;
+
+//    void registrarPersona(String cedula, String nombres, String apellidos,  String email, String contrasena) throws Exception;
 //
 //    void crearInstalacion(String id, String nombre, int aforo, float costo, LocalDateTime horaInicio, LocalDateTime horaFin);
 //
@@ -20,7 +25,7 @@ public interface ServiciosApp {
 
     Optional<Persona> obtenerPersona(String cedulaCliente);
 //
-    List<Reserva> listarTodasReservas();
+//    List<Reserva> listarTodasReservas();
 //
 //    List<Reserva> listarReservasPorPersona();
 //

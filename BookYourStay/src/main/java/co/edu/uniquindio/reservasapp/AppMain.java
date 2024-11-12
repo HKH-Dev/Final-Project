@@ -22,6 +22,7 @@ public class AppMain extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         cargarHospedajes();
+        cargarDatosAppReserva();
         FXMLLoader fxmlLoader = new FXMLLoader(AppMain.class.getResource("/inicio.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 500);
         stage.setTitle("Reserva App");

@@ -17,11 +17,19 @@ public class Persona {
     protected String contrasena;
 
 
-    public Persona(String cedula, String nombre, String apellido, String email,  String hashedPassword) {
+    /*public Persona(String cedula, String nombre, String apellido, String email,  String hashedPassword) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.contrasena = hashedPassword;
+    }*/
+
+    public Persona(String cedula, String nombre, String apellido, String email, String contrasena) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.contrasena = contrasena;
     }
 }

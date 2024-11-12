@@ -16,11 +16,10 @@ public class LoginControlador {
     public TextField txtPassword;
 
     private final ControladorPrincipal controladorPrincipal;
-    Sesion sesion = Sesion.getInstancia();
+    private final AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
+    private final Sesion sesion = Sesion.getInstancia();
     Persona persona = sesion.getPersona();
 
-
-    AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
 
     public LoginControlador() {
         this.controladorPrincipal = ControladorPrincipal.getInstancia();
@@ -30,37 +29,29 @@ public class LoginControlador {
         return BCrypt.checkpw(String.valueOf(contrasena), hashed);
     }
 
-
     public void login(ActionEvent actionEvent) {
         boolean loginSuccessful = false;
-//        String errorMsg = "Correo o contraseña incorrectos";
-        String errorMsg = "";
+        String errorMsg = "Correo o contraseña incorrectos";
 
-
-
-        /* ---------------------------------------------------------------------------*/
-
-        for (Persona personaIngresar : appReservasPrincipal.getListaClientes()) {
-            if(personaIngresar.getEmail().equals(txtCorreo.getText())) {
-                if(validarPassword(txtPassword.getText(), personaIngresar.getContrasena()))
-                {
-                    sesion.setPersona(personaIngresar);
+        for (Persona persona : appReservasPrincipal.getListaClientes()) {
+            if (txtCorreo.getText().equals(persona.getEmail())) {
+                if (validarPassword(txtPassword.getText(), persona.getContrasena())) {
+                    sesion.setPersona(persona);
                     controladorPrincipal.cerrarVentana(txtCorreo);
                     loginSuccessful = true;
                     controladorPrincipal.navegarVentana("/profile.fxml", "Perfil");
                     break;
-                }
-                else {
+                } else {
                     errorMsg = "Contraseña incorrecta";
                 }
-                errorMsg = "Correo incorrecto";
             }
         }
-      if (!loginSuccessful) {
+        if (!loginSuccessful) {
             mostrarAlerta(errorMsg, Alert.AlertType.ERROR);
-            limpiarFormularioRegistro();
+            limpiarFormulario();
         }
     }
+
 
     private void mostrarAlerta(String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
@@ -69,7 +60,7 @@ public class LoginControlador {
         alert.setContentText(mensaje);
         alert.show();
     }
-    private void limpiarFormularioRegistro() {
+    private void limpiarFormulario() {
         txtCorreo.clear();
         txtPassword.clear();
     }

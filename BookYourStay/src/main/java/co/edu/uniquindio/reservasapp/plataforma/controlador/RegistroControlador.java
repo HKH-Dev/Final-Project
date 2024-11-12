@@ -50,6 +50,7 @@ public class RegistroControlador implements Initializable {
                 String apellido = txtApellido.getText();
                 String email = txtEmail.getText();
                 String contrasena = BCrypt.hashpw(txtPassword.getText(), BCrypt.gensalt());
+                String hashedPassword = BCrypt.hashpw(contrasena, BCrypt.gensalt());
 
 
 //                TipoPersona tipoPersona = cbTipoPersona.getValue();

@@ -68,22 +68,6 @@ public class AppReservasPrincipal implements ServiciosApp {
         listaClientes.add(clienteNuevo);
     }
 
-//    @Override
-//    public Persona login(String correo, String contrasena) throws Exception {
-//        if (correo == null || correo.isEmpty() && contrasena == null || contrasena.isEmpty()) {
-//            throw new Exception("El correo ni la contraseña pueden ser nulos o vacíos");
-//        }
-//        Persona usuarioRegistrado = listaClientes.stream()
-//                .filter(persona -> persona.getEmail().equals(correo))
-//                .findFirst()
-//                .orElseThrow(() -> new Exception("El correo no está registrado"));
-//
-//        if (!BCrypt.checkpw(contrasena, usuarioRegistrado.getContrasena())) {
-//            throw new Exception("La contraseña es incorrecta");
-//        }
-//        return usuarioRegistrado;
-//    }
-
     @Override
     public Persona login(String correo, String contrasena) throws Exception {
         if (correo == null || correo.isEmpty()) {
@@ -92,6 +76,20 @@ public class AppReservasPrincipal implements ServiciosApp {
         if (contrasena == null || contrasena.isEmpty()) {
             throw new Exception("La contraseña no puede ser nula o vacía");
         }
+        // Search for user by email
+        /*Persona usuarioRegistrado = listaPersonas.stream()
+                .filter(persona -> persona.getCorreoInstitucional().equals(correo))
+                .findFirst()
+                .orElse(null);
+
+        if (usuarioRegistrado == null) {
+            throw new Exception("El correo no está registrado");
+        }
+
+        // Verify password using BCrypt
+        if (!BCrypt.checkpw(contrasena, usuarioRegistrado.getContrasena())) {
+            throw new Exception("La contraseña es incorrecta");
+        }*/
         Persona usuarioRegistrado = listaClientes.stream()
                 .filter(persona -> persona.getEmail().equals(correo))
                 .findFirst()
@@ -100,9 +98,9 @@ public class AppReservasPrincipal implements ServiciosApp {
         if (!BCrypt.checkpw(contrasena, usuarioRegistrado.getContrasena())) {
             throw new Exception("La contraseña es incorrecta");
         }
+
         return usuarioRegistrado;
     }
-
 
     @Override
     public Reserva crearReserva(String tipoInstalacion, String nombreHospedajeReservar, String cedulaCliente, LocalDate diaReserva, String horaReserva) throws Exception {
@@ -184,3 +182,4 @@ public class AppReservasPrincipal implements ServiciosApp {
     }
 
 }
+
