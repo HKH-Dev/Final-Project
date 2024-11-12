@@ -189,7 +189,7 @@ public class AppMain extends Application {
         try {
             AppReservasPrincipal AppReserva = AppReservasPrincipal.getInstance();
             // Agregar personas por defecto
-            AppReserva.registrarPersona("123", "Ana Maria", "Lopez Perez", "Ana@email.com", "1234");
+            AppReserva.registrarPersona("123", "Ana Maria", "Lopez Perez", "ana@email.com", "1234");
 
         }catch (Exception e) {
             e.printStackTrace();

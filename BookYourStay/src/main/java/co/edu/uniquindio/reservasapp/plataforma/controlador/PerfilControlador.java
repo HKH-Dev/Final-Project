@@ -1,9 +1,9 @@
 package co.edu.uniquindio.reservasapp.plataforma.controlador;
 
-import co.edu.uniquindio.reservasuq.modelo.Persona;
-import co.edu.uniquindio.reservasuq.modelo.ReservasUQ;
-import co.edu.uniquindio.reservasuq.modelo.Sesion;
-import co.edu.uniquindio.reservasuq.modelo.reserva.Reserva;
+import co.edu.uniquindio.reservasapp.plataforma.AppReservasPrincipal;
+import co.edu.uniquindio.reservasapp.plataforma.modelo.Persona;
+import co.edu.uniquindio.reservasapp.plataforma.modelo.cliente.Sesion;
+import co.edu.uniquindio.reservasapp.plataforma.modelo.resevacion.Reserva;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 
 public class PerfilControlador implements Initializable {
     public ControladorPrincipal controladorPrincipal = ControladorPrincipal.getInstancia();
-    ReservasUQ reservasUQ = ReservasUQ.getInstance();
+    AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
     ObservableList <Reserva> reservas;
     FilteredList <Reserva> reservasUsuarioActual;
 
@@ -57,11 +57,11 @@ public class PerfilControlador implements Initializable {
     private Label lblName;
         @FXML
         void onCancelarReserva(ActionEvent event) {
-            for (Reserva reserva : reservasUQ.getListaReservas()){
+            for (Reserva reserva : appReservasPrincipal.getListaReservas()){
                 if (tablaReservas.getSelectionModel().getSelectedItem() == reserva){
                     reservas.remove(reserva);
                     tablaReservas.setItems(reservasUsuarioActual);
-                    System.out.println(reservasUsuarioActual.size()+ reservasUQ.getListaReservas().size());
+                    System.out.println(reservasUsuarioActual.size()+ appReservasPrincipal.getListaReservas().size());
                 }
             }
         }
@@ -92,16 +92,17 @@ public class PerfilControlador implements Initializable {
         public void initialize(URL location, ResourceBundle resources){
             usarioActual = Sesion.getInstancia().getPersona();
             lblName.setText(usarioActual.getNombre());
-            lblCargo.setText(usarioActual.getTipoPersona().toString());
-            reservas = FXCollections.observableArrayList(reservasUQ.getListaReservas());
-            reservasUsuarioActual = new FilteredList<Reserva>(reservas, p -> p.getCedula().equals(usarioActual.getCedula()));
+//            lblCargo.setText(usarioActual.getTipoPersona().toString());
+            reservas = FXCollections.observableArrayList(appReservasPrincipal.getListaReservas());
+            reservasUsuarioActual = new FilteredList<Reserva>(reservas, p -> p.getCedulaReservante().equals(usarioActual.getCedula()));
             tablaReservas.setItems(reservasUsuarioActual);
             idColumn.setCellValueFactory(new PropertyValueFactory<>("idInstalacion"));
             horaColumn.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
             fechaColumn.setCellValueFactory(new PropertyValueFactory<>("diaReserva"));
-            instalacionColumn.setCellValueFactory(celldata -> {return new SimpleStringProperty(celldata.getValue().getNombreInstalacion(reservasUQ.getListaInstalaciones()));
-            });
-        }
+            instalacionColumn.setCellValueFactory(celldata -> {
+            return new SimpleStringProperty(celldata.getValue().getNombreHospedaje());
+        });
+    }
 
         private void actualizarTabla(){
 
