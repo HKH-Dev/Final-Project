@@ -33,9 +33,30 @@ public class LoginControlador {
 
     public void login(ActionEvent actionEvent) {
         boolean loginSuccessful = false;
-        String errorMsg = "Correo o contraseña incorrectos";
+//        String errorMsg = "Correo o contraseña incorrectos";
+        String errorMsg = "";
 
-        for (Persona persona : appReservasPrincipal.getListaClientes()) {
+
+
+        /* ---------------------------------------------------------------------------*/
+
+        for (Persona personaIngresar : appReservasPrincipal.getListaClientes()) {
+            if(personaIngresar.getEmail().equals(txtCorreo.getText())) {
+                if(validarPassword(txtPassword.getText(), personaIngresar.getContrasena()))
+                {
+                    sesion.setPersona(personaIngresar);
+                    controladorPrincipal.cerrarVentana(txtCorreo);
+                    loginSuccessful = true;
+                    controladorPrincipal.navegarVentana("/profile.fxml", "Perfil");
+                    break;
+                }
+                else
+                {
+                    errorMsg = "Contraseña incorrecta";
+                }
+                errorMsg = "Correo incorrecto";
+            }
+            /*
             if (txtCorreo.getText().equals(persona.getEmail())) {
                 if (validarPassword(txtPassword.getText(), persona.getContrasena())) {
                     sesion.setPersona(persona);
@@ -46,9 +67,9 @@ public class LoginControlador {
                 } else {
                     errorMsg = "Contraseña incorrecta";
                 }
-            }
+            }*/
         }
-        if (!loginSuccessful) {
+      if (!loginSuccessful) {
             mostrarAlerta(errorMsg, Alert.AlertType.ERROR);
             limpiarFormularioRegistro();
         }
