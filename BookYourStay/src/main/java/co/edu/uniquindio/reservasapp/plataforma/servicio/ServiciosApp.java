@@ -15,13 +15,16 @@ public interface ServiciosApp {
     List<Reserva> listarTodasReservas();
 
 
-//    Persona login(String correo, String contrasena) throws Exception;
+    Reserva crearReserva(String ciudadAlojamiento, String nombreHospedaje, String cedulaReservante, LocalDate diaInicioReserva, LocalDate diaFinReserva, String horaInicioReserva, String horaFinReserva, double costo, int capacidadMaxima)throws Exception;
 
+//    Reserva crearReserva(String tipoInstalacion, String idInstalacion, String cedula, LocalDate diaReserva, String horaReserva) throws Exception;
+
+
+//    Persona login(String correo, String contrasena) throws Exception;
 //    void registrarPersona(String cedula, String nombres, String apellidos,  String email, String contrasena) throws Exception;
 //
 //    void crearInstalacion(String id, String nombre, int aforo, float costo, LocalDateTime horaInicio, LocalDateTime horaFin);
 //
-    Reserva crearReserva(String tipoInstalacion, String idInstalacion, String cedula, LocalDate diaReserva, String horaReserva) throws Exception;
 
     Optional<Persona> obtenerPersona(String cedulaCliente);
 //

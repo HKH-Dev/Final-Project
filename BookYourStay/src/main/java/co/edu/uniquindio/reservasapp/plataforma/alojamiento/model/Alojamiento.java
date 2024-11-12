@@ -2,11 +2,13 @@ package co.edu.uniquindio.reservasapp.plataforma.alojamiento.model;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.servicio.ServicioAlojamiento;
 import lombok.Getter;
-
+import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Setter
 @Getter
+
 public abstract class Alojamiento {
     protected  String nombre;
     protected Ciudad ciudad;
@@ -20,6 +22,7 @@ public abstract class Alojamiento {
     private LocalDateTime horaFin;
     protected double Tarifa;
     protected ServicioAlojamiento servicios;
+    private String testimage;
 
     public Alojamiento(String nombre, Ciudad ciudad, String descripcion, String imagen, double precioNoche, int capacidadMaxima){
         this.nombre = nombre;
@@ -48,6 +51,10 @@ public abstract class Alojamiento {
 
     public void agregarServicios(ServicioAlojamiento servicios) {
         this.servicios = servicios;
+    }
+
+    public String getImagenURL() {
+        return "src/main/resources/images" + this.testimage; // Assuming imagenFileName holds the name of the image file
     }
 }
 

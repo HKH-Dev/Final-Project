@@ -4,89 +4,173 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.ImageView?>
 
 <HBox alignment="CENTER" prefHeight="847.0" prefWidth="1170.0" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.RegistrarReservaControlador">
-    <VBox alignment="TOP_CENTER" prefHeight="893.0" prefWidth="632.0" spacing="20.0">
-        <Label prefWidth="187.0" text="Agendar Reservacion" textFill="#0f0f0f">
+<!--    <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="560.0" spacing="20.0">-->
+<!--      <Label layoutX="160.0" layoutY="380.0" prefWidth="200.0" text="Buscar Alojamientos" textFill="#0f0f0f">-->
+<!--         <font>-->
+<!--            <Font size="20.0" />-->
+<!--         </font>-->
+<!--         <VBox.margin>-->
+<!--            <Insets top="10.0" />-->
+<!--         </VBox.margin>-->
+<!--      </Label>-->
+
+<!--        <GridPane alignment="TOP_CENTER" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="650.0" vgap="20.0">-->
+<!--            &lt;!&ndash; First Row &ndash;&gt;-->
+<!--            <Label text="Ciudad Hospedaje:" GridPane.columnIndex="0" GridPane.rowIndex="0" />-->
+<!--            <ComboBox fx:id="cbCiudadSeleccionado" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />-->
+<!--            &lt;!&ndash; Second Row &ndash;&gt;-->
+<!--            <Label text="Día Inicio Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
+<!--            <DatePicker fx:id="dpDiaInicioReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
+<!--            &lt;!&ndash; Third Row &ndash;&gt;-->
+<!--            <Label text="Día Final Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
+<!--            <DatePicker fx:id="dpDiaFinReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
+<!--            &lt;!&ndash; Fourth Row &ndash;&gt;-->
+<!--            <Label text="Hora Inicio:" GridPane.columnIndex="0" GridPane.rowIndex="3" />-->
+<!--            <ComboBox fx:id="cbhoraInicioReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
+<!--            &lt;!&ndash; Fifth Row &ndash;&gt;-->
+<!--            <Label text="Hora Fin:" GridPane.columnIndex="0" GridPane.rowIndex="4" />-->
+<!--            <ComboBox fx:id="cbhoraFianReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />-->
+<!--            &lt;!&ndash; Sixth Row &ndash;&gt;-->
+<!--            <Label text="Numero de Huespedes:" GridPane.columnIndex="0" GridPane.rowIndex="5" />-->
+<!--            <TextField fx:id="txtNumeroHuespedes" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />-->
+<!--        </GridPane>-->
+<!--        <Label prefWidth="200.0" text="Agendar Reservacion" textFill="#0f0f0f">-->
+<!--            <font>-->
+<!--                <Font size="20.0" />-->
+<!--            </font>-->
+<!--        </Label>-->
+<!--        <GridPane alignment="TOP_CENTER" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="650.0" vgap="20.0">-->
+<!--            &lt;!&ndash; First Row &ndash;&gt;-->
+<!--            <Label text="Nombre Hospedaje:" GridPane.columnIndex="0" GridPane.rowIndex="0" />-->
+<!--            &lt;!&ndash;            <TextField fx:id="txtNombreHospedaje" minWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />&ndash;&gt;-->
+<!--            <TextField fx:id="txtNombreHospedaje" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />-->
+
+<!--            <Label text="Cedula:" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
+<!--            <TextField fx:id="txtCedulaReservante" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
+
+
+<!--            &lt;!&ndash; Second Row &ndash;&gt;-->
+<!--            <Label text="Tarifa Instalacion:" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
+<!--            <TextField fx:id="txtCosto" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
+
+<!--        </GridPane>-->
+<!--        &lt;!&ndash; Button at the bottom of the VBox &ndash;&gt;-->
+<!--        <Button onAction="#crearReserva" prefHeight="40.0" prefWidth="160.0" text="Registrar" />-->
+<!--      <HBox.margin>-->
+<!--         <Insets />-->
+<!--      </HBox.margin>-->
+<!--    </VBox>-->
+
+<!--    <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="600.0" spacing="20.0">-->
+<!--        <Label text="Alojamientos Disponibles" textFill="#0f0f0f">-->
+<!--            <font>-->
+<!--                <Font size="20.0" />-->
+<!--            </font>-->
+<!--        </Label>-->
+
+<!--        &lt;!&ndash; List of Accommodations for Selected City &ndash;&gt;-->
+<!--        <ListView fx:id="listAlojamientos" prefHeight="200.0" prefWidth="500.0" onMouseClicked="#mostrarDetallesAlojamiento" />-->
+
+<!--        &lt;!&ndash; Accommodation Details &ndash;&gt;-->
+<!--        <VBox spacing="10.0">-->
+<!--            <Label text="Detalles del Alojamiento">-->
+<!--                <font>-->
+<!--                    <Font size="16.0" />-->
+<!--                </font>-->
+<!--            </Label>-->
+<!--            <ImageView fx:id="imageAlojamiento" fitHeight="150.0" fitWidth="200.0" preserveRatio="true" />-->
+<!--            <TextArea fx:id="txtDetallesAlojamiento" wrapText="true" prefWidth="500.0" prefHeight="200.0" editable="false" />-->
+<!--        </VBox>-->
+<!--    </VBox>-->
+
+    <!-- Left VBox for Reservation Details -->
+    <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="560.0" spacing="20.0">
+
+        <!-- Header Label -->
+        <Label layoutX="160.0" layoutY="380.0" prefWidth="200.0" text="Buscar Alojamientos" textFill="#0f0f0f">
             <font>
                 <Font size="20.0" />
             </font>
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
         </Label>
 
-        <GridPane alignment="CENTER" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="473.0" vgap="20.0">
-            <!-- First Row -->
-            <Label text="Tipo Instalacion:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <ComboBox fx:id="cbTipoInstalaciones" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <!-- Second Row -->
-            <Label text="ID Instalacion:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextField fx:id="txtidInstalacion" minWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <!-- Third Row -->
-            <Label text="Cedula:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <TextField fx:id="txtCedula" minWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <!-- Fourth Row -->
-            <Label text="Día Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <DatePicker fx:id="dpDiaReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <!-- Fifth Row -->
-            <Label text="Hora:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <ComboBox fx:id="cbhoraReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <!-- Sixth Row -->
-            <Label text="Tarifa Instalacion:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <TextField fx:id="txtCosto" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <!-- Reservation Form GridPane -->
+        <GridPane alignment="TOP_CENTER" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="650.0" vgap="20.0">
+            <Label text="Ciudad Hospedaje:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <ComboBox fx:id="cbCiudadSeleccionado" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <Label text="Día Inicio Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <DatePicker fx:id="dpDiaInicioReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label text="Día Final Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <DatePicker fx:id="dpDiaFinReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+            <Label text="Hora Inicio:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <ComboBox fx:id="cbhoraInicioReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <Label text="Hora Fin:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <ComboBox fx:id="cbhoraFianReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+            <Label text="Número de Huéspedes:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <TextField fx:id="txtNumeroHuespedes" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+            <Label text="Test Seleccion Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <DatePicker fx:id="dpRangoReserva" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
         </GridPane>
 
-        <!-- Button at the bottom of the VBox -->
-        <Button onAction="#crearReserva" prefHeight="40.0" prefWidth="160.0" text="Registrar" />
-    </VBox>
-
-    <VBox alignment="TOP_CENTER" prefWidth="400.0" spacing="20.0">
-        <VBox alignment="TOP_CENTER" prefWidth="300.0" spacing="10.0">
-            <Label text="Lista de Instalaciones Disponibless">
-                <font>
-                    <Font size="20.0" />
-                </font>
-            </Label>
-            <TableView fx:id="tablaInstalaciones" VBox.vgrow="ALWAYS">
-                <columns>
-                    <TableColumn fx:id="colNombreInstalacion" text="Nombre Instalacion" />
-                    <TableColumn fx:id="colcodigoIdInstalacion" text="codigo Instalación" />
-                </columns>
-                <columnResizePolicy>
-                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                </columnResizePolicy>
-            </TableView>
-            <Button onAction="#cargarIntalaciones" prefHeight="40.0" prefWidth="160.0" text="Cargar Reservas" VBox.vgrow="SOMETIMES">
-                <VBox.margin>
-                    <Insets top="10.0" />
-                </VBox.margin></Button>
-        </VBox>
-
-
-        <VBox alignment="BOTTOM_CENTER" prefWidth="495.0" spacing="10.0">
-        <Label text="Lista de Reservaciones por Usuario">
+        <!-- Agendar Reservation Label -->
+        <Label prefWidth="200.0" text="Agendar Reservación" textFill="#0f0f0f">
             <font>
                 <Font size="20.0" />
             </font>
         </Label>
-        <TableView fx:id="tablaReservas" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="colidInstalacion" text="Instalación" />
-                <TableColumn fx:id="colNombreReservaInstalacion" text="Nombre Instalacion" />
-                <TableColumn fx:id="colCedula" text="Cédula" />
-                <TableColumn fx:id="diaReserva" text="Día Reserva" />
-                <TableColumn fx:id="horaReserva" text="Hora Reserva" />
-            </columns>
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-            </columnResizePolicy>
-        </TableView>
-        <Button onAction="#cargarReservas" prefHeight="40.0" prefWidth="160.0" text="Cargar Reservas" VBox.vgrow="SOMETIMES">
-            <VBox.margin>
-                <Insets top="10.0" />
-            </VBox.margin></Button>
-        </VBox>
 
+        <!-- Additional Reservation Info GridPane -->
+        <GridPane alignment="TOP_CENTER" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="650.0" vgap="20.0">
+            <Label text="Nombre Hospedaje:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="txtNombreHospedaje" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <Label text="Cédula:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="txtCedulaReservante" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label text="Tarifa Instalación:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="txtCosto" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        </GridPane>
+
+        <!-- Register Button -->
+        <Button onAction="#crearReserva" prefHeight="40.0" prefWidth="160.0" text="Registrar" />
     </VBox>
 
+    <!-- Right VBox for Accommodation List and Details -->
+    <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="600.0" spacing="20.0">
+
+        <!-- Header Label -->
+        <Label text="Alojamientos Disponibles" textFill="#0f0f0f">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+
+        <!-- List of Accommodations -->
+        <ListView fx:id="listAlojamientos" prefHeight="200.0" prefWidth="500.0" onMouseClicked="#mostrarDetallesAlojamiento" />
+
+        <!-- Accommodation Details Section -->
+        <VBox spacing="10.0">
+            <Label text="Detalles del Alojamiento">
+                <font>
+                    <Font size="16.0" />
+                </font>
+            </Label>
+            <ImageView fx:id="imageAlojamiento" fitHeight="150.0" fitWidth="200.0" preserveRatio="true" />
+            <TextArea fx:id="txtDetallesAlojamiento" wrapText="true" prefWidth="500.0" prefHeight="200.0" editable="false" />
+        </VBox>
+    </VBox>
 
 </HBox>
