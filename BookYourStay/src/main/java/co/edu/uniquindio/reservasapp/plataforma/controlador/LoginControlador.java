@@ -50,24 +50,11 @@ public class LoginControlador {
                     controladorPrincipal.navegarVentana("/profile.fxml", "Perfil");
                     break;
                 }
-                else
-                {
+                else {
                     errorMsg = "Contraseña incorrecta";
                 }
                 errorMsg = "Correo incorrecto";
             }
-            /*
-            if (txtCorreo.getText().equals(persona.getEmail())) {
-                if (validarPassword(txtPassword.getText(), persona.getContrasena())) {
-                    sesion.setPersona(persona);
-                    controladorPrincipal.cerrarVentana(txtCorreo);
-                    loginSuccessful = true;
-                    controladorPrincipal.navegarVentana("/profile.fxml", "Perfil");
-                    break;
-                } else {
-                    errorMsg = "Contraseña incorrecta";
-                }
-            }*/
         }
       if (!loginSuccessful) {
             mostrarAlerta(errorMsg, Alert.AlertType.ERROR);

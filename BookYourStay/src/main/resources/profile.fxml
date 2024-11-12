@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox alignment="CENTER" prefHeight="559.0" prefWidth="781.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasuq.controlador.PerfilControlador">
+   <children>
+      <AnchorPane prefHeight="541.0" prefWidth="781.0">
+         <children>
+            <MenuButton layoutX="638.0" layoutY="68.0" mnemonicParsing="false" text="Perfil">
+              <items>
+                <MenuItem fx:id="btnEditarDatos" mnemonicParsing="false" onAction="#onEditarDatos" text="Editar datos" />
+                <MenuItem fx:id="btnCerrarsesion" mnemonicParsing="false" onAction="#onCerrarSesion" text="Cerrar sesión" />
+              </items>
+            </MenuButton>
+            <Label layoutX="62.0" layoutY="67.0" text="Mis reservas">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblName" layoutX="62.0" layoutY="141.0" text="Name" />
+            <TableView fx:id="tablaReservas" layoutX="65.0" layoutY="202.0" prefHeight="234.0" prefWidth="633.0">
+              <columns>
+                <TableColumn fx:id="idColumn" prefWidth="136.0" text="ID" />
+                  <TableColumn fx:id="horaColumn" prefWidth="115.0" resizable="false" text="Hora" />
+                <TableColumn fx:id="fechaColumn" prefWidth="155.0" text="Fecha" />
+                  <TableColumn fx:id="instalacionColumn" prefWidth="230.0" text="Instalación" />
+              </columns>
+            </TableView>
+            <Button layoutX="65.0" layoutY="465.0" mnemonicParsing="false" onAction="#onCrearReserva" prefHeight="25.0" prefWidth="106.0" text="Crear Reserva" />
+            <Button layoutX="190.0" layoutY="465.0" mnemonicParsing="false" onAction="#onCancelarReserva" text="Cancelar Reserva" />
+            <Label fx:id="lblCargo" layoutX="638.0" layoutY="141.0" text="Cargo" />
+         </children>
+      </AnchorPane>
+   </children>
+
+</HBox>
