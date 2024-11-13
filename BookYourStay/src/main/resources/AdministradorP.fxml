@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.AdministradorController"
+            prefHeight="800.0" prefWidth="800.0">
+
+    <!-- Panel Principal -->
+    <VBox spacing="10.0" alignment="TOP_CENTER" layoutX="20.0" layoutY="20.0" prefWidth="760.0">
+        <!-- Título -->
+        <Label text="Gestión de Alojamientos">
+            <font>
+                <Font name="Arial Bold" size="24.0" />
+            </font>
+        </Label>
+
+        <!-- Tabla de Alojamientos -->
+        <TableView fx:id="tablaAlojamientos" prefHeight="300.0" prefWidth="740.0">
+            <columns>
+                <TableColumn text="Nombre" fx:id="columnaNombre" prefWidth="120.0" />
+                <TableColumn text="Ciudad" fx:id="columnaCiudad" prefWidth="120.0" />
+                <TableColumn text="Descripción" fx:id="columnaDescripcion" prefWidth="200.0" />
+                <TableColumn text="Precio por noche" fx:id="columnaPrecio" prefWidth="120.0" />
+                <TableColumn text="Capacidad" fx:id="columnaCapacidad" prefWidth="100.0" />
+                <TableColumn text="Servicios" fx:id="columnaServicios" prefWidth="140.0" />
+            </columns>
+        </TableView>
+
+        <!-- Botones de Acción (CRUD + Actualizar) -->
+        <HBox spacing="15.0" alignment="CENTER">
+            <Button text="Agregar Alojamiento" fx:id="btnAgregarAlojamiento" />
+            <Button text="Editar Alojamiento" fx:id="btnEditarAlojamiento" />
+            <Button text="Eliminar Alojamiento" fx:id="btnEliminarAlojamiento" />
+            <Button text="Actualizar Información" fx:id="btnActualizar" />
+            <!-- Botón para Mostrar Estadísticas -->
+            <Button text="Mostrar Estadísticas" fx:id="btnMostrarEstadisticas" />
+        </HBox>
+    </VBox>
+
+    <!-- Espaciado entre los dos VBox (ajustado para más espacio) -->
+    <VBox spacing="20.0" layoutX="20.0" layoutY="450.0" prefWidth="760.0">
+        <Label text="Detalles del Alojamiento Seleccionado" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
+
+        <GridPane hgap="10" vgap="10">
+            <!-- Nombre -->
+            <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <!-- Ciudad -->
+            <Label text="Ciudad:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="txtCiudad" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <!-- Descripción -->
+            <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextArea fx:id="txtDescripcion" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+            <!-- Precio por Noche -->
+            <Label text="Precio por Noche:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextField fx:id="txtPrecio" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <!-- Capacidad -->
+            <Label text="Capacidad:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <TextField fx:id="txtCapacidad" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+            <!-- Servicios -->
+            <Label text="Servicios:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <TextField fx:id="txtServicios" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+            <!-- Imagen -->
+            <Label text="Imagen:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <ImageView fx:id="imgAlojamiento" fitWidth="200" fitHeight="150" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+        </GridPane>
+    </VBox>
+
+    <!-- Botón en la esquina para el perfil -->
+    <MenuButton text="Opciones" layoutX="700.0" layoutY="10.0">
+        <items>
+            <MenuItem text="Modificar Perfil" fx:id="menuModificarPerfil" />
+            <MenuItem text="Cerrar Sesión" fx:id="menuCerrarSesion" />
+        </items>
+    </MenuButton>
+</AnchorPane>

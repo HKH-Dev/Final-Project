@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.UserEditarPerfilController">
+
+    <Label layoutX="240.0" layoutY="20.0" text="Editar Perfil">
+        <font>
+            <Font name="Arial Bold" size="24.0" />
+        </font>
+    </Label>
+
+    <VBox layoutX="20.0" layoutY="60.0" prefWidth="500.0" spacing="15.0">
+        <!-- Cédula -->
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label prefWidth="100.0" text="Cédula:" />
+            <TextField fx:id="txtCedula" editable="false" prefWidth="350.0" />
+        </HBox>
+
+        <!-- Nombre -->
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label prefWidth="100.0" text="Nombre:" />
+            <TextField fx:id="txtNombre" prefWidth="350.0" />
+        </HBox>
+
+        <!-- Apellido -->
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label prefWidth="100.0" text="Apellido:" />
+            <TextField fx:id="txtApellido" prefWidth="350.0" />
+        </HBox>
+
+        <!-- Email -->
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label prefWidth="100.0" text="Email:" />
+            <TextField fx:id="txtEmail" prefWidth="350.0" />
+        </HBox>
+
+        <!-- Contraseña -->
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label prefWidth="100.0" text="Contraseña:" />
+            <PasswordField fx:id="txtContrasena" editable="false" prefHeight="25.0" prefWidth="242.0" />
+            <Button fx:id="btnModificarContrasena" prefHeight="25.0" prefWidth="119.0" text="Modificar" />
+        </HBox>
+    </VBox>
+
+    <!-- Botón Volver al Inicio -->
+    <Button fx:id="btnVolverInicio" layoutX="480.0" layoutY="20.0" text="Volver al Inicio" />
+
+    <!-- Botón Guardar Cambios -->
+    <Button fx:id="btnModificarPerfil" layoutX="240.0" layoutY="330.0" text="Guardar Cambios" />
+</AnchorPane>
