@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.AdministradorController"
-            prefHeight="800.0" prefWidth="800.0">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.AdministradorController">
 
     <!-- Panel Principal -->
-    <VBox spacing="10.0" alignment="TOP_CENTER" layoutX="20.0" layoutY="20.0" prefWidth="760.0">
+    <VBox alignment="TOP_CENTER" layoutX="20.0" layoutY="20.0" prefWidth="760.0" spacing="10.0">
         <!-- Título -->
         <Label text="Gestión de Alojamientos">
             <font>
@@ -22,29 +19,29 @@
         <!-- Tabla de Alojamientos -->
         <TableView fx:id="tablaAlojamientos" prefHeight="300.0" prefWidth="740.0">
             <columns>
-                <TableColumn text="Nombre" fx:id="columnaNombre" prefWidth="120.0" />
-                <TableColumn text="Ciudad" fx:id="columnaCiudad" prefWidth="120.0" />
-                <TableColumn text="Descripción" fx:id="columnaDescripcion" prefWidth="200.0" />
-                <TableColumn text="Precio por noche" fx:id="columnaPrecio" prefWidth="120.0" />
-                <TableColumn text="Capacidad" fx:id="columnaCapacidad" prefWidth="100.0" />
-                <TableColumn text="Servicios" fx:id="columnaServicios" prefWidth="140.0" />
+                <TableColumn fx:id="columnaNombre" prefWidth="120.0" text="Nombre" />
+                <TableColumn fx:id="columnaCiudad" prefWidth="120.0" text="Ciudad" />
+                <TableColumn fx:id="columnaDescripcion" prefWidth="134.0" text="Descripción" />
+                <TableColumn fx:id="columnaPrecio" prefWidth="121.0" text="Precio por noche" />
+                <TableColumn fx:id="columnaCapacidad" prefWidth="142.0" text="Capacidad" />
+                <TableColumn fx:id="columnaServicios" prefWidth="163.0" text="Servicios" />
             </columns>
         </TableView>
 
         <!-- Botones de Acción (CRUD + Actualizar) -->
-        <HBox spacing="15.0" alignment="CENTER">
-            <Button text="Agregar Alojamiento" fx:id="btnAgregarAlojamiento" />
-            <Button text="Editar Alojamiento" fx:id="btnEditarAlojamiento" />
-            <Button text="Eliminar Alojamiento" fx:id="btnEliminarAlojamiento" />
-            <Button text="Actualizar Información" fx:id="btnActualizar" />
+        <HBox alignment="CENTER" spacing="15.0">
+            <Button fx:id="btnAgregarAlojamiento" text="Agregar Alojamiento" />
+            <Button fx:id="btnEditarAlojamiento" text="Editar Alojamiento" />
+            <Button fx:id="btnEliminarAlojamiento" text="Eliminar Alojamiento" />
+            <Button fx:id="btnActualizar" text="Actualizar Información" />
             <!-- Botón para Mostrar Estadísticas -->
-            <Button text="Mostrar Estadísticas" fx:id="btnMostrarEstadisticas" />
+            <Button fx:id="btnMostrarEstadisticas" text="Mostrar Estadísticas" onAction="#abrirVentanaStats"/>
         </HBox>
     </VBox>
 
     <!-- Espaciado entre los dos VBox (ajustado para más espacio) -->
-    <VBox spacing="20.0" layoutX="20.0" layoutY="450.0" prefWidth="760.0">
-        <Label text="Detalles del Alojamiento Seleccionado" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
+    <VBox layoutX="20.0" layoutY="450.0" prefWidth="760.0" spacing="20.0">
+        <Label style="-fx-font-weight: bold; -fx-font-size: 18px;" text="Detalles del Alojamiento Seleccionado" />
 
         <GridPane hgap="10" vgap="10">
             <!-- Nombre -->
@@ -69,19 +66,37 @@
 
             <!-- Servicios -->
             <Label text="Servicios:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <TextField fx:id="txtServicios" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Button fx:id="btnServicios" onAction="#OnVentanaServicios" text="Seleccionar" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
             <!-- Imagen -->
             <Label text="Imagen:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-            <ImageView fx:id="imgAlojamiento" fitWidth="200" fitHeight="150" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ImageView fx:id="imgAlojamiento" fitHeight="150" fitWidth="200" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+            <!-- Botón para Cambiar Imagen -->
+            <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" onAction="#cambiarImagen" text="Cambiar Imagen" GridPane.rowIndex="6" />
+
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
         </GridPane>
+
     </VBox>
 
-    <!-- Botón en la esquina para el perfil -->
-    <MenuButton text="Opciones" layoutX="700.0" layoutY="10.0">
+    <MenuButton layoutX="700.0" layoutY="10.0" text="Opciones">
         <items>
-            <MenuItem text="Modificar Perfil" fx:id="menuModificarPerfil" />
-            <MenuItem text="Cerrar Sesión" fx:id="menuCerrarSesion" />
+            <MenuItem fx:id="menuModificarPerfil" text="Modificar Perfil" />
+            <MenuItem fx:id="menuCerrarSesion" text="Cerrar Sesión" />
         </items>
     </MenuButton>
 </AnchorPane>
