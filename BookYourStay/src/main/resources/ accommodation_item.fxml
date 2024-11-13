@@ -1,0 +1,12 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.AccommodationItemController"
+      spacing="10">
+
+    <ImageView fx:id="imgAlojamiento" fitWidth="100" fitHeight="100" />
+    <Label fx:id="lblNombreAlojamiento" />
+    <Label fx:id="lblCiudad" />
+</VBox>

@@ -18,6 +18,7 @@ import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class AppMain extends Application {
     @Override
@@ -47,6 +48,13 @@ public class AppMain extends Application {
         AlojamientoFactory factory = new AlojamientoFactory();
         AlojamientoPrincipal catalogo = new AlojamientoPrincipal();
 
+        List<String> hotelImages = List.of(
+                "/images/SAI/Hotel/testPicture1.jpg",
+                "/images/SAI/Hotel/testPicture2.jpg",
+                "/images/SAI/Hotel/testPicture3.jpg",
+                "/images/SAI/Hotel/testPicture4.jpg",
+                "/images/SAI/Hotel/testPicture5.jpg"
+        );
         // Crear un Hotel usando la fábrica y el patrón Builder
         Hotel hotelMarAzul = (Hotel) factory.crearAlojamiento("Hotel");  // Crear una instancia de Hotel
         hotelMarAzul = new HotelBuilder()  // Usar el builder para personalizar los atributos del Hotel
@@ -208,12 +216,7 @@ public class AppMain extends Application {
         }
     }
 //    -------------------------------------------------
-
-
-
     public static void main(String[] args) {
         launch();
     }
-
-
-    }
+}
