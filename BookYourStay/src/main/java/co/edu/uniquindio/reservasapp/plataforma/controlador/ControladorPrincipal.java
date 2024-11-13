@@ -44,9 +44,14 @@ public class ControladorPrincipal implements ServiciosApp {
 //    }
 
     @Override
-    public Reserva crearReserva(String tipoInstalacion, String idInstalacion, String cedula, LocalDate diaReserva, String horaReserva) throws Exception {
-        return appReservasPrincipal.crearReserva(tipoInstalacion, idInstalacion, cedula, diaReserva, horaReserva);
+    public Reserva crearReserva(String ciudadAlojamiento, String nombreHospedaje, String cedulaReservante, LocalDate diaInicioReserva, LocalDate diaFinReserva, String horaInicioReserva, String horaFinReserva, double costo, int capacidadMaxima)throws Exception{
+        return appReservasPrincipal.crearReserva(ciudadAlojamiento, nombreHospedaje, cedulaReservante, diaInicioReserva, diaFinReserva, horaInicioReserva, horaFinReserva, costo, capacidadMaxima);
     }
+
+
+//    crearReserva(String tipoInstalacion, String idInstalacion, String cedula, LocalDate diaReserva, String horaReserva) throws Exception {
+//        return appReservasPrincipal.crearReserva(tipoInstalacion, idInstalacion, cedula, diaReserva, horaReserva);
+//    }
 
 
     @Override

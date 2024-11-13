@@ -78,7 +78,9 @@ public class PerfilControlador implements Initializable {
         @FXML
         void onCrearReserva(ActionEvent event) {
             try {
-                controladorPrincipal.navegarVentana("/reservacion.fxml", "Crear reserva");
+                controladorPrincipal.navegarVentana("/buscadorAlojamientos.fxml", "Buscar alojamiento");
+
+//                controladorPrincipal.navegarVentana("/reservacion.fxml", "Crear reserva");
             } catch (Exception e) {e.printStackTrace();}
         }
 
