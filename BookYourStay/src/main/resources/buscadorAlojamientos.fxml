@@ -22,16 +22,6 @@
             <Label text="Ciudad Hospedaje:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <ComboBox fx:id="cbCiudadSeleccionado" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-<!--            &lt;!&ndash; Días a Reservar &ndash;&gt;-->
-<!--            <Label text="Días a Reservar:" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
-<!--            <DatePicker fx:id="dpDiasReservar" prefHeight="30.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
-
-<!--            &lt;!&ndash; Información de la reserva (inicio, fin y número de días) &ndash;&gt;-->
-<!--            <Label text="Información de Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
-<!--            <TextArea fx:id="txtInfoReserva" editable="false" prefHeight="100.0" prefWidth="250.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
-
-
-
             <!-- TextArea to display the reservation details with more spacing -->
             <Label text="Información de Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <TextArea fx:id="txtInfoReserva" editable="false" wrapText="true" prefHeight="100.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -72,14 +62,25 @@
     </VBox>
 
     <!-- List of Alojamientos -->
-    <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="670.0" spacing="20.0">
-        <Label text="Alojamientos Disponibles" textFill="#0f0f0f">
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Label>
-        <ListView fx:id="listAlojamientos" onMouseClicked="#mostrarDetallesAlojamiento" prefHeight="800.0" prefWidth="600.0" />
+    <VBox alignment="CENTER_LEFT" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox alignment="TOP_CENTER">
+        <ImageView fx:id="imgCarousel" fitHeight="100.0" fitWidth="100.0" preserveRatio="true" />
+        <Button text="Previous" onAction="#showPreviousImage" />
+        <Button text="Next" onAction="#showNextImage" />
+    </VBox>
+    <VBox spacing="5.0">
+        <Label fx:id="lblAccommodationName" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+        <Label fx:id="lblLocation" />
+        <Text fx:id="txtDescription" wrappingWidth="300.0" />
     </VBox>
 
 </HBox>
+
+        <!--            &lt;!&ndash; Días a Reservar &ndash;&gt;-->
+        <!--            <Label text="Días a Reservar:" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
+        <!--            <DatePicker fx:id="dpDiasReservar" prefHeight="30.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
+
+        <!--            &lt;!&ndash; Información de la reserva (inicio, fin y número de días) &ndash;&gt;-->
+        <!--            <Label text="Información de Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
+        <!--            <TextArea fx:id="txtInfoReserva" editable="false" prefHeight="100.0" prefWidth="250.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
 

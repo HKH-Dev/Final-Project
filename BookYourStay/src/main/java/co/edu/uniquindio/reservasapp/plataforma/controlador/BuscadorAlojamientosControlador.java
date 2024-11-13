@@ -6,12 +6,18 @@ import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -37,12 +43,34 @@ public class BuscadorAlojamientosControlador implements Initializable {
     private TextArea txtInfoReserva; // Nuevo TextArea
     @FXML
     private TextField txtNumeroHuespedes;
+//--------------------------------------------
+    @FXML
+    private VBox vboxAlojamientos;
+    @FXML
+    private VBox listAlojamientos;
+    @FXML
+    private ImageView imgCarousel;
+    @FXML
+    private Label lblAccommodationName;
+    @FXML
+    private Label lblLocation;
+    @FXML
+    private Text txtDescription;
+
+    private List<String> images;
+    private int currentImageIndex = 0;
+//    ------------------------------------------
 
     private LocalDate startDate;
     private LocalDate endDate;
     private ObservableList<Alojamiento> observableListaAlojamientos;
 
     private final AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
+
+    @FXML
+    public void initialize() {
+        cargarAlojamientos();
+    }
 
     @FXML
     private void mostrarDetallesAlojamiento() {
@@ -189,6 +217,63 @@ public class BuscadorAlojamientosControlador implements Initializable {
                 .map(Enum::name)
                 .collect(Collectors.toList());
     }
+
+//    ----------------------------------------------------
+public void setAccommodationData(Alojamiento alojamiento) {
+    lblAccommodationName.setText(alojamiento.getNombre());
+    lblLocation.setText(String.valueOf(alojamiento.getCiudad()));
+    txtDescription.setText(alojamiento.getDescripcion());
+    images = alojamiento.getGalleryImages(); // Ensure galleryImages contains image paths
+    currentImageIndex = 0;
+    showImage();
+}
+
+    private void showImage() {
+        if (images != null && !images.isEmpty()) {
+            String imagePath = images.get(currentImageIndex);
+            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            imgCarousel.setImage(image);
+        }
+    }
+
+    @FXML
+    private void showNextImage() {
+        if (images != null && !images.isEmpty()) {
+            currentImageIndex = (currentImageIndex + 1) % images.size();
+            showImage();
+        }
+    }
+
+    @FXML
+    private void showPreviousImage() {
+        if (images != null && !images.isEmpty()) {
+            currentImageIndex = (currentImageIndex - 1 + images.size()) % images.size();
+            showImage();
+        }
+    }
+
+    private void cargarAlojamientos() {
+        List<Alojamiento> alojamientos = appReservasPrincipal.getListaAlojamientos();
+        for (Alojamiento alojamiento : alojamientos) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/accommodation_item.fxml"));
+                Node node = loader.load();
+
+                AccommodationItemController controller = loader.getController();
+                controller.setAlojamiento(alojamiento);
+
+                vboxAlojamientos.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+
+
+
 }
 /*public class BuscadorAlojamientosControlador implements Initializable {
     @FXML
