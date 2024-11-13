@@ -3,11 +3,11 @@ package co.edu.uniquindio.reservasapp;
 import co.edu.uniquindio.reservasapp.plataforma.AppReservasPrincipal;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.AlojamientoPrincipal;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.AlojamientoFactory;
-import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.apto.Apartamento;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.apto.ApartamentoBuilder;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.casa.Casa;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.casa.CasaBuilder;
+import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.hotel.Hotel;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.hotel.HotelBuilder;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.servicio.ServicioAlojamiento;
@@ -26,7 +26,9 @@ public class AppMain extends Application {
         cargarDatosAppReserva();
 
         DatePicker datePicker = new DatePicker();
-        datePicker.setOnShowing(event -> {
+        datePicker.setOnShowing(
+
+                event -> {
             if (datePicker.getEditor() != null) {
                 System.out.println("DatePicker is showing!");
             }
@@ -205,6 +207,9 @@ public class AppMain extends Application {
             e.printStackTrace();
         }
     }
+//    -------------------------------------------------
+
+
 
     public static void main(String[] args) {
         launch();

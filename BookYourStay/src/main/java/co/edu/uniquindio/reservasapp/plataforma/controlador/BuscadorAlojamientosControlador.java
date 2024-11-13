@@ -3,31 +3,285 @@ package co.edu.uniquindio.reservasapp.plataforma.controlador;
 import co.edu.uniquindio.reservasapp.plataforma.AppReservasPrincipal;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
-import co.edu.uniquindio.reservasapp.plataforma.modelo.Persona;
-import co.edu.uniquindio.reservasapp.plataforma.modelo.cliente.Sesion;
-import co.edu.uniquindio.reservasapp.plataforma.modelo.resevacion.Reserva;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+
 public class BuscadorAlojamientosControlador implements Initializable {
     @FXML
     private DatePicker dpDiasReservar;
+    @FXML
+    private ListView<Alojamiento> listAlojamientos;
+    @FXML
+    private ImageView imageAlojamiento;
+    @FXML
+    private TextArea txtDetallesAlojamiento;
+    @FXML
+    private ComboBox<String> cbCiudadSeleccionado;
+    @FXML
+    private TextArea txtInfoReserva; // Nuevo TextArea
+    @FXML
+    private TextField txtNumeroHuespedes;
+//--------------------------------------------
+    @FXML
+    private VBox vboxAlojamientos;
+    @FXML
+    private VBox listAlojamientos;
+    @FXML
+    private ImageView imgCarousel;
+    @FXML
+    private Label lblAccommodationName;
+    @FXML
+    private Label lblLocation;
+    @FXML
+    private Text txtDescription;
+
+    private List<String> images;
+    private int currentImageIndex = 0;
+//    ------------------------------------------
+
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private ObservableList<Alojamiento> observableListaAlojamientos;
+
+    private final AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
+
+    @FXML
+    public void initialize() {
+        cargarAlojamientos();
+    }
+
+    @FXML
+    private void mostrarDetallesAlojamiento() {
+        Alojamiento selectedAlojamiento = listAlojamientos.getSelectionModel().getSelectedItem();
+        if (selectedAlojamiento != null) {
+            txtDetallesAlojamiento.setText(selectedAlojamiento.getDescripcion());
+            String imagePath = selectedAlojamiento.getImagenURL();
+            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            imageAlojamiento.setImage(image);
+        }
+    }
+
+    private void setupDateRangeSelection() {
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
+
+        // Listener para detectar cada selección en el calendario
+        dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null) return;
+
+            // Alternar entre la selección de startDate y endDate
+            if (startDate == null || (startDate != null && endDate != null)) {
+                startDate = newValue;
+                endDate = null; // Reinicia endDate para un nuevo rango
+            } else {
+                endDate = newValue;
+                dpDiasReservar.setValue(null); // Mantén el DatePicker abierto después de seleccionar ambas fechas
+            }
+
+            // Actualizar el TextArea con la información de la reserva
+            txtInfoReserva.setText(generateDateRangeText());
+
+            // Cierra y abre de nuevo el popup del DatePicker en cada selección
+            dpDiasReservar.hide();
+            dpDiasReservar.show();
+
+            // Refrescar DayCellFactory para actualizar los destacados del rango
+            dpDiasReservar.setDayCellFactory(createDayCellFactory());
+
+            
+        });
+
+        // Convertidor personalizado para mantener el formato del DatePicker (opcional)
+        dpDiasReservar.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(LocalDate date) {
+                return generateDateRangeText();
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                return null;
+            }
+        });
+    }
+
+    // Método para generar el texto del rango de fechas y el número de días
+//    private String generateDateRangeText() {
+//        StringBuilder sb = new StringBuilder();
+//        if (startDate != null) {
+//            sb.append("Inicio de Reservación: ").append(startDate.toString()).append("\n");
+//        }
+//        if (endDate != null) {
+//            sb.append("Fin de Reservación: ").append(endDate.toString()).append("\n");
+//        }
+//        if (startDate != null && endDate != null) {
+//            long days = calculateReservationDays();
+//            sb.append("Número de días: ").append(days);
+//        }
+//        return sb.toString();
+//    }
+
+    private String generateDateRangeText() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        StringBuilder sb = new StringBuilder();
+        if (startDate != null) {
+            sb.append("Inicio de Reservación: ").append(startDate.format(formatter)).append("\n");
+        }
+        if (endDate != null) {
+            sb.append("Fin de Reservación: ").append(endDate.format(formatter)).append("\n");
+        }
+        if (startDate != null && endDate != null) {
+            long days = calculateReservationDays();
+            sb.append("Número de días: ").append(days);
+        }
+        return sb.toString();
+    }
+
+
+    // Método auxiliar para cerrar y abrir el DatePicker
+    private void toggleDatePickerPopup() {
+        if (dpDiasReservar.isShowing()) {
+            dpDiasReservar.hide(); // Cierra si está abierto
+        }
+        dpDiasReservar.show(); // Abre de nuevo
+    }
+
+    // DayCellFactory para resaltar el rango de fechas
+    private Callback<DatePicker, DateCell> createDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #d3d3d3;");
+                } else if (startDate != null && endDate != null) {
+                    if (item.equals(startDate)) {
+                        setStyle("-fx-background-color: #add8e6;"); // Azul claro para startDate
+                    } else if (item.equals(endDate)) {
+                        setStyle("-fx-background-color: #ffa07a;"); // Salmón claro para endDate
+                    } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
+                        setStyle("-fx-background-color: #90ee90;"); // Verde claro para fechas dentro del rango
+                    } else {
+                        setStyle(""); // Restablece estilo para fechas fuera del rango
+                    }
+                }
+            }
+        };
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setupDateRangeSelection();
+        cbCiudadSeleccionado.setItems(FXCollections.observableArrayList(cargarCiudades()));
+
+        // Limpia el texto del editor del DatePicker cuando se muestra o selecciona una fecha
+        dpDiasReservar.setOnShowing(event -> dpDiasReservar.getEditor().clear());
+        dpDiasReservar.setOnAction(event -> dpDiasReservar.getEditor().clear());
+
+        // Opcional: Inicializar el TextArea con un mensaje predeterminado
+        txtInfoReserva.setText("Seleccione las fechas de reservación.");
+    }
+
+    private long calculateReservationDays() {
+        if (startDate != null && endDate != null) {
+            return ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        }
+        return 0;
+    }
+
+    public List<String> cargarCiudades() {
+        return Arrays.stream(Ciudad.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+    }
+
+//    ----------------------------------------------------
+public void setAccommodationData(Alojamiento alojamiento) {
+    lblAccommodationName.setText(alojamiento.getNombre());
+    lblLocation.setText(String.valueOf(alojamiento.getCiudad()));
+    txtDescription.setText(alojamiento.getDescripcion());
+    images = alojamiento.getGalleryImages(); // Ensure galleryImages contains image paths
+    currentImageIndex = 0;
+    showImage();
+}
+
+    private void showImage() {
+        if (images != null && !images.isEmpty()) {
+            String imagePath = images.get(currentImageIndex);
+            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+            imgCarousel.setImage(image);
+        }
+    }
+
+    @FXML
+    private void showNextImage() {
+        if (images != null && !images.isEmpty()) {
+            currentImageIndex = (currentImageIndex + 1) % images.size();
+            showImage();
+        }
+    }
+
+    @FXML
+    private void showPreviousImage() {
+        if (images != null && !images.isEmpty()) {
+            currentImageIndex = (currentImageIndex - 1 + images.size()) % images.size();
+            showImage();
+        }
+    }
+
+    private void cargarAlojamientos() {
+        List<Alojamiento> alojamientos = appReservasPrincipal.getListaAlojamientos();
+        for (Alojamiento alojamiento : alojamientos) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/accommodation_item.fxml"));
+                Node node = loader.load();
+
+                AccommodationItemController controller = loader.getController();
+                controller.setAlojamiento(alojamiento);
+
+                vboxAlojamientos.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+
+
+
+}
+/*public class BuscadorAlojamientosControlador implements Initializable {
+    @FXML
+    private DatePicker dpDiasReservar;
+//    @FXML
+//    private TextArea txtDiasReservar;
+    @FXML
+    private TextArea txtInfoReserva;
     @FXML
     private ListView<Alojamiento> listAlojamientos;
     @FXML
@@ -53,7 +307,579 @@ public class BuscadorAlojamientosControlador implements Initializable {
             imageAlojamiento.setImage(image);
         }
     }
+/*
+    private void setupDateRangeSelection() {
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
 
+        // Add listener to value property to detect each click on the calendar
+        dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null) return;
+
+            // Toggle between startDate and endDate selection
+            if (startDate == null || (startDate != null && endDate != null)) {
+                startDate = newValue;
+                endDate = null; // Reset end date for a new range
+            } else {
+                endDate = newValue;
+                dpDiasReservar.setValue(null); // Keep DatePicker open after selecting both dates
+            }
+
+            // Refresh display text to show the selected range
+            dpDiasReservar.getEditor().clear();
+            dpDiasReservar.getEditor().setText(dpDiasReservar.getConverter().toString(newValue));
+
+            // Close and reopen the DatePicker popup on each click
+            dpDiasReservar.hide();
+            dpDiasReservar.show();
+
+            // Refresh the DayCellFactory to update the highlighted date range
+            dpDiasReservar.setDayCellFactory(createDayCellFactory());
+        });
+
+        // Custom converter for displaying the selected date range in DatePicker's editor
+        dpDiasReservar.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(LocalDate date) {
+                if (startDate != null && endDate != null) {
+                    return "From: " + startDate + " To: " + endDate + " (" + calculateReservationDays() + " days)";
+                }
+                return (date != null) ? date.toString() : "";
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                return null;
+            }
+        });
+    }
+//    ---------------------------------------------------------
+/*private void setupDateRangeSelection() {
+    dpDiasReservar.setDayCellFactory(createDayCellFactory());
+
+    // Listener para detectar cada selección en el calendario
+    dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+        if (newValue == null) return;
+
+        // Alternar entre la selección de startDate y endDate
+        if (startDate == null || (startDate != null && endDate != null)) {
+            startDate = newValue;
+            endDate = null; // Reinicia endDate para un nuevo rango
+        } else {
+            endDate = newValue;
+            dpDiasReservar.setValue(null); // Mantén el DatePicker abierto después de seleccionar ambas fechas
+        }
+
+        // Actualiza el contenido del TextArea para mostrar el rango de fechas seleccionado
+        updateDateRangeText();
+
+        // Cierra y abre de nuevo el popup del DatePicker en cada selección
+        dpDiasReservar.hide();
+        dpDiasReservar.show();
+
+        // Refrescar DayCellFactory para actualizar los destacados del rango
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
+    });
+}
+
+    // Método para actualizar el contenido del TextArea con el rango de fechas y número de días
+    private void updateDateRangeText() {
+        if (startDate != null && endDate != null) {
+            long days = calculateReservationDays();
+            txtDiasReservar.setText("Inicio de Reservación: " + startDate +
+                    "\nFin de Reservación: " + endDate +
+                    "\nNúmero de días: " + days);
+        } else if (startDate != null) {
+            txtDiasReservar.setText("Inicio de Reservación: " + startDate +
+                    "\nFin de Reservación: --" +
+                    "\nNúmero de días: --");
+        }
+    }
+//    --------------------------------------------------------
+private void setupDateRangeSelection() {
+    dpDiasReservar.setDayCellFactory(createDayCellFactory());
+
+    // Listener para detectar cada selección en el calendario
+    dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+        if (newValue == null) return;
+
+        // Alternar entre la selección de startDate y endDate
+        if (startDate == null || (startDate != null && endDate != null)) {
+            startDate = newValue;
+            endDate = null; // Reinicia endDate para un nuevo rango
+        } else {
+            endDate = newValue;
+            dpDiasReservar.setValue(null); // Mantén el DatePicker abierto después de seleccionar ambas fechas
+        }
+
+        // Actualizar el TextArea con la información de la reserva
+        txtInfoReserva.setText(generateDateRangeText());
+
+        // Cierra y abre de nuevo el popup del DatePicker en cada selección
+        dpDiasReservar.hide();
+        dpDiasReservar.show();
+
+        // Refrescar DayCellFactory para actualizar los destacados del rango
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
+    });
+
+    // Convertidor personalizado para mantener el formato del DatePicker (opcional)
+    dpDiasReservar.setConverter(new StringConverter<>() {
+        @Override
+        public String toString(LocalDate date) {
+            return generateDateRangeText();
+        }
+
+        @Override
+        public LocalDate fromString(String string) {
+            return null;
+        }
+    });
+}
+
+    // Método para generar el texto del rango de fechas y el número de días
+    private String generateDateRangeText() {
+        StringBuilder sb = new StringBuilder();
+        if (startDate != null) {
+            sb.append("Inicio de Reservación: ").append(startDate.toString()).append("\n");
+        }
+        if (endDate != null) {
+            sb.append("Fin de Reservación: ").append(endDate.toString()).append("\n");
+        }
+        if (startDate != null && endDate != null) {
+            long days = calculateReservationDays();
+            sb.append("Número de días: ").append(days);
+        }
+        return sb.toString();
+    }
+
+
+
+
+//-------------------------------------------------------------------
+    // DayCellFactory para resaltar el rango de fechas
+    private Callback<DatePicker, DateCell> createDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #d3d3d3;");
+                } else if (startDate != null && endDate != null) {
+                    if (item.equals(startDate)) {
+                        setStyle("-fx-background-color: #add8e6;"); // Azul claro para startDate
+                    } else if (item.equals(endDate)) {
+                        setStyle("-fx-background-color: #ffa07a;"); // Salmón claro para endDate
+                    } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
+                        setStyle("-fx-background-color: #90ee90;"); // Verde claro para fechas dentro del rango
+                    } else {
+                        setStyle(""); // Restablece estilo para fechas fuera del rango
+                    }
+                }
+            }
+        };
+    }
+/*
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setupDateRangeSelection();
+        cbCiudadSeleccionado.setItems(FXCollections.observableArrayList(cargarCiudades()));
+
+        // Limpia el texto del editor del DatePicker cuando se muestra o selecciona una fecha
+        dpDiasReservar.setOnShowing(event -> dpDiasReservar.getEditor().clear());
+        dpDiasReservar.setOnAction(event -> dpDiasReservar.getEditor().clear());
+    }
+
+@Override
+public void initialize(URL location, ResourceBundle resources) {
+    setupDateRangeSelection();
+    cbCiudadSeleccionado.setItems(FXCollections.observableArrayList(cargarCiudades()));
+
+    // Limpia el TextArea y el editor del DatePicker cuando se muestra o selecciona una fecha
+    txtDiasReservar.clear();
+    dpDiasReservar.setOnShowing(event -> dpDiasReservar.getEditor().clear());
+    dpDiasReservar.setOnAction(event -> dpDiasReservar.getEditor().clear());
+}
+
+//------------------------------------------------------------
+    private long calculateReservationDays() {
+        if (startDate != null && endDate != null) {
+            return ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        }
+        return 0;
+    }
+
+    public List<String> cargarCiudades() {
+        return Arrays.stream(Ciudad.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+    }
+}*/
+//-------------------------------------------------------------
+/*
+private void setupDateRangeSelection() {
+    dpDiasReservar.setDayCellFactory(createDayCellFactory());
+
+    // Listener para detectar cada selección en el calendario
+    dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+        if (newValue == null) return;
+
+        // Alternar entre la selección de startDate y endDate
+        if (startDate == null || (startDate != null && endDate != null)) {
+            startDate = newValue;
+            endDate = null; // Reinicia endDate para un nuevo rango
+        } else {
+            endDate = newValue;
+            dpDiasReservar.setValue(null); // Mantén el DatePicker abierto después de seleccionar ambas fechas
+        }
+
+        // Actualizar el texto en el editor para mostrar el rango de fechas seleccionado
+        dpDiasReservar.getEditor().clear();
+        dpDiasReservar.getEditor().setText(generateDateRangeText());
+
+        // Cierra y abre de nuevo el popup del DatePicker en cada selección
+        dpDiasReservar.hide();
+        dpDiasReservar.show();
+
+        // Refrescar DayCellFactory para actualizar los destacados del rango
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
+    });
+
+    // Convertidor personalizado para mostrar el rango de fechas y días en el editor del DatePicker
+    dpDiasReservar.setConverter(new StringConverter<>() {
+        @Override
+        public String toString(LocalDate date) {
+            return generateDateRangeText();
+        }
+
+        @Override
+        public LocalDate fromString(String string) {
+            return null;
+        }
+    });
+}
+
+    // Método para generar el texto del rango de fechas y el número de días
+    private String generateDateRangeText() {
+        if (startDate != null && endDate != null) {
+            long days = calculateReservationDays();
+            return "Desde: " + startDate + " Hasta: " + endDate + " (" + days + " días)";
+        }
+        return (startDate != null && endDate != null) ? ("Fecha seleccionada:, \nInicio Reservacion, Fin Reservacion" : "", startDate, endDate);
+    }*/
+// Método auxiliar para cerrar y abrir el DatePicker
+//    private void toggleDatePickerPopup() {
+//        if (dpDiasReservar.isShowing()) {
+//            dpDiasReservar.hide(); // Cierra si está abierto
+//        }
+//        dpDiasReservar.show(); // Abre de nuevo
+//    }
+
+//-------------------------------------------------------------
+/*private void setupDateRangeSelection() {
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
+
+        dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null) return;
+
+            // Determine whether to set start or end date
+            if (startDate == null || (startDate != null && endDate != null)) {
+                startDate = newValue;
+                endDate = null; // Reset end date
+            } else {
+                endDate = newValue;
+                dpDiasReservar.setValue(null); // Keep DatePicker open after selecting both dates
+            }
+
+            // Refresh display text to show the selected range
+            dpDiasReservar.getEditor().clear();
+            dpDiasReservar.getEditor().setText(dpDiasReservar.getConverter().toString(newValue));
+
+            // Force a refresh of the DayCellFactory to update cell highlights
+            dpDiasReservar.setDayCellFactory(createDayCellFactory());
+        });
+
+        // Custom converter for displaying selected date range in DatePicker's editor
+        dpDiasReservar.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(LocalDate date) {
+                if (startDate != null && endDate != null) {
+                    return "From: " + startDate + " To: " + endDate + " (" + calculateReservationDays() + " days)";
+                }
+                return (date != null) ? date.toString() : "";
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                return null;
+            }
+        });
+    }
+
+
+    // Method for creating a DayCellFactory to highlight date range
+    private Callback<DatePicker, DateCell> createDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                // Disable past dates
+                if (item.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #d3d3d3;");
+                } else if (startDate != null && endDate != null) {
+                    if (item.equals(startDate)) {
+                        setStyle("-fx-background-color: #add8e6;"); // Light blue for start date
+                    } else if (item.equals(endDate)) {
+                        setStyle("-fx-background-color: #ffa07a;"); // Light salmon for end date
+                    } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
+                        setStyle("-fx-background-color: #90ee90;"); // Light green for dates within range
+                    } else {
+                        setStyle(""); // Reset style for non-range dates
+                    }
+                }
+            }
+        };
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setupDateRangeSelection();
+        cbCiudadSeleccionado.setItems(FXCollections.observableArrayList(cargarCiudades()));
+
+        // Ensure DatePicker editor clears display when showing or selecting a date
+        dpDiasReservar.setOnShowing(event -> dpDiasReservar.getEditor().clear());
+        dpDiasReservar.setOnAction(event -> dpDiasReservar.getEditor().clear());
+    }
+
+    private long calculateReservationDays() {
+        if (startDate != null && endDate != null) {
+            return ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        }
+        return 0;
+    }
+
+    public List<String> cargarCiudades() {
+        return Arrays.stream(Ciudad.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+    }
+}*/
+//-------------------------------------------------------
+/*private void setupDateRangeSelection() {
+//-------------------------------------------------------
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
+
+        dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null) return;
+
+            // Determine whether to set start or end date
+            if (startDate == null || (startDate != null && endDate != null)) {
+                startDate = newValue;
+                endDate = null; // Reset end date
+            } else {
+                endDate = newValue;
+                dpDiasReservar.setValue(null); // Keep DatePicker open after selecting both dates
+            }
+
+            // Refresh display text to show the selected range
+            dpDiasReservar.getEditor().clear();
+
+            // Force a refresh of the DayCellFactory to update cell highlights
+            dpDiasReservar.setDayCellFactory(createDayCellFactory());
+        });
+
+        // Custom converter for displaying selected date range in DatePicker's editor
+        dpDiasReservar.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(LocalDate date) {
+                if (startDate != null && endDate != null) {
+                    return "From: " + startDate + " To: " + endDate + " (" + calculateReservationDays() + " days)";
+                }
+                return (date != null) ? date.toString() : "";
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                return null;
+            }
+        });
+    }*/
+/*
+    private void setupDateRangeSelection() {
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
+
+        // Listen to each date selection in the DatePicker
+        dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null) return;
+
+            // Handle start and end date logic
+            if (startDate == null || (startDate != null && endDate != null)) {
+                startDate = newValue;
+                endDate = null;
+            } else {
+                endDate = newValue;
+                dpDiasReservar.setValue(null); // Clear to keep DatePicker open
+            }
+
+            // Force display text update
+            dpDiasReservar.getEditor().clear();
+
+            // Refresh day cells to reflect updated range highlights
+            dpDiasReservar.setDayCellFactory(createDayCellFactory());
+        });
+
+        // Custom converter to display the selected date range
+        dpDiasReservar.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(LocalDate date) {
+                if (startDate != null && endDate != null) {
+                    return "From: " + startDate + " To: " + endDate + " (" + calculateReservationDays() + " days)";
+                }
+                return (date != null) ? date.toString() : "";
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                return null; // No need for reverse conversion
+            }
+        });
+    }
+
+    // Custom DayCellFactory for highlighting date ranges in DatePicker
+    private Callback<DatePicker, DateCell> createDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #d3d3d3;"); // Light gray for past dates
+                } else if (startDate != null && endDate != null) {
+                    if (item.equals(startDate)) {
+                        setStyle("-fx-background-color: #add8e6;"); // Light blue for start date
+                    } else if (item.equals(endDate)) {
+                        setStyle("-fx-background-color: #ffa07a;"); // Light salmon for end date
+                    } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
+                        setStyle("-fx-background-color: #90ee90;"); // Light green for dates within range
+                    }
+                }
+            }
+        };
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setupDateRangeSelection();
+        cbCiudadSeleccionado.setItems(FXCollections.observableArrayList(cargarCiudades()));
+
+        // Ensure DatePicker stays open and synchronizes with selected range
+        dpDiasReservar.setOnShowing(event -> dpDiasReservar.getEditor().clear());
+        dpDiasReservar.setOnAction(event -> dpDiasReservar.getEditor().clear());
+    }
+
+    private long calculateReservationDays() {
+        if (startDate != null && endDate != null) {
+            return ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        }
+        return 0;
+    }
+
+    public List<String> cargarCiudades() {
+        return Arrays.stream(Ciudad.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+    }
+}
+/*
+    private void setupDateRangeSelection() {
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
+
+        dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null) {
+                return; // Do nothing if newValue is null
+            }
+
+            // Logic to set start and end dates
+            if (startDate == null || (startDate != null && endDate != null)) {
+                startDate = newValue;
+                endDate = null;
+            } else {
+                endDate = newValue;
+                dpDiasReservar.setValue(null); // Clear to keep DatePicker open
+
+                // Force UI refresh by clearing the display text
+                dpDiasReservar.getEditor().clear();
+            }
+
+            // Refresh to update highlights on the DatePicker calendar
+            dpDiasReservar.setDayCellFactory(createDayCellFactory());
+        });
+
+        // Converter for displaying selected range in the DatePicker's text field
+        dpDiasReservar.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(LocalDate date) {
+                if (startDate != null && endDate != null) {
+                    return "From: " + startDate + " To: " + endDate + " (" + calculateReservationDays() + " days)";
+                }
+                return (date != null) ? date.toString() : "";
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                return null; // No need for reverse conversion
+            }
+        });
+    }
+
+    // Factory to highlight dates in the selected range
+    private Callback<DatePicker, DateCell> createDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #d3d3d3;"); // Light gray for past dates
+                } else if (startDate != null && endDate != null) {
+                    if (item.equals(startDate)) {
+                        setStyle("-fx-background-color: #add8e6;"); // Light blue for start date
+                    } else if (item.equals(endDate)) {
+                        setStyle("-fx-background-color: #ffa07a;"); // Light salmon for end date
+                    } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
+                        setStyle("-fx-background-color: #90ee90;"); // Light green for dates within range
+                    }
+                }
+            }
+        };
+    }
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setupDateRangeSelection();
+        cbCiudadSeleccionado.setItems(FXCollections.observableArrayList(cargarCiudades()));
+
+        // Handle DatePicker actions to clear text without closing it
+        dpDiasReservar.setOnShowing(event -> {
+            if (dpDiasReservar.getEditor() != null) {
+                dpDiasReservar.getEditor().clear();
+            }
+        });
+
+        dpDiasReservar.setOnAction(event -> {
+            if (dpDiasReservar.getEditor() != null) {
+                dpDiasReservar.getEditor().clear();
+            }
+        });
+    }
+
+/*
     private void setupDateRangeSelection() {
         dpDiasReservar.setDayCellFactory(createDayCellFactory());
 
@@ -88,6 +914,9 @@ public class BuscadorAlojamientosControlador implements Initializable {
             }
         });
     }
+
+
+
     private Callback<DatePicker, DateCell> createDayCellFactory() {
         return datePicker -> new DateCell() {
             @Override
@@ -116,12 +945,7 @@ public class BuscadorAlojamientosControlador implements Initializable {
         };
     }
 
-    private long calculateReservationDays() {
-        if (startDate != null && endDate != null) {
-            return ChronoUnit.DAYS.between(startDate, endDate) + 1;
-        }
-        return 0;
-    }
+
 
     @FXML
     private void onCiudadSeleccionada() {
@@ -141,9 +965,6 @@ public class BuscadorAlojamientosControlador implements Initializable {
         setupDateRangeSelection();
         cbCiudadSeleccionado.setItems(FXCollections.observableArrayList(cargarCiudades()));
 //        ----------------------------------------------
-
-
-
         // Add an event handler for the DatePicker showing event
         dpDiasReservar.setOnShowing(event -> {
             if (dpDiasReservar.getEditor() != null) {
@@ -159,15 +980,8 @@ public class BuscadorAlojamientosControlador implements Initializable {
 
 
 
-    }
-
-    public List<String> cargarCiudades() {
-        return Arrays.stream(Ciudad.values())
-                .map(Enum::name)
-                .collect(Collectors.toList());
-    }
-}
-    /*@FXML
+    }*/
+/*@FXML
     private DatePicker dpDiasReservar; // This will be used as startDatePicker
     @FXML
     private DatePicker dpRangoReserva; // This will be used as endDatePicker
