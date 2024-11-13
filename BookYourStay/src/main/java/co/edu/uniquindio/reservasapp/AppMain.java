@@ -14,6 +14,7 @@ import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.servicio.Servi
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,6 +24,14 @@ public class AppMain extends Application {
     public void start(Stage stage) throws IOException {
         cargarHospedajes();
         cargarDatosAppReserva();
+
+        DatePicker datePicker = new DatePicker();
+        datePicker.setOnShowing(event -> {
+            if (datePicker.getEditor() != null) {
+                System.out.println("DatePicker is showing!");
+            }
+        });
+
         FXMLLoader fxmlLoader = new FXMLLoader(AppMain.class.getResource("/inicio.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 500);
         stage.setTitle("Reserva App");

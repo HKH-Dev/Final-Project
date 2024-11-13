@@ -29,24 +29,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class RegistrarReservaControlador implements Initializable {
-    @FXML
-    private DatePicker dpRangoReserva;
-    @FXML
-    private ListView<Alojamiento> listAlojamientos;
-    @FXML
-    private ImageView imageAlojamiento;
-    @FXML
-    private TextArea txtDetallesAlojamiento;
-    @FXML
-    private ComboBox<String> cbCiudadSeleccionado;
-    @FXML
-    private DatePicker dpDiaInicioReserva;
-    @FXML
-    private DatePicker dpDiaFinReserva;
-    @FXML
-    private ComboBox<String> cbhoraInicioReserva;
-    @FXML
-    private ComboBox<String> cbhoraFinReserva;
+
     @FXML
     private TextField txtNombreHospedaje;
     @FXML
@@ -71,103 +54,51 @@ public class RegistrarReservaControlador implements Initializable {
     Sesion sesion = Sesion.getInstancia();
     Persona persona = sesion.getPersona();
 
-    /*@FXML
-    public void crearReserva(ActionEvent actionEvent) {
-        try {
-            String ciudadAlojamiento = cbCiudadSeleccionado.getValue();
-            String nombreHospedaje = txtNombreHospedaje.getText();
-            String cedulaReservante = txtCedulaReservante.getText();
-            String horaInicioReserva = cbhoraInicioReserva.getValue();
-            String horaFinReserva = cbhoraFinReserva.getValue();
-            double costo = Double.parseDouble(txtCosto.getText());
-            int capacidadMaxima = Integer.parseInt(txtNumeroHuespedes.getText());
 
-            if (ciudadAlojamiento == null || nombreHospedaje.isEmpty() || cedulaReservante.isEmpty() || cbhoraInicioReserva == null || cbhoraFinReserva == null || horaInicioReserva == null || horaFinReserva == null) {
-                mostrarAlerta("Todos los campos deben estar completos para crear la reserva.", Alert.AlertType.WARNING);
-                return;
-            }
 
-            long diasReservados = ChronoUnit.DAYS.between(cbhoraInicioReserva, cbhoraFinReserva);
-
-            Reserva reserva = appReservasPrincipal.crearReserva(ciudadAlojamiento, nombreHospedaje, cedulaReservante, cbhoraInicioReserva, cbhoraFinReserva, horaInicioReserva, horaFinReserva, costo, capacidadMaxima);
-            observableListReservas.add(reserva);
-            limpiarFormularioReserva();
-            actualizarTabla();
-            mostrarAlerta("Reserva creada exitosamente.", Alert.AlertType.INFORMATION);
-        } catch (Exception e) {
-            mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }*/
-
-    public void crearReserva(ActionEvent actionEvent) {
-        try {
-            String ciudadAlojamiento = cbCiudadSeleccionado.getValue();
-            String nombreHospedaje = txtNombreHospedaje.getText();
-            String cedulaReservante = txtCedulaReservante.getText();
-            String horaInicioReserva = cbhoraInicioReserva.getValue();
-            String horaFinReserva = cbhoraFinReserva.getValue();
-            double costo = Double.parseDouble(txtCosto.getText());
-            int capacidadMaxima = Integer.parseInt(txtNumeroHuespedes.getText());
-
-            if (startDate == null || endDate == null || ciudadAlojamiento == null || nombreHospedaje.isEmpty() || cedulaReservante.isEmpty() || horaInicioReserva == null || horaFinReserva == null) {
-                mostrarAlerta("All fields must be completed to create a reservation.", Alert.AlertType.WARNING);
-                return;
-            }
-
-            long diasReservados = ChronoUnit.DAYS.between(startDate, endDate);
-            Reserva reserva = appReservasPrincipal.crearReserva(ciudadAlojamiento, nombreHospedaje, cedulaReservante, startDate, endDate, horaInicioReserva, horaFinReserva, costo, capacidadMaxima);
-            observableListReservas.add(reserva);
-            limpiarFormularioReserva();
-            actualizarTabla();
-            mostrarAlerta("Reservation created successfully.", Alert.AlertType.INFORMATION);
-        } catch (Exception e) {
-            mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
-    @FXML
-    private void setupDateRangeSelection() {
-        dpRangoReserva.setDayCellFactory(new Callback<DatePicker, DateCell>() {
-            @Override
-            public DateCell call(DatePicker datePicker) {
-                return new DateCell() {
-                    @Override
-                    public void updateItem(LocalDate item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (startDate != null && endDate == null) {
-                            setDisable(empty || item.isBefore(startDate));
-                        }
-                    }
-                };
-            }
-        });
-
-        dpRangoReserva.valueProperty().addListener((obs, oldValue, newValue) -> {
-            if (startDate == null) {
-                startDate = newValue;
-            } else {
-                endDate = newValue;
-                dpRangoReserva.setValue(null);  // Reset for potential new selection
-            }
-        });
-    }
+//    public void crearReserva(ActionEvent actionEvent) {
+//        try {
+//            String ciudadAlojamiento = cbCiudadSeleccionado.getValue();
+//            String nombreHospedaje = txtNombreHospedaje.getText();
+//            String cedulaReservante = txtCedulaReservante.getText();
+//            String horaInicioReserva = cbhoraInicioReserva.getValue();
+//            String horaFinReserva = cbhoraFinReserva.getValue();
+//            double costo = Double.parseDouble(txtCosto.getText());
+//            int capacidadMaxima = Integer.parseInt(txtNumeroHuespedes.getText());
+//
+//            if (startDate == null || endDate == null || ciudadAlojamiento == null || nombreHospedaje.isEmpty() || cedulaReservante.isEmpty() || horaInicioReserva == null || horaFinReserva == null) {
+//                mostrarAlerta("All fields must be completed to create a reservation.", Alert.AlertType.WARNING);
+//                return;
+//            }
+//
+//            long diasReservados = ChronoUnit.DAYS.between(startDate, endDate);
+//            Reserva reserva = appReservasPrincipal.crearReserva(ciudadAlojamiento, nombreHospedaje, cedulaReservante, startDate, endDate, horaInicioReserva, horaFinReserva, costo, capacidadMaxima);
+//            observableListReservas.add(reserva);
+//            limpiarFormularioReserva();
+//            actualizarTabla();
+//            mostrarAlerta("Reservation created successfully.", Alert.AlertType.INFORMATION);
+//        } catch (Exception e) {
+//            mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
+//        }
+//    }
 
 
 
 
-    private void limpiarFormularioReserva() {
-        cbCiudadSeleccionado.setValue(null);
-        txtNombreHospedaje.setText("");
-        txtCedulaReservante.setText("");
-        dpDiaInicioReserva.setValue(null);
-        dpDiaFinReserva.setValue(null);
-        startDate = null;
-        endDate = null;
-        cbhoraInicioReserva.setValue(null);
-        cbhoraFinReserva.setValue(null);
-        txtCosto.setText("");
-        txtNumeroHuespedes.setText("");
-    }
+
+//    private void limpiarFormularioReserva() {
+//        cbCiudadSeleccionado.setValue(null);
+//        txtNombreHospedaje.setText("");
+//        txtCedulaReservante.setText("");
+//        dpDiaInicioReserva.setValue(null);
+//        dpDiaFinReserva.setValue(null);
+//        startDate = null;
+//        endDate = null;
+//        cbhoraInicioReserva.setValue(null);
+//        cbhoraFinReserva.setValue(null);
+//        txtCosto.setText("");
+//        txtNumeroHuespedes.setText("");
+//    }
 
 
     private void actualizarTabla() {
@@ -194,42 +125,9 @@ public class RegistrarReservaControlador implements Initializable {
                 .collect(Collectors.toList());
     }
 
-    @FXML
-    private void onCiudadSeleccionada(ActionEvent event) {
-        String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
-        if (ciudadSeleccionada != null) {
-            List<Alojamiento> alojamientosFiltrados = appReservasPrincipal.getListaAlojamientos().stream()
-                    .filter(aloj -> aloj.getCiudad().equals(ciudadSeleccionada))
-                    .collect(Collectors.toList());
-            observableListaAlojamientos = FXCollections.observableArrayList(alojamientosFiltrados);
-//            tablaAlojamientos.setItems(observableListaAlojamientos);
-        }
-    }
 
-    @FXML
-    private void onDateRangeSelected() {
-        dpDiaInicioReserva.setOnAction(event -> updateEndDate());
-        dpDiaFinReserva.setOnAction(event -> validateEndDate());
-    }
 
-    private void updateEndDate() {
-        LocalDate startDate = dpDiaInicioReserva.getValue();
-        if (startDate != null) {
-            dpDiaFinReserva.setDayCellFactory(datePicker -> new DateCell() {
-                @Override
-                public void updateItem(LocalDate item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setDisable(empty || item.isBefore(startDate));
-                }
-            });
-        }
-    }
 
-    private void validateEndDate() {
-        if (dpDiaFinReserva.getValue().isBefore(dpDiaInicioReserva.getValue())) {
-            dpDiaFinReserva.setValue(dpDiaInicioReserva.getValue());
-        }
-    }
 
     public void cargarReservas(ActionEvent actionEvent) {
         appReservasPrincipal.getListaReservas().stream()
@@ -237,105 +135,87 @@ public class RegistrarReservaControlador implements Initializable {
                 .forEach(System.out::println);
     }
 
-    public void cargarHorasDisponibles() {
-        String selectedInstalacion = txtNombreHospedaje.getText();
+//    public void cargarHorasDisponibles() {
+//        String selectedInstalacion = txtNombreHospedaje.getText();
+//
+//        if (selectedInstalacion != null) {
+//            Alojamiento alojamiento = appReservasPrincipal.getListaAlojamientos().stream()
+//                    .filter(inst -> inst.getNombre().equals(selectedInstalacion))
+//                    .findFirst()
+//                    .orElse(null);
+//
+//            if (alojamiento != null) {
+////                LocalDateTime horaInicio = cbhoraInicioReserva.getValue() != null ? LocalDateTime.of(dpDiaInicioReserva.getValue(), LocalTime.parse(cbhoraInicioReserva.getValue())) : alojamiento.getHoraInicio();
+//                LocalDateTime horaInicio = LocalDateTime.parse(cbhoraInicioReserva.getValue());
+//                LocalDateTime horaFin = LocalDateTime.parse(cbhoraFinReserva.getValue());
+//
+//
+//                ObservableList<String> horasDisponibles = FXCollections.observableArrayList();
+//                LocalTime hora = horaInicio.toLocalTime();
+//
+//                while (!hora.isAfter(horaFin.toLocalTime())) {
+//                    horasDisponibles.add(hora.toString());
+//                    hora = hora.plusHours(1); // Adjust as needed for different intervals
+//                }
+//
+////                cbhoraReserva.setItems(horasDisponibles);
+//            }
+//        }
+//    }
 
-        if (selectedInstalacion != null) {
-            Alojamiento alojamiento = appReservasPrincipal.getListaAlojamientos().stream()
-                    .filter(inst -> inst.getNombre().equals(selectedInstalacion))
-                    .findFirst()
-                    .orElse(null);
+//    public void actualizarCosto() {
+//        try {
+//            String tipoInstalacion = cbCiudadSeleccionado.getValue();
+//            String cedula = txtCedulaReservante.getText();
+//
+//            if (tipoInstalacion != null && cedula != null && !cedula.isEmpty()) {
+//                double costo = appReservasPrincipal.calcularCosto(tipoInstalacion, cedula);
+//                txtCosto.setText(String.format("%.2f", costo));
+//            }
+//        } catch (Exception e) {
+//            mostrarAlerta("Error al calcular el costo: " + e.getMessage(), Alert.AlertType.ERROR);
+//        }
+//    }
 
-            if (alojamiento != null) {
-//                LocalDateTime horaInicio = cbhoraInicioReserva.getValue() != null ? LocalDateTime.of(dpDiaInicioReserva.getValue(), LocalTime.parse(cbhoraInicioReserva.getValue())) : alojamiento.getHoraInicio();
-                LocalDateTime horaInicio = LocalDateTime.parse(cbhoraInicioReserva.getValue());
-                LocalDateTime horaFin = LocalDateTime.parse(cbhoraFinReserva.getValue());
+//    public void cargarCostoReserva() {
+//        String tipoInstalacion = cbCiudadSeleccionado.getValue();
+//        String cedula = txtCedulaReservante.getText();
+//
+//        if (tipoInstalacion != null && !cedula.isEmpty()) {
+//            try {
+//                Persona persona = appReservasPrincipal.obtenerPersona(cedula).orElseThrow(() -> new Exception("Persona no encontrada"));
+//                double costo = appReservasPrincipal.calcularCosto(tipoInstalacion, cedula);
+//                txtCosto.setText(String.valueOf(costo));
+//            } catch (Exception e) {
+//                mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
+//            }
+//        }
+//    }
 
-
-                ObservableList<String> horasDisponibles = FXCollections.observableArrayList();
-                LocalTime hora = horaInicio.toLocalTime();
-
-                while (!hora.isAfter(horaFin.toLocalTime())) {
-                    horasDisponibles.add(hora.toString());
-                    hora = hora.plusHours(1); // Adjust as needed for different intervals
-                }
-
-//                cbhoraReserva.setItems(horasDisponibles);
-            }
-        }
-    }
-
-    public void actualizarCosto() {
-        try {
-            String tipoInstalacion = cbCiudadSeleccionado.getValue();
-            String cedula = txtCedulaReservante.getText();
-
-            if (tipoInstalacion != null && cedula != null && !cedula.isEmpty()) {
-                double costo = appReservasPrincipal.calcularCosto(tipoInstalacion, cedula);
-                txtCosto.setText(String.format("%.2f", costo));
-            }
-        } catch (Exception e) {
-            mostrarAlerta("Error al calcular el costo: " + e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
-    public void cargarCostoReserva() {
-        String tipoInstalacion = cbCiudadSeleccionado.getValue();
-        String cedula = txtCedulaReservante.getText();
-
-        if (tipoInstalacion != null && !cedula.isEmpty()) {
-            try {
-                Persona persona = appReservasPrincipal.obtenerPersona(cedula).orElseThrow(() -> new Exception("Persona no encontrada"));
-                double costo = appReservasPrincipal.calcularCosto(tipoInstalacion, cedula);
-                txtCosto.setText(String.valueOf(costo));
-            } catch (Exception e) {
-                mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
-            }
-        }
-    }
-
-    private void calcularYMostrarCosto() {
-        try {
-            String tipoInstalacion = cbCiudadSeleccionado.getValue();
-            String cedula = txtCedulaReservante.getText();
-
-            // Ensure both fields are not empty before calculating the cost
-            if (tipoInstalacion != null && !tipoInstalacion.isEmpty() && cedula != null && !cedula.isEmpty()) {
-                double costo = appReservasPrincipal.calcularCosto(tipoInstalacion, cedula);
-                txtCosto.setText(String.format("%.2f", costo)); // Format to two decimal places
-            } else {
-                txtCosto.setText(""); // Clear cost if required fields are missing
-            }
-        } catch (Exception e) {
-            mostrarAlerta("Error al calcular el costo: " + e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
-    @FXML
-    private void cargarAlojamientos() {
-        String selectedCity = cbCiudadSeleccionado.getValue();
-        if (selectedCity != null) {
-            List<Alojamiento> alojamientos = appReservasPrincipal.getAlojamientosPorCiudad(selectedCity);
-            listAlojamientos.setItems(FXCollections.observableArrayList(alojamientos));
-        }
-    }
+//    private void calcularYMostrarCosto() {
+//        try {
+//            String tipoInstalacion = cbCiudadSeleccionado.getValue();
+//            String cedula = txtCedulaReservante.getText();
+//
+//            // Ensure both fields are not empty before calculating the cost
+//            if (tipoInstalacion != null && !tipoInstalacion.isEmpty() && cedula != null && !cedula.isEmpty()) {
+//                double costo = appReservasPrincipal.calcularCosto(tipoInstalacion, cedula);
+//                txtCosto.setText(String.format("%.2f", costo)); // Format to two decimal places
+//            } else {
+//                txtCosto.setText(""); // Clear cost if required fields are missing
+//            }
+//        } catch (Exception e) {
+//            mostrarAlerta("Error al calcular el costo: " + e.getMessage(), Alert.AlertType.ERROR);
+//        }
+//    }
 
 
-    @FXML
-    private void mostrarDetallesAlojamiento() {
-        Alojamiento selectedAlojamiento = listAlojamientos.getSelectionModel().getSelectedItem();
-        if (selectedAlojamiento != null) {
-            txtDetallesAlojamiento.setText(selectedAlojamiento.getDescripcion());
 
-            String imagePath = selectedAlojamiento.getImagenURL();
-            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
-            imageAlojamiento.setImage(image);
-        }
-    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+/*
         cbCiudadSeleccionado.setItems(FXCollections.observableArrayList(cargarCiudades()));
         setupDateRangeSelection();
 
@@ -402,11 +282,38 @@ public class RegistrarReservaControlador implements Initializable {
                         .collect(Collectors.toList())
         ));
         cbCiudadSeleccionado.valueProperty().addListener((obs, oldVal, newVal) -> actualizarCosto());
-        txtCedulaReservante.textProperty().addListener((obs, oldVal, newVal) -> actualizarCosto());
+        txtCedulaReservante.textProperty().addListener((obs, oldVal, newVal) -> actualizarCosto());*/
         actualizarTabla();
     }
 }
 
+    /*@FXML
+    public void crearReserva(ActionEvent actionEvent) {
+        try {
+            String ciudadAlojamiento = cbCiudadSeleccionado.getValue();
+            String nombreHospedaje = txtNombreHospedaje.getText();
+            String cedulaReservante = txtCedulaReservante.getText();
+            String horaInicioReserva = cbhoraInicioReserva.getValue();
+            String horaFinReserva = cbhoraFinReserva.getValue();
+            double costo = Double.parseDouble(txtCosto.getText());
+            int capacidadMaxima = Integer.parseInt(txtNumeroHuespedes.getText());
+
+            if (ciudadAlojamiento == null || nombreHospedaje.isEmpty() || cedulaReservante.isEmpty() || cbhoraInicioReserva == null || cbhoraFinReserva == null || horaInicioReserva == null || horaFinReserva == null) {
+                mostrarAlerta("Todos los campos deben estar completos para crear la reserva.", Alert.AlertType.WARNING);
+                return;
+            }
+
+            long diasReservados = ChronoUnit.DAYS.between(cbhoraInicioReserva, cbhoraFinReserva);
+
+            Reserva reserva = appReservasPrincipal.crearReserva(ciudadAlojamiento, nombreHospedaje, cedulaReservante, cbhoraInicioReserva, cbhoraFinReserva, horaInicioReserva, horaFinReserva, costo, capacidadMaxima);
+            observableListReservas.add(reserva);
+            limpiarFormularioReserva();
+            actualizarTabla();
+            mostrarAlerta("Reserva creada exitosamente.", Alert.AlertType.INFORMATION);
+        } catch (Exception e) {
+            mostrarAlerta(e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }*/
 
 /*
     // Setup for Date Range Selection
