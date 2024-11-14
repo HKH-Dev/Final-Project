@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.EstadisticasPController"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <VBox spacing="15" layoutX="20" layoutY="20" prefWidth="760">
+
+        <!-- Labels para el nombre del alojamiento y la ciudad -->
+        <HBox spacing="10">
+            <Label text="Nombre del Alojamiento:"/>
+            <Label fx:id="labelNombreAlojamiento" text="--"/>
+        </HBox>
+
+        <HBox spacing="10">
+            <Label text="Ciudad:"/>
+            <Label fx:id="labelCiudad" text="--"/>
+        </HBox>
+
+        <!-- Estadísticas del Alojamiento -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Estadísticas de este alojamiento:"/>
+            <CheckBox fx:id="checkBoxEstadisticasAlojamiento"/>
+            <ComboBox fx:id="comboBoxTipoEstadisticaAlojamiento" promptText="Seleccione una opción" prefWidth="200.0"/>
+        </HBox>
+
+        <!-- Estadísticas Generales -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Estadísticas generales:"/>
+            <CheckBox fx:id="checkBoxEstadisticasGenerales"/>
+            <ComboBox fx:id="comboBoxTipoEstadisticaGeneral" promptText="Seleccione una opción" prefWidth="200.0"/>
+        </HBox>
+
+        <!-- Tabla para mostrar estadísticas -->
+        <TableView fx:id="tablaEstadisticas" prefHeight="200.0">
+            <columns>
+                <TableColumn fx:id="columnaNombre" text="Nombre" prefWidth="200"/>
+                <TableColumn fx:id="columnaValor" text="Valor" prefWidth="200"/>
+            </columns>
+        </TableView>
+
+        <!-- Contenedor para el gráfico -->
+        <VBox fx:id="contenedorGrafico" prefHeight="200.0" prefWidth="760">
+            <Label text="Gráfico de estadísticas" style="-fx-font-weight: bold;"/>
+            <Pane fx:id="panelGrafico" prefHeight="200.0"/>
+        </VBox>
+
+    </VBox>
+</AnchorPane>
