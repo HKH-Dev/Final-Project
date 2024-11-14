@@ -5,19 +5,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 public class AccommodationItemController {
-
-    @FXML
-    private ImageView imgAlojamiento;
-    @FXML
-    private Label lblNombreAlojamiento;
-    @FXML
-    private Label lblCiudad;
+    @FXML private ImageView imgAlojamiento;
+    @FXML private Label lblNombreAlojamiento;
+    @FXML private Label lblUbicacion;
+    @FXML private Text txtDescripcion;
 
     public void setAlojamiento(Alojamiento alojamiento) {
         lblNombreAlojamiento.setText(alojamiento.getNombre());
-        lblCiudad.setText(alojamiento.getCiudad().toString());
-        imgAlojamiento.setImage(new Image(getClass().getResource(alojamiento.getImagenURL()).toExternalForm()));
+        lblUbicacion.setText(alojamiento.getCiudad().name());
+        txtDescripcion.setText(alojamiento.getDescripcion());
+
+        if (!alojamiento.getGalleryImages().isEmpty()) {
+            imgAlojamiento.setImage(new Image(getClass().getResource(alojamiento.getGalleryImages().get(0)).toExternalForm()));
+        }
     }
 }

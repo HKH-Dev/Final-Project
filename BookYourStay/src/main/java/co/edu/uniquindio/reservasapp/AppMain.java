@@ -52,12 +52,13 @@ public class AppMain extends Application {
         AlojamientoPrincipal catalogo = new AlojamientoPrincipal();
 
         List<String> hotelImages = List.of(
-                "/images/SAI/Hotel/test1.jpg",
-                "/images/SAI/Hotel/test2.jpg",
-                "/images/SAI/Hotel/test3.jpg",
-                "/images/SAI/Hotel/test4.jpg",
-                "/images/SAI/Hotel/test5.jpg"
+                "@img/C:\\Users\\H\\Dev\\FinalProject\\BookYourStay\\src\\main\\resources\\images\\SAI\\Hotel\\MarAzul\\test1.jpeg",
+                "./resources/images/SAI/Hotel/MarAzul/test2.jpg",
+                "./resources/images/SAI/Hotel/MarAzul/test3.jpg",
+                "./resources/images/SAI/Hotel/MarAzul/test4.jpg",
+                "./resources/images/SAI/Hotel/MarAzul/test5.jpg"
         );
+        System.out.println("Loading image: " + hotelImages.get(0));
         // Crear un Hotel usando la fábrica y el patrón Builder
         Hotel hotelMarAzul = (Hotel) factory.crearAlojamiento("Hotel");  // Crear una instancia de Hotel
         hotelMarAzul = new HotelBuilder()  // Usar el builder para personalizar los atributos del Hotel

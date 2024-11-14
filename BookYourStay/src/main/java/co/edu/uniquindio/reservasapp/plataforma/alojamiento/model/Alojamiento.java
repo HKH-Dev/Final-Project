@@ -64,9 +64,16 @@ public abstract class Alojamiento {
     public List<String> getGalleryImages() {
         List<String> imagePaths = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
-            imagePaths.add("/images/SAI/Hotel/testPicture" + i + ".jpg");
+            imagePaths.add("/images/*" + i + ".jpg");
         }
         return imagePaths;
+    }
+
+    public boolean isAvailableForDates(LocalDate startDate, LocalDate endDate) {
+        if (this.fechaInicio == null || this.fechaFin == null) {
+            return true; // If no dates are set, assume it's available
+        }
+        return (startDate.isAfter(this.fechaFin) || endDate.isBefore(this.fechaInicio));
     }
 
 }

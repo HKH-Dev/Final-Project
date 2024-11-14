@@ -1,12 +1,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.AccommodationItemController"
-      spacing="10">
-
-    <ImageView fx:id="imgAlojamiento" fitWidth="100" fitHeight="100" />
+<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.AccommodationItemController">
     <Label fx:id="lblNombreAlojamiento" />
-    <Label fx:id="lblCiudad" />
+    <Label fx:id="lblUbicacion" />
+    <Text fx:id="txtDescripcion" />
+    <ImageView fx:id="imgAlojamiento" />
 </VBox>
