@@ -2,6 +2,8 @@ package co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.casa;
 
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
+
+import java.util.List;
 //
 //@ToString
 
@@ -36,8 +38,8 @@ public class Casa extends Alojamiento implements CasaFactory{
 //            return new Casa(this);
 //        }
 //    }
-    public Casa(String nombre, Ciudad ciudad, String descripcion, String imagen, double precioNoche, int capacidadMaxima, boolean tieneCocina, boolean tieneJardin) {
-        super(nombre, ciudad, descripcion, imagen, precioNoche, capacidadMaxima);
+    public Casa(String nombre, Ciudad ciudad, String descripcion, List<String> imagenes, double precioNoche, int capacidadMaxima, boolean tieneCocina, boolean tieneJardin) {
+        super(nombre, ciudad, descripcion, imagenes, precioNoche, capacidadMaxima);
         this.tieneCocina = tieneCocina;
         this.tieneJardin = tieneJardin;
     }
@@ -50,7 +52,7 @@ public class Casa extends Alojamiento implements CasaFactory{
         sb.append("\n\t descripcion = '").append(descripcion).append('\'');
         sb.append("\n\t tieneCocina = ").append(tieneCocina);
         sb.append("\n\t tieneJardin = ").append(tieneJardin);
-        sb.append("\n\t imagen = '").append(imagen).append('\'');
+        sb.append("\n\t imagen = '").append(imagenes).append('\'');
         sb.append("\n\t precioNoche = ").append(precioNoche);
         sb.append("\n\t capacidadMaxima = ").append(capacidadMaxima);
         sb.append("\n\t\t servicios =").append(servicios);

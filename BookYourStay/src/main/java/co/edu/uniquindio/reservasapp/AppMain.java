@@ -2,6 +2,7 @@ package co.edu.uniquindio.reservasapp;
 
 import co.edu.uniquindio.reservasapp.plataforma.AppReservasPrincipal;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.AlojamientoPrincipal;
+import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.AlojamientoFactory;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.apto.Apartamento;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.apto.ApartamentoBuilder;
@@ -18,6 +19,8 @@ import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppMain extends Application {
     @Override
@@ -42,17 +45,26 @@ public class AppMain extends Application {
         //stage.setMaximized(true);
         stage.show();
     }
+    public static List<Alojamiento> alojamientos = new ArrayList<>();
 
     public static void cargarHospedajes() {
         AlojamientoFactory factory = new AlojamientoFactory();
         AlojamientoPrincipal catalogo = new AlojamientoPrincipal();
 
+        List<String> hotelImages = List.of(
+                "/images/SAI/Hotel/test1.jpg",
+                "/images/SAI/Hotel/test2.jpg",
+                "/images/SAI/Hotel/test3.jpg",
+                "/images/SAI/Hotel/test4.jpg",
+                "/images/SAI/Hotel/test5.jpg"
+        );
         // Crear un Hotel usando la fábrica y el patrón Builder
         Hotel hotelMarAzul = (Hotel) factory.crearAlojamiento("Hotel");  // Crear una instancia de Hotel
         hotelMarAzul = new HotelBuilder()  // Usar el builder para personalizar los atributos del Hotel
                 .nombre("Hotel MarAzul")
                 .ciudad(Ciudad.SAN_ANDRES)
                 .descripcion("Resort de lujo con vista al mar")
+//                .imagen(List<String> hotelImages)
                 .imagen("hotel.jpg")
                 .precioNoche(600000)
                 .capacidadMaxima(150)
@@ -69,7 +81,7 @@ public class AppMain extends Application {
                 .gimnasio(true)
                 .aireAcondicionado(true)
                 .build();
-
+        alojamientos.add(hotelMarAzul);
         hotelMarAzul.agregarServicios(serviciosHotelMarAzul);
         catalogo.agregarAlojamiento(hotelMarAzul);
 //        ---------------------------------------------------------
@@ -207,13 +219,9 @@ public class AppMain extends Application {
             e.printStackTrace();
         }
     }
-//    -------------------------------------------------
-
-
 
     public static void main(String[] args) {
         launch();
     }
-
-
-    }
+    //    -------------------------------------------------
+}

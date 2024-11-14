@@ -6,76 +6,116 @@
 <?import javafx.scene.text.*?>
 
 <?import javafx.geometry.Insets?>
+
 <HBox alignment="CENTER" prefHeight="1000.0" prefWidth="1300.0" spacing="10.0"
       xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.BuscadorAlojamientosControlador">
 
-    <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="560.0" spacing="20.0">
-        <Label prefWidth="200.0" text="Agendar Reservación" textFill="#0f0f0f">
-            <font>
-                <Font size="20.0" />
-            </font>
+    <VBox alignment="TOP_CENTER" spacing="20.0">
+        <Label text="Agendar Reservación" textFill="#0f0f0f">
+            <font><Font size="20.0" /></font>
         </Label>
 
-        <GridPane alignment="TOP_CENTER" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="650.0" vgap="20.0">
-            <!-- Ciudad Hospedaje -->
+        <GridPane alignment="TOP_CENTER" hgap="20.0" vgap="20.0">
             <Label text="Ciudad Hospedaje:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <ComboBox fx:id="cbCiudadSeleccionado" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-            <!-- TextArea to display the reservation details with more spacing -->
             <Label text="Información de Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextArea fx:id="txtInfoReserva" editable="false" wrapText="true" prefHeight="100.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                <GridPane.margin>
-                    <Insets top="10.0" />
-                </GridPane.margin>
-            </TextArea>
+            <TextArea fx:id="txtInfoReserva" editable="false" wrapText="true" prefHeight="100.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
             <Label text="Días a Reservar:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
             <DatePicker fx:id="dpDiasReservar" prefHeight="30.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-            <!-- Número de Huéspedes -->
             <Label text="Número de Huéspedes:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <TextField fx:id="txtNumeroHuespedes" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-            <columnConstraints>
-                <ColumnConstraints />
-                <ColumnConstraints />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-            </rowConstraints>
         </GridPane>
 
-        <!-- Detalles del Alojamiento -->
         <VBox spacing="10.0">
             <Label text="Detalles del Alojamiento" textAlignment="CENTER">
-                <font>
-                    <Font size="16.0" />
-                </font>
+                <font><Font size="16.0" /></font>
             </Label>
-            <ImageView fx:id="imageAlojamiento" fitHeight="113.0" fitWidth="200.0" preserveRatio="true" />
-            <TextArea fx:id="txtDetallesAlojamiento" editable="false" prefHeight="337.0" prefWidth="560.0" wrapText="true" />
+            <ImageView fx:id="imgCarousel" fitWidth="400" fitHeight="300" />
+            <Text fx:id="txtDescription" wrappingWidth="300.0" />
+            <Button text="Previous" onAction="#showPreviousImage" />
+            <Button text="Next" onAction="#showNextImage" />
         </VBox>
     </VBox>
 
-    <!-- List of Alojamientos -->
-    <VBox alignment="CENTER_LEFT" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-    </VBox>
-    <VBox alignment="TOP_CENTER">
-        <ImageView fx:id="imgCarousel" fitHeight="100.0" fitWidth="100.0" preserveRatio="true" />
-        <Button text="Previous" onAction="#showPreviousImage" />
-        <Button text="Next" onAction="#showNextImage" />
-    </VBox>
-    <VBox spacing="5.0">
-        <Label fx:id="lblAccommodationName" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-        <Label fx:id="lblLocation" />
-        <Text fx:id="txtDescription" wrappingWidth="300.0" />
-    </VBox>
-
+    <VBox alignment="CENTER_LEFT" spacing="10.0" fx:id="vboxAlojamientos" />
 </HBox>
+
+
+
+        <!--<HBox alignment="CENTER" prefHeight="1000.0" prefWidth="1300.0" spacing="10.0"-->
+        <!--      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"-->
+        <!--      fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.BuscadorAlojamientosControlador">-->
+
+        <!--    <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="560.0" spacing="20.0">-->
+        <!--        <Label prefWidth="200.0" text="Agendar Reservación" textFill="#0f0f0f">-->
+        <!--            <font>-->
+        <!--                <Font size="20.0" />-->
+        <!--            </font>-->
+        <!--        </Label>-->
+
+        <!--        <GridPane alignment="TOP_CENTER" hgap="20.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="650.0" vgap="20.0">-->
+        <!--            &lt;!&ndash; Ciudad Hospedaje &ndash;&gt;-->
+        <!--            <Label text="Ciudad Hospedaje:" GridPane.columnIndex="0" GridPane.rowIndex="0" />-->
+        <!--            <ComboBox fx:id="cbCiudadSeleccionado" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />-->
+
+        <!--            &lt;!&ndash; TextArea to display the reservation details with more spacing &ndash;&gt;-->
+        <!--            <Label text="Información de Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
+        <!--            <TextArea fx:id="txtInfoReserva" editable="false" wrapText="true" prefHeight="100.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1">-->
+        <!--                <GridPane.margin>-->
+        <!--                    <Insets top="10.0" />-->
+        <!--                </GridPane.margin>-->
+        <!--            </TextArea>-->
+
+        <!--            <Label text="Días a Reservar:" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
+        <!--            <DatePicker fx:id="dpDiasReservar" prefHeight="30.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
+
+        <!--            &lt;!&ndash; Número de Huéspedes &ndash;&gt;-->
+        <!--            <Label text="Número de Huéspedes:" GridPane.columnIndex="0" GridPane.rowIndex="3" />-->
+        <!--            <TextField fx:id="txtNumeroHuespedes" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
+
+        <!--            <columnConstraints>-->
+        <!--                <ColumnConstraints />-->
+        <!--                <ColumnConstraints />-->
+        <!--            </columnConstraints>-->
+        <!--            <rowConstraints>-->
+        <!--                <RowConstraints />-->
+        <!--                <RowConstraints />-->
+        <!--                <RowConstraints />-->
+        <!--                <RowConstraints />-->
+        <!--            </rowConstraints>-->
+        <!--        </GridPane>-->
+        <!--        &lt;!&ndash; Detalles del Alojamiento &ndash;&gt;-->
+        <!--        <VBox spacing="10.0">-->
+        <!--            <Label text="Detalles del Alojamiento" textAlignment="CENTER">-->
+        <!--                <font>-->
+        <!--                    <Font size="16.0" />-->
+        <!--                </font>-->
+        <!--            </Label>-->
+        <!--            <ImageView fx:id="imageAlojamiento" fitHeight="113.0" fitWidth="200.0" preserveRatio="true" />-->
+        <!--            <TextArea fx:id="txtDetallesAlojamiento" editable="false" prefHeight="337.0" prefWidth="560.0" wrapText="true" />-->
+        <!--        </VBox>-->
+        <!--    </VBox>-->
+
+        <!--    &lt;!&ndash; List of Alojamientos &ndash;&gt;-->
+        <!--    <VBox alignment="CENTER_LEFT" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:id="vboxAlojamientos">-->
+        <!--        <ImageView fx:id="imgCarousel" fitWidth="400" fitHeight="300" />-->
+        <!--        <Button text="Previous" onAction="#showPreviousImage" />-->
+        <!--        <Button text="Next" onAction="#showNextImage" />-->
+        <!--        &lt;!&ndash; Additional details like labels for accommodation info &ndash;&gt;-->
+        <!--        <VBox spacing="5.0">-->
+        <!--            <Label fx:id="lblAccommodationName" style="-fx-font-size: 16px; -fx-font-weight: bold;" />-->
+        <!--            <Label fx:id="lblLocation" />-->
+        <!--            <Text fx:id="txtDescription" wrappingWidth="300.0" />-->
+        <!--        </VBox>-->
+        <!--    </VBox>-->
+        <!--</HBox>-->
+
+
+
 
         <!--            &lt;!&ndash; Días a Reservar &ndash;&gt;-->
         <!--            <Label text="Días a Reservar:" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
@@ -84,4 +124,3 @@
         <!--            &lt;!&ndash; Información de la reserva (inicio, fin y número de días) &ndash;&gt;-->
         <!--            <Label text="Información de Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
         <!--            <TextArea fx:id="txtInfoReserva" editable="false" prefHeight="100.0" prefWidth="250.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
-

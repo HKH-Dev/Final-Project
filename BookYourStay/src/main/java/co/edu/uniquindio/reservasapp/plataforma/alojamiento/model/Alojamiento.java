@@ -5,17 +5,22 @@ import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
 
 public abstract class Alojamiento {
-    protected  String nombre;
+    protected String nombre;
     protected Ciudad ciudad;
-    protected  String descripcion;
-    protected  String imagen;
-    protected  double precioNoche;
-    protected  int capacidadMaxima;
+    protected String descripcion;
+// Method to return the list of image URLs
+    //    protected String imagen;
+    @Getter
+    protected List<String> imagenes;  // List to hold paths to multiple images
+    protected double precioNoche;
+    protected int capacidadMaxima;
     protected LocalDate fechaInicio;
     protected LocalDate fechaFin;
     private LocalDateTime horaInicio;
@@ -24,20 +29,20 @@ public abstract class Alojamiento {
     protected ServicioAlojamiento servicios;
     private String testimage;
 
-    public Alojamiento(String nombre, Ciudad ciudad, String descripcion, String imagen, double precioNoche, int capacidadMaxima){
+    public Alojamiento(String nombre, Ciudad ciudad, String descripcion, List<String> imagenes, double precioNoche, int capacidadMaxima) {
         this.nombre = nombre;
         this.ciudad = ciudad;
         this.descripcion = descripcion;
-        this.imagen = imagen;
+        this.imagenes = imagenes;
         this.precioNoche = precioNoche;
         this.capacidadMaxima = capacidadMaxima;
     }
 
-    public Alojamiento(String nombre, Ciudad ciudad, String descripcion, String imagen, double precioNoche, int capacidadMaxima, LocalDate fechaInicio, LocalDate fechaFin, LocalDateTime horaInicio, LocalDateTime horaFin, double tarifa, ServicioAlojamiento servicios) {
+    public Alojamiento(String nombre, Ciudad ciudad, String descripcion, List<String> imagenes, double precioNoche, int capacidadMaxima, LocalDate fechaInicio, LocalDate fechaFin, LocalDateTime horaInicio, LocalDateTime horaFin, double tarifa, ServicioAlojamiento servicios) {
         this.nombre = nombre;
         this.ciudad = ciudad;
         this.descripcion = descripcion;
-        this.imagen = imagen;
+        this.imagenes = imagenes;
         this.precioNoche = precioNoche;
         this.capacidadMaxima = capacidadMaxima;
         this.fechaInicio = fechaInicio;
@@ -48,7 +53,6 @@ public abstract class Alojamiento {
         this.servicios = servicios;
     }
 
-
     public void agregarServicios(ServicioAlojamiento servicios) {
         this.servicios = servicios;
     }
@@ -56,6 +60,15 @@ public abstract class Alojamiento {
     public String getImagenURL() {
         return "src/main/resources/images" + this.testimage; // Assuming imagenFileName holds the name of the image file
     }
+
+    public List<String> getGalleryImages() {
+        List<String> imagePaths = new ArrayList<>();
+        for (int i = 1; i <= 5; i++) {
+            imagePaths.add("/images/SAI/Hotel/testPicture" + i + ".jpg");
+        }
+        return imagePaths;
+    }
+
 }
 
 

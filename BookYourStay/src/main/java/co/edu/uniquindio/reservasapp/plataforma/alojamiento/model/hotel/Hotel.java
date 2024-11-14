@@ -6,13 +6,15 @@ import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
 
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 public class Hotel extends Alojamiento {
     private String habitacionNumero;
     private double precioHabitacion;
 
-    public Hotel(String nombre, Ciudad ciudad, String descripcion, String imagen, double precioNoche, int capacidadMaxima, String habitacionNumero, double precioHabitacion) {
-        super(nombre, ciudad, descripcion, imagen, precioNoche, capacidadMaxima);
+    public Hotel(String nombre, Ciudad ciudad, String descripcion, List<String> imagenes, double precioNoche, int capacidadMaxima, String habitacionNumero, double precioHabitacion) {
+        super(nombre, ciudad, descripcion, imagenes, precioNoche, capacidadMaxima);
         this.habitacionNumero = habitacionNumero;
         this.precioHabitacion = precioHabitacion;
     }
@@ -25,7 +27,7 @@ public class Hotel extends Alojamiento {
         sb.append("\n\t ciudad = ").append(ciudad);
         sb.append("\n\t descripcion = '").append(descripcion).append('\'');
         sb.append("\n\t habitacionNumero = ").append(habitacionNumero);
-        sb.append("\n\t imagen = '").append(imagen).append('\'');
+        sb.append("\n\t imagen = '").append(imagenes).append('\'');
         sb.append("\n\t precioNoche = ").append(precioNoche);
         sb.append("\n\t capacidadMaxima = ").append(capacidadMaxima);
         sb.append("\n\t precioHabitacion = ").append(precioHabitacion);
