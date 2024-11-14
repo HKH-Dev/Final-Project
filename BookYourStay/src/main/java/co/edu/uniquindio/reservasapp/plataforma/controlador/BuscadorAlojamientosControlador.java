@@ -1,5 +1,6 @@
 package co.edu.uniquindio.reservasapp.plataforma.controlador;
 
+import co.edu.uniquindio.reservasapp.AppMain;
 import co.edu.uniquindio.reservasapp.plataforma.AppReservasPrincipal;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
@@ -52,6 +53,8 @@ public class BuscadorAlojamientosControlador implements Initializable {
     private List<String> images;
     private int currentImageIndex = 0;
 
+    private final AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupDateRangeSelection();
@@ -64,7 +67,6 @@ public class BuscadorAlojamientosControlador implements Initializable {
 
     private void setupDateRangeSelection() {
         dpDiasReservar.setDayCellFactory(createDayCellFactory());
-
         dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue == null) return;
             if (startDate == null || (startDate != null && endDate != null)) {
@@ -74,7 +76,6 @@ public class BuscadorAlojamientosControlador implements Initializable {
                 endDate = newValue;
                 dpDiasReservar.setValue(null);
             }
-
             txtInfoReserva.setText(generateDateRangeText());
             dpDiasReservar.hide();
             dpDiasReservar.show();
@@ -86,7 +87,6 @@ public class BuscadorAlojamientosControlador implements Initializable {
             public String toString(LocalDate date) {
                 return generateDateRangeText();
             }
-
             @Override
             public LocalDate fromString(String string) {
                 return null;
@@ -146,8 +146,41 @@ public class BuscadorAlojamientosControlador implements Initializable {
                 .collect(Collectors.toList());
     }
 
+    @FXML
+private void cargarAlojamientos() {
+    List<Alojamiento> alojamientos = appReservasPrincipal.getListaAlojamientos();
+    for (Alojamiento alojamiento : alojamientos) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/buscadorAlojamientos.fxml"));
+            Node node = loader.load();
 
+            AccommodationItemController controller = loader.getController();
+            controller.setAlojamiento(alojamiento);
+
+            vboxAlojamientos.getChildren().add(node);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+    /*
     private void cargarAlojamientos() {
+        List<Alojamiento> alojamientos = AppMain.alojamientos;  // Retrieve loaded alojamientos
+        for (Alojamiento alojamiento : alojamientos) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/accommodation_item.fxml"));
+                Node node = loader.load();
+                AccommodationItemController controller = loader.getController();
+                controller.setAlojamiento(alojamiento);  // Set alojamiento data for each item
+                vboxAlojamientos.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
+
+/*    private void cargarAlojamientos() {
         List<Alojamiento> alojamientos = List.of(); // Load your actual accommodations
         for (Alojamiento alojamiento : alojamientos) {
             try {
@@ -160,7 +193,7 @@ public class BuscadorAlojamientosControlador implements Initializable {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
     public void setAccommodationData(Alojamiento alojamiento) {
         lblAccommodationName.setText(alojamiento.getNombre());
@@ -169,13 +202,21 @@ public class BuscadorAlojamientosControlador implements Initializable {
         images = alojamiento.getGalleryImages();
         showImage();
     }
-
+/*
     private void showImage() {
         if (images != null && !images.isEmpty()) {
             Image image = new Image(getClass().getResource(images.get(currentImageIndex)).toExternalForm());
             imgCarousel.setImage(image);
         }
+    }*/
+private void showImage() {
+    if (images != null && !images.isEmpty()) {
+        String imagePath = images.get(currentImageIndex);
+        Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+        imgCarousel.setImage(image);
     }
+}
+
 
     @FXML
     private void showPreviousImage() {
