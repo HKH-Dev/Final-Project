@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.GestionDescuentosPController">
+
+    <VBox layoutX="20" layoutY="20" prefWidth="560" spacing="20">
+
+        <!-- Labels para nombre del alojamiento y ciudad -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Alojamiento:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="labelNombreAlojamiento" text="Nombre del Alojamiento" />
+        </HBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Ciudad:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="labelCiudad" text="Ciudad del Alojamiento" />
+        </HBox>
+
+        <!-- Título principal -->
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Gestión de Descuentos" />
+
+        <!-- Descuento por estancia prolongada -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Dto. por estancia prolongada:" />
+            <CheckBox fx:id="checkBoxEstanciaProlongada" />
+            <Label text="Mínimo días:" />
+            <Spinner fx:id="spinnerMinimoDias" editable="true" prefWidth="80" />
+        </HBox>
+
+        <!-- Descuento por personas por reserva -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Dto. por cantidad de personas:" />
+            <CheckBox fx:id="checkBoxPersonasReserva" />
+            <Label text="Mínimo personas:" />
+            <Spinner fx:id="spinnerMinimoPersonas" editable="true" prefWidth="80" />
+        </HBox>
+
+        <!-- Descuento por fecha -->
+        <VBox alignment="CENTER_LEFT" spacing="10">
+            <HBox spacing="10">
+                <Label text="Dto. por fecha:" />
+                <CheckBox fx:id="checkBoxFechaDescuento" />
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="Desde:" />
+                <DatePicker fx:id="datePickerFechaInicio" />
+                <Label text="Hasta:" />
+                <DatePicker fx:id="datePickerFechaFin" />
+            </HBox>
+        </VBox>
+
+        <!-- Botón para cargar oferta -->
+        <Button text="Cargar oferta" fx:id="btnCargarOferta" prefWidth="150" alignment="CENTER"/>
+
+    </VBox>
+</AnchorPane>
