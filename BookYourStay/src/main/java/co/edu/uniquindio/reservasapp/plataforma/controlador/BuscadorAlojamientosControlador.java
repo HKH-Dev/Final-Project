@@ -140,33 +140,45 @@ public class BuscadorAlojamientosControlador implements Initializable {
 //        }
 //        return 0;
 //    }
-    private void setupDateRangeSelection() {
-        dpFechaInicio.setDayCellFactory(createDayCellFactory());
-        dpFechaFin.setDayCellFactory(createDayCellFactory());
+private void setupDateRangeSelection() {
+    dpFechaInicio.setDayCellFactory(createDayCellFactory());
+    dpFechaFin.setDayCellFactory(createDayCellFactory());
 
-        dpFechaInicio.valueProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue != null) {
-                startDate = newValue;
-                endDate = null;
-                dpFechaFin.setValue(null);
-                txtInfoReserva.setText(generateDateRangeText());
-                dpFechaInicio.setDayCellFactory(createDayCellFactory());
-                dpFechaFin.setDayCellFactory(createDayCellFactory());
-            }
-        });
-        dpFechaFin.valueProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue != null) {
-                endDate = newValue;
-                txtInfoReserva.setText(generateDateRangeText());
-                dpFechaInicio.setDayCellFactory(createDayCellFactory());
-                dpFechaFin.setDayCellFactory(createDayCellFactory());
-            }
-        });
+    dpFechaInicio.valueProperty().addListener((obs, oldValue, newValue) -> {
+        if (newValue != null) {
+            startDate = newValue;
+            endDate = null;
+            dpFechaFin.setValue(null);
+            txtInfoReserva.setText(generateDateRangeText());
+
+            // Refresh DatePickers to show updated highlighted range
+            refreshDatePickers();
+        }
+    });
+
+    dpFechaFin.valueProperty().addListener((obs, oldValue, newValue) -> {
+        if (newValue != null) {
+            endDate = newValue;
+            txtInfoReserva.setText(generateDateRangeText());
+
+            // Refresh DatePickers to show updated highlighted range
+            refreshDatePickers();
+        }
+    });
+}
+    private void refreshDatePickers() {
+        dpFechaInicio.hide();
+        dpFechaInicio.show();
+        dpFechaFin.hide();
+        dpFechaFin.show();
     }
+
     private String generateDateRangeText() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         StringBuilder sb = new StringBuilder();
-        if (startDate != null) {sb.append("Inicio de Reservación: ").append(startDate.format(formatter)).append("\n");}
+        if (startDate != null) {
+            sb.append("Inicio de Reservación: ").append(startDate.format(formatter)).append("\n");
+        }
         if (endDate != null) {
             sb.append("Fin de Reservación: ").append(endDate.format(formatter)).append("\n");
             long days = calculateReservationDays();
@@ -188,37 +200,37 @@ public class BuscadorAlojamientosControlador implements Initializable {
 //            }
 //        });
 //    }
-private Callback<DatePicker, DateCell> createDayCellFactory() {
-    return datePicker -> new DateCell() {
-        @Override
-        public void updateItem(LocalDate item, boolean empty) {
-            super.updateItem(item, empty);
-            if (item.isBefore(LocalDate.now())) {
-                setDisable(true);
-                setStyle("-fx-background-color: #d3d3d3;");
-            } else if (startDate != null && endDate != null) {
-                if (item.equals(startDate)) {
-                    setStyle("-fx-background-color: #add8e6;");
-                } else if (item.equals(endDate)) {
-                    setStyle("-fx-background-color: #ffa07a;");
-                } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
-                    setStyle("-fx-background-color: #90ee90;");
-                } else {
-                    setStyle("");
-                }
-            } else if (startDate != null) {
-                if (item.equals(startDate)) {
-                    setStyle("-fx-background-color: #add8e6;");
-                } else if (item.isAfter(startDate)) {
-                    setStyle("");
-                } else {
+    private Callback<DatePicker, DateCell> createDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item.isBefore(LocalDate.now())) {
                     setDisable(true);
+                    setStyle("-fx-background-color: #d3d3d3;");
+                } else if (startDate != null && endDate != null) {
+                    if (item.equals(startDate)) {
+                        setStyle("-fx-background-color: #add8e6;");
+                    } else if (item.equals(endDate)) {
+                        setStyle("-fx-background-color: #ffa07a;");
+                    } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
+                        setStyle("-fx-background-color: #90ee90;");
+                    } else {
+                        setStyle("");
+                    }
+                } else if (startDate != null) {
+                    if (item.equals(startDate)) {
+                        setStyle("-fx-background-color: #add8e6;");
+                    } else if (item.isAfter(startDate)) {
+                        setStyle("");
+                    } else {
+                        setDisable(true);
+                    }
                 }
             }
-        }
-    };
-}
-
+        };
+    }
+    
     private long calculateReservationDays() {
         return startDate != null && endDate != null ? java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1 : 0;
     }
