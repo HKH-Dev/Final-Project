@@ -12,6 +12,7 @@ import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.hotel.Hotel;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.hotel.HotelBuilder;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.servicio.ServicioAlojamiento;
+import co.edu.uniquindio.reservasapp.plataforma.controlador.InicioControlador;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -31,7 +32,8 @@ public class AppMain extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 900, 500);
         stage.setTitle("Reserva App");
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
+//        stage.setMaximized(true);
         stage.show();
     }
 

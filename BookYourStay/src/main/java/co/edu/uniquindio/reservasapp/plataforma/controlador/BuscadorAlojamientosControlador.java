@@ -48,14 +48,15 @@ public class BuscadorAlojamientosControlador implements Initializable {
         // Load initial accommodations
         cargarAlojamientos();
     }
-    /*@FXML private void cargarAlojamientosFiltrados() {
+    @FXML
+    private void cargarAlojamientosFiltrados() {
         String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
+
         // Parse number of guests
         final int numeroHuespedes;
         try {
             numeroHuespedes = Integer.parseInt(txtNumeroHuespedes.getText());
         } catch (NumberFormatException e) {
-            // Show error message to user
             System.out.println("Número de huéspedes inválido.");
             return;
         }
@@ -66,32 +67,84 @@ public class BuscadorAlojamientosControlador implements Initializable {
 
         // Validate dates
         if (startDate == null || endDate == null || endDate.isBefore(startDate)) {
-            // Show error message to user
             System.out.println("Fechas de reserva inválidas.");
             return;
         }
 
-        System.out.println("Filtering accommodations...");
-        System.out.println("Selected city: " + ciudadSeleccionada);
-        System.out.println("Number of guests: " + numeroHuespedes);
-        System.out.println("Start date: " + startDate);
-        System.out.println("End date: " + endDate);
+        // Log filtering conditions
+        System.out.println("Ciudad seleccionada: " + ciudadSeleccionada);
+        System.out.println("Número de huéspedes: " + numeroHuespedes);
+        System.out.println("Rango de fechas: " + startDate + " - " + endDate);
 
-        System.out.println("Total accommodations: " + listaAlojamientos.size());
-
+        // Filter accommodations
         List<Alojamiento> alojamientosFiltrados = listaAlojamientos.stream()
-                .filter(alojamiento ->
-                        (ciudadSeleccionada == null || alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada)) &&
-                                alojamiento.getCapacidadMaxima() >= numeroHuespedes &&
-                                alojamiento.isAvailableForDates(startDate, endDate)
-                )
+                .filter(alojamiento -> {
+                    boolean ciudadMatch = ciudadSeleccionada == null || alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada);
+                    boolean capacidadMatch = alojamiento.getCapacidadMaxima() >= numeroHuespedes;
+                    boolean disponibilidadMatch = alojamiento.isAvailableForDates(startDate, endDate);
+
+                    // Log conditions for debugging
+                    System.out.println("Alojamiento: " + alojamiento.getNombre());
+                    System.out.println("  Ciudad match: " + ciudadMatch);
+                    System.out.println("  Capacidad match: " + capacidadMatch);
+                    System.out.println("  Disponibilidad match: " + disponibilidadMatch);
+
+                    return ciudadMatch && capacidadMatch && disponibilidadMatch;
+                })
                 .collect(Collectors.toList());
 
-        System.out.println("Filtered accommodations: " + alojamientosFiltrados.size());
+        actualizarListaAlojamientos(alojamientosFiltrados);
+    }
 
-    }*/
+
+    /*
     @FXML
     private void cargarAlojamientosFiltrados() {
+        String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
+
+        // Parse number of guests
+        final int numeroHuespedes;
+        try {
+            numeroHuespedes = Integer.parseInt(txtNumeroHuespedes.getText());
+        } catch (NumberFormatException e) {
+            System.out.println("Número de huéspedes inválido.");
+            return;
+        }
+        // Get start and end dates
+        LocalDate startDate = dpFechaInicio.getValue();
+        LocalDate endDate = dpFechaFin.getValue();
+
+        // Validate dates
+        if (startDate == null || endDate == null || endDate.isBefore(startDate)) {
+            System.out.println("Fechas de reserva inválidas.");
+            return;
+        }
+        // Debugging: Log filtering conditions
+        System.out.println("Ciudad seleccionada: " + ciudadSeleccionada);
+        System.out.println("Número de huéspedes: " + numeroHuespedes);
+        System.out.println("Rango de fechas: " + startDate + " - " + endDate);
+
+        List<Alojamiento> alojamientosFiltrados = listaAlojamientos.stream()
+                .filter(alojamiento -> {
+                    boolean ciudadMatch = ciudadSeleccionada == null || alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada);
+                    boolean capacidadMatch = alojamiento.getCapacidadMaxima() >= numeroHuespedes;
+                    boolean disponibilidadMatch = alojamiento.isAvailableForDates(startDate, endDate);
+
+                    // Debugging: Log conditions for each accommodation
+                    System.out.println("Alojamiento: " + alojamiento.getNombre());
+                    System.out.println("  Ciudad match: " + ciudadMatch);
+                    System.out.println("  Capacidad match: " + capacidadMatch);
+                    System.out.println("  Disponibilidad match: " + disponibilidadMatch);
+
+                    return ciudadMatch && capacidadMatch && disponibilidadMatch;
+                })
+                .collect(Collectors.toList());
+
+        actualizarListaAlojamientos(alojamientosFiltrados); // Update VBox with filtered results
+    }*/
+
+    /*
+    @FXML private void cargarAlojamientosFiltrados() {
         String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
         int numeroHuespedes;
         try {
@@ -113,7 +166,7 @@ public class BuscadorAlojamientosControlador implements Initializable {
                                 alojamiento.isAvailableForDates(startDate, endDate))
                 .collect(Collectors.toList());
         actualizarListaAlojamientos(alojamientosFiltrados); // Update VBox with filtered results
-    }
+    }*/
 
     private void actualizarListaAlojamientos(List<Alojamiento> alojamientos) {
         vboxAlojamientos.getChildren().clear();
@@ -143,24 +196,8 @@ public class BuscadorAlojamientosControlador implements Initializable {
                 .collect(Collectors.toList());
     }
 
-//    private String generateDateRangeText() {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        StringBuilder sb = new StringBuilder();
-//        if (dpFechaInicio != null) {sb.append("Inicio de Reservación: ").append(dpFechaInicio).append("\n");}
-//        if (dpFechaFin != null) {sb.append("Fin de Reservación: ").append(dpFechaFin).append("\n");}
-//        if (dpFechaInicio != null && dpFechaFin != null) {
-//            long days = calculateReservationDays();
-//            sb.append("Número de días: ").append(days);
-//        }
-//        return sb.toString();
-//    }
-//    private long calculateReservationDays() {
-//        if (dpFechaFin != null && dpFechaFin != null) {
-//            return ChronoUnit.DAYS.between(dpFechaFin.getValue(), dpFechaFin.getValue()) + 1;
-//        }
-//        return 0;
-//    }
-private void setupDateRangeSelection() {
+
+    private void setupDateRangeSelection() {
     dpFechaInicio.setDayCellFactory(createDayCellFactory());
     dpFechaFin.setDayCellFactory(createDayCellFactory());
 
@@ -181,6 +218,7 @@ private void setupDateRangeSelection() {
         }
     });
 }
+
     private void refreshDatePickers() {
         dpFechaInicio.hide();
         dpFechaInicio.show();
@@ -236,123 +274,7 @@ private void setupDateRangeSelection() {
     private long calculateReservationDays() {
         return startDate != null && endDate != null ? java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1 : 0;
     }
-/*
-    private Callback<DatePicker, DateCell> createDayCellFactory() {
-        return datePicker -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
 
-                if (item.isBefore(LocalDate.now())) {
-                    setDisable(true);
-                    setStyle("-fx-background-color: #d3d3d3;");
-                } else if (dpFechaInicio.getValue() != null && dpFechaFin.getValue() != null) {
-                    if (item.equals(dpFechaInicio.getValue())) {
-                        setStyle("-fx-background-color: #add8e6;"); // Light blue for start date
-                    } else if (item.equals(dpFechaFin.getValue())) {
-                        setStyle("-fx-background-color: #ffa07a;"); // Light salmon for end date
-                    } else if (!item.isBefore(dpFechaInicio.getValue()) && !item.isAfter(dpFechaFin.getValue())) {
-                        setStyle("-fx-background-color: #90ee90;"); // Light green for range
-                    } else {
-                        setStyle("");
-                    }
-                } else if (dpFechaInicio.getValue() != null && item.equals(dpFechaInicio.getValue())) {
-                    setStyle("-fx-background-color: #add8e6;"); // Light blue for first selection if end date not selected
-                }
-            }
-        };
-    }*/
-    //        dpDiasReservar.setConverter(new StringConverter<>() {
-//            @Override
-//            public String toString(LocalDate date) {
-//                return generateDateRangeText();
-//            }
-//
-//            @Override
-//            public LocalDate fromString(String string) {
-//                return null;
-//            }
-//        });
-//    }
-    /*
-    ///    -----------------------------------------------------
-private void setupDateRangeSelection() {
-    dpDiasReservar.setDayCellFactory(createDayCellFactory());
-    dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
-        if (newValue == null) return;
-        if (startDate == null || (startDate != null && endDate != null)) {
-            startDate = newValue;
-            endDate = null;
-        } else {
-            endDate = newValue;
-            dpDiasReservar.setValue(null);
-        }
-        txtInfoReserva.setText(generateDateRangeText());
-        dpDiasReservar.hide();
-        dpDiasReservar.show();
-        dpDiasReservar.setDayCellFactory(createDayCellFactory());
-    });
-
-    dpDiasReservar.setConverter(new StringConverter<>() {
-        @Override
-        public String toString(LocalDate date) {
-            return generateDateRangeText();
-        }
-
-        @Override
-        public LocalDate fromString(String string) {
-            return null;
-        }
-    });
-}
-
-  /*  private String generateDateRangeText() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        StringBuilder sb = new StringBuilder();
-        if (startDate != null) {
-            sb.append("Inicio de Reservación: ").append(startDate.format(formatter)).append("\n");
-        }
-        if (endDate != null) {
-            sb.append("Fin de Reservación: ").append(endDate.format(formatter)).append("\n");
-        }
-        if (startDate != null && endDate != null) {
-            long days = calculateReservationDays();
-            sb.append("Número de días: ").append(days);
-        }
-        return sb.toString();
-    }
-
-    private Callback<DatePicker, DateCell> createDayCellFactory() {
-        return datePicker -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item.isBefore(LocalDate.now())) {
-                    setDisable(true);
-                    setStyle("-fx-background-color: #d3d3d3;");
-                } else if (startDate != null && endDate != null) {
-                    if (item.equals(startDate)) {
-                        setStyle("-fx-background-color: #add8e6;");
-                    } else if (item.equals(endDate)) {
-                        setStyle("-fx-background-color: #ffa07a;");
-                    } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
-                        setStyle("-fx-background-color: #90ee90;");
-                    } else {
-                        setStyle("");
-                    }
-                }
-            }
-        };
-    }
-
-
-    private long calculateReservationDays() {
-        if (startDate != null && endDate != null) {
-            return java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
-        }
-        return 0;
-    }
-    */
 }
 // Filter accommodations
 //        List<Alojamiento> alojamientosFiltrados = listaAlojamientos.stream()

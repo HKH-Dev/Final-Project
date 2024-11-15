@@ -2,17 +2,17 @@ package co.edu.uniquindio.reservasapp.plataforma.controlador;
 
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.util.List;
 
 public class AccommodationItemController {
@@ -21,19 +21,46 @@ public class AccommodationItemController {
     @FXML private Text txtDescripcion;
     @FXML private ImageView imgCarousel;
 
+    private final ControladorPrincipal controladorPrincipal = ControladorPrincipal.getInstancia();
     private List<String> imagenes;
     private int currentImageIndex = 0;
-
+/*
     public void setAlojamiento(Alojamiento alojamiento) {
         lblNombreAlojamiento.setText(alojamiento.getNombre());
         lblUbicacion.setText(alojamiento.getCiudad().name());
         txtDescripcion.setText(alojamiento.getDescripcion());
+
         this.imagenes = alojamiento.getImagenes();
         currentImageIndex = 0;
         if (imagenes != null && !imagenes.isEmpty()) {
             loadImage(imagenes.get(currentImageIndex));
         }
+    }*/
+
+    private Alojamiento currentAlojamiento;
+
+    public void setAlojamiento(Alojamiento alojamiento) {
+        this.currentAlojamiento = alojamiento;
+
+        lblNombreAlojamiento.setText(alojamiento.getNombre());
+        lblUbicacion.setText(alojamiento.getCiudad().name());
+        txtDescripcion.setText(alojamiento.getDescripcion());
+
+        this.imagenes = alojamiento.getImagenes();
+        currentImageIndex = 0;
+        if (imagenes != null && !imagenes.isEmpty()) {
+            loadImage(imagenes.get(currentImageIndex));
+        }
+
+//        if (imagenes != null && !imagenes.isEmpty()) {
+//            loadImage(imagenes.get(0));
+//        }
+
+        // Add click event for detailed view
+        lblNombreAlojamiento.setOnMouseClicked(event -> handleItemClick());
+        imgCarousel.setOnMouseClicked(event -> handleItemClick());
     }
+
 
     private void loadImage(String imagePath) {
         try {
@@ -51,6 +78,43 @@ public class AccommodationItemController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void handleItemClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservacion.fxml"));
+            Parent root = loader.load();
+
+            // Pass the selected accommodation to the next controller
+            RegistrarReservaControlador controller = loader.getController();
+            controller.setAlojamiento(currentAlojamiento);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Reservar Alojamiento");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /*@FXML private void handleItemClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservacion.fxml"));
+            Parent root = loader.load();
+            controladorPrincipal.navegarVentana("/reservacion.fxml", "Reservar Alojamiento");
+            // Pass the selected accommodation
+            RegistrarReservaControlador controller = loader.getController();
+            controller.setAlojamiento(currentAlojamiento);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Detalles del Alojamiento");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
 
 
     @FXML
