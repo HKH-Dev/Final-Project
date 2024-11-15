@@ -217,7 +217,7 @@ public class AppMain extends Application {
                 "images/MED/Apartamento/AptoLomaBernal/AptoLomaBernal3.png",
                 "images/MED/Apartamento/AptoLomaBernal/AptoLomaBernal4.png"
         );
-        Apartamento apartamentoMedellin = new ApartamentoBuilder()
+        Apartamento AptoLomaBernal = new ApartamentoBuilder()
                 .nombre("Apartamento Medellin")
                 .ciudad(Ciudad.MEDELLIN)
                 .descripcion("Apartamento en el Poblado")
@@ -233,8 +233,8 @@ public class AppMain extends Application {
                 .tv(true)
                 .aireAcondicionado(true)
                 .build();
-        apartamentoMedellin.agregarServicios(serviciosAptoMedellin);
-        appReservasPrincipal.agregarAlojamiento(apartamentoMedellin);
+        AptoLomaBernal.agregarServicios(serviciosAptoMedellin);
+        appReservasPrincipal.agregarAlojamiento(AptoLomaBernal);
 
         List<String> AptoValleAburra = List.of(
                 "images/MED/Apartamento/AptoValleAburra/AptoValleAburra1.png",
@@ -392,8 +392,6 @@ public class AppMain extends Application {
                 .build();
         apartamentoRosales.agregarServicios(serviciosAptoRosales);
         appReservasPrincipal.agregarAlojamiento(apartamentoRosales);
-
-
 
         }
 
