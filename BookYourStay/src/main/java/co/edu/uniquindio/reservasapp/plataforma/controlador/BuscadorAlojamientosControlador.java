@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
@@ -20,17 +17,334 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+public class BuscadorAlojamientosControlador implements Initializable {
+    @FXML private VBox vboxAlojamientos;
+    @FXML private DatePicker dpFechaInicio;
+    @FXML private DatePicker dpFechaFin;
+    @FXML private ComboBox<String> cbCiudadSeleccionado;
+    @FXML private TextField txtNumeroHuespedes;
+    @FXML private TextArea txtInfoReserva;
 
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+    private List<Alojamiento> listaAlojamientos;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setupDateRangeSelection();
+        dpFechaInicio.setOnShowing(event -> dpFechaInicio.getEditor().clear());
+        dpFechaFin.setOnAction(event -> dpFechaFin.getEditor().clear());
+
+        txtInfoReserva.setText("Seleccione las fechas de reservación.");
+        // Load cities into the ComboBox
+        cbCiudadSeleccionado.setItems(FXCollections.observableArrayList(cargarCiudades()));
+        // Load initial accommodations
+        cargarAlojamientos();
+    }
+
+    @FXML
+    private void cargarAlojamientosFiltrados() {
+
+        String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
+
+        // Parse number of guests
+        final int numeroHuespedes;
+        try {
+            numeroHuespedes = Integer.parseInt(txtNumeroHuespedes.getText());
+        } catch (NumberFormatException e) {
+            // Show error message to user
+            System.out.println("Número de huéspedes inválido.");
+            return;
+        }
+
+        // Get start and end dates
+        LocalDate startDate = dpFechaInicio.getValue();
+        LocalDate endDate = dpFechaFin.getValue();
+
+        // Validate dates
+        if (startDate == null || endDate == null || endDate.isBefore(startDate)) {
+            // Show error message to user
+            System.out.println("Fechas de reserva inválidas.");
+            return;
+        }
+
+        System.out.println("Filtering accommodations...");
+        System.out.println("Selected city: " + ciudadSeleccionada);
+        System.out.println("Number of guests: " + numeroHuespedes);
+        System.out.println("Start date: " + startDate);
+        System.out.println("End date: " + endDate);
+
+        System.out.println("Total accommodations: " + listaAlojamientos.size());
+
+        List<Alojamiento> alojamientosFiltrados = listaAlojamientos.stream()
+                .filter(alojamiento ->
+                        (ciudadSeleccionada == null || alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada)) &&
+                                alojamiento.getCapacidadMaxima() >= numeroHuespedes &&
+                                alojamiento.isAvailableForDates(startDate, endDate)
+                )
+                .collect(Collectors.toList());
+
+        System.out.println("Filtered accommodations: " + alojamientosFiltrados.size());
+
+    }
+
+    private void actualizarListaAlojamientos(List<Alojamiento> alojamientos) {
+        vboxAlojamientos.getChildren().clear();
+        for (Alojamiento alojamiento : alojamientos) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/accommodationItem.fxml"));
+                Node node = loader.load();
+                AccommodationItemController controller = loader.getController();
+                controller.setAlojamiento(alojamiento);
+                vboxAlojamientos.getChildren().add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Updating accommodations list with " + alojamientos.size() + " items.");
+
+    }
+
+    private void cargarAlojamientos() {
+        listaAlojamientos = AppReservasPrincipal.getInstance().getListaAlojamientos();
+        actualizarListaAlojamientos(listaAlojamientos);
+    }
+
+    private List<String> cargarCiudades() {
+        return Arrays.stream(Ciudad.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+    }
+
+//    private String generateDateRangeText() {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        StringBuilder sb = new StringBuilder();
+//        if (dpFechaInicio != null) {sb.append("Inicio de Reservación: ").append(dpFechaInicio).append("\n");}
+//        if (dpFechaFin != null) {sb.append("Fin de Reservación: ").append(dpFechaFin).append("\n");}
+//        if (dpFechaInicio != null && dpFechaFin != null) {
+//            long days = calculateReservationDays();
+//            sb.append("Número de días: ").append(days);
+//        }
+//        return sb.toString();
+//    }
+//    private long calculateReservationDays() {
+//        if (dpFechaFin != null && dpFechaFin != null) {
+//            return ChronoUnit.DAYS.between(dpFechaFin.getValue(), dpFechaFin.getValue()) + 1;
+//        }
+//        return 0;
+//    }
+    private void setupDateRangeSelection() {
+        dpFechaInicio.setDayCellFactory(createDayCellFactory());
+        dpFechaFin.setDayCellFactory(createDayCellFactory());
+
+        dpFechaInicio.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                startDate = newValue;
+                endDate = null;
+                dpFechaFin.setValue(null);
+                txtInfoReserva.setText(generateDateRangeText());
+                dpFechaInicio.setDayCellFactory(createDayCellFactory());
+                dpFechaFin.setDayCellFactory(createDayCellFactory());
+            }
+        });
+        dpFechaFin.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                endDate = newValue;
+                txtInfoReserva.setText(generateDateRangeText());
+                dpFechaInicio.setDayCellFactory(createDayCellFactory());
+                dpFechaFin.setDayCellFactory(createDayCellFactory());
+            }
+        });
+    }
+    private String generateDateRangeText() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        StringBuilder sb = new StringBuilder();
+        if (startDate != null) {sb.append("Inicio de Reservación: ").append(startDate.format(formatter)).append("\n");}
+        if (endDate != null) {
+            sb.append("Fin de Reservación: ").append(endDate.format(formatter)).append("\n");
+            long days = calculateReservationDays();
+            sb.append("Número de días: ").append(days);
+        }
+        return sb.toString();
+    }
+
+
+    //        dpDiasReservar.setConverter(new StringConverter<>() {
+//            @Override
+//            public String toString(LocalDate date) {
+//                return generateDateRangeText();
+//            }
+//
+//            @Override
+//            public LocalDate fromString(String string) {
+//                return null;
+//            }
+//        });
+//    }
+private Callback<DatePicker, DateCell> createDayCellFactory() {
+    return datePicker -> new DateCell() {
+        @Override
+        public void updateItem(LocalDate item, boolean empty) {
+            super.updateItem(item, empty);
+            if (item.isBefore(LocalDate.now())) {
+                setDisable(true);
+                setStyle("-fx-background-color: #d3d3d3;");
+            } else if (startDate != null && endDate != null) {
+                if (item.equals(startDate)) {
+                    setStyle("-fx-background-color: #add8e6;");
+                } else if (item.equals(endDate)) {
+                    setStyle("-fx-background-color: #ffa07a;");
+                } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
+                    setStyle("-fx-background-color: #90ee90;");
+                } else {
+                    setStyle("");
+                }
+            } else if (startDate != null) {
+                if (item.equals(startDate)) {
+                    setStyle("-fx-background-color: #add8e6;");
+                } else if (item.isAfter(startDate)) {
+                    setStyle("");
+                } else {
+                    setDisable(true);
+                }
+            }
+        }
+    };
+}
+
+    private long calculateReservationDays() {
+        return startDate != null && endDate != null ? java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1 : 0;
+    }
+/*
+    private Callback<DatePicker, DateCell> createDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #d3d3d3;");
+                } else if (dpFechaInicio.getValue() != null && dpFechaFin.getValue() != null) {
+                    if (item.equals(dpFechaInicio.getValue())) {
+                        setStyle("-fx-background-color: #add8e6;"); // Light blue for start date
+                    } else if (item.equals(dpFechaFin.getValue())) {
+                        setStyle("-fx-background-color: #ffa07a;"); // Light salmon for end date
+                    } else if (!item.isBefore(dpFechaInicio.getValue()) && !item.isAfter(dpFechaFin.getValue())) {
+                        setStyle("-fx-background-color: #90ee90;"); // Light green for range
+                    } else {
+                        setStyle("");
+                    }
+                } else if (dpFechaInicio.getValue() != null && item.equals(dpFechaInicio.getValue())) {
+                    setStyle("-fx-background-color: #add8e6;"); // Light blue for first selection if end date not selected
+                }
+            }
+        };
+    }*/
+
+    /*
+    ///    -----------------------------------------------------
+private void setupDateRangeSelection() {
+    dpDiasReservar.setDayCellFactory(createDayCellFactory());
+    dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+        if (newValue == null) return;
+        if (startDate == null || (startDate != null && endDate != null)) {
+            startDate = newValue;
+            endDate = null;
+        } else {
+            endDate = newValue;
+            dpDiasReservar.setValue(null);
+        }
+        txtInfoReserva.setText(generateDateRangeText());
+        dpDiasReservar.hide();
+        dpDiasReservar.show();
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
+    });
+
+    dpDiasReservar.setConverter(new StringConverter<>() {
+        @Override
+        public String toString(LocalDate date) {
+            return generateDateRangeText();
+        }
+
+        @Override
+        public LocalDate fromString(String string) {
+            return null;
+        }
+    });
+}
+
+  /*  private String generateDateRangeText() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        StringBuilder sb = new StringBuilder();
+        if (startDate != null) {
+            sb.append("Inicio de Reservación: ").append(startDate.format(formatter)).append("\n");
+        }
+        if (endDate != null) {
+            sb.append("Fin de Reservación: ").append(endDate.format(formatter)).append("\n");
+        }
+        if (startDate != null && endDate != null) {
+            long days = calculateReservationDays();
+            sb.append("Número de días: ").append(days);
+        }
+        return sb.toString();
+    }
+
+    private Callback<DatePicker, DateCell> createDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #d3d3d3;");
+                } else if (startDate != null && endDate != null) {
+                    if (item.equals(startDate)) {
+                        setStyle("-fx-background-color: #add8e6;");
+                    } else if (item.equals(endDate)) {
+                        setStyle("-fx-background-color: #ffa07a;");
+                    } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
+                        setStyle("-fx-background-color: #90ee90;");
+                    } else {
+                        setStyle("");
+                    }
+                }
+            }
+        };
+    }
+
+
+    private long calculateReservationDays() {
+        if (startDate != null && endDate != null) {
+            return java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        }
+        return 0;
+    }
+    */
+}
+// Filter accommodations
+//        List<Alojamiento> alojamientosFiltrados = listaAlojamientos.stream()
+//                .filter(alojamiento ->
+//                        (ciudadSeleccionada == null || alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada)) &&
+//                                alojamiento.getCapacidadMaxima() >= numeroHuespedes &&
+//                                alojamiento.isAvailableForDates(startDate, endDate)
+//                )
+//                .collect(Collectors.toList());
+// Update the UI
+//        actualizarListaAlojamientos(alojamientosFiltrados);
+
+
+/*
 public class BuscadorAlojamientosControlador implements Initializable {
     @FXML
     public VBox vboxAlojamientosContent;
-    @FXML
-    private ImageView imgAlojamiento;
     @FXML
     private DatePicker dpDiasReservar;
     @FXML
@@ -41,72 +355,102 @@ public class BuscadorAlojamientosControlador implements Initializable {
     private TextField txtNumeroHuespedes;
     @FXML
     private VBox vboxAlojamientos;
-    @FXML
-    private ImageView imgCarousel;
-    @FXML
-    private Label lblAccommodationName;
-    @FXML
-    private Label lblLocation;
-    @FXML
-    private Text txtDescription;
-
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private List<String> images;
-    private int currentImageIndex = 0;
 
     private final AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupDateRangeSelection();
         cbCiudadSeleccionado.setItems(FXCollections.observableArrayList(cargarCiudades()));
-        dpDiasReservar.setOnShowing(event -> dpDiasReservar.getEditor().clear());
-        dpDiasReservar.setOnAction(event -> dpDiasReservar.getEditor().clear());
+//        cbCiudadSeleccionado.valueProperty().addListener((observable, oldValue, newValue) -> {cargarAlojamientosPorCiudad(newValue);});
+        cbCiudadSeleccionado.valueProperty().addListener((observable, oldValue, newValue) -> cargarAlojamientosPorCiudad(newValue));
+//        dpDiasReservar.setOnShowing(event -> dpDiasReservar.getEditor().clear());
+
+        if (dpDiasReservar != null) {
+            dpDiasReservar.setOnShowing(event -> {
+                if (dpDiasReservar.getEditor() != null) {
+                    dpDiasReservar.getEditor().clear();
+                }
+            });
+            dpDiasReservar.setOnAction(event -> {
+                if (dpDiasReservar.getEditor() != null) {
+                    dpDiasReservar.getEditor().clear();
+                }
+            });
+        }
+//        dpDiasReservar.setOnAction(event -> dpDiasReservar.getEditor().clear());
         txtInfoReserva.setText("Seleccione las fechas de reservación.");
         cargarAlojamientos();
-        // Set up the "Buscar" button to trigger the filtered search
-        Button buscarButton = new Button("Buscar");
-        buscarButton.setOnAction(event -> cargarAlojamientosFiltrados());
+
+//        // Set up the "Buscar" button to trigger the filtered search
+//        Button buscarButton = new Button("Buscar");
+//        buscarButton.setOnAction(event -> cargarAlojamientosFiltrados());
 
     }
 
+    @FXML
+    private void cargarAlojamientosFiltrados() {
+        final String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
+
+        // Handle potential parsing errors
+        final int numeroHuespedes;
+        try {
+            numeroHuespedes = Integer.parseInt(txtNumeroHuespedes.getText());
+        } catch (NumberFormatException e) {
+            // Show an error message to the user
+            System.out.println("Número de huéspedes inválido.");
+            return;
+        }
+
+        // Use class variables for startDate and endDate
+        final LocalDate startDate = this.startDate;
+        final LocalDate endDate = this.endDate;
+
+        List<Alojamiento> alojamientosFiltrados = AppReservasPrincipal.getInstance().getListaAlojamientos().stream()
+                .filter(alojamiento ->
+                        (ciudadSeleccionada == null || alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada)) &&
+                                alojamiento.getCapacidadMaxima() >= numeroHuespedes &&
+                                alojamiento.isAvailableForDates(startDate, endDate))
+                .collect(Collectors.toList());
+
+        actualizarListaAlojamientos(alojamientosFiltrados);
+    }
 
 
     private void cargarAlojamientosPorCiudad(String ciudadSeleccionada) {
         vboxAlojamientos.getChildren().clear();
-        List<Alojamiento> alojamientosFiltrados = appReservasPrincipal.getListaAlojamientos().stream()
+        List<Alojamiento> alojamientosFiltrados = AppReservasPrincipal.getInstance().getListaAlojamientos().stream()
                 .filter(alojamiento -> alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada))
                 .collect(Collectors.toList());
 
-        for (Alojamiento alojamiento : alojamientosFiltrados) {
-            try {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/buscadorAlojamientos.fxml"));
-                Node alojamientoNode = loader.load();
+        actualizarListaAlojamientos(alojamientosFiltrados);
+    }
 
-                // Setting the data for the loaded accommodation item
+    private void actualizarListaAlojamientos(List<Alojamiento> alojamientos) {
+        vboxAlojamientos.getChildren().clear();
+        for (Alojamiento alojamiento : alojamientos) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/accommodationItem.fxml"));
+                Node alojamientoNode = loader.load();
                 AccommodationItemController controller = loader.getController();
                 controller.setAlojamiento(alojamiento);
-
                 vboxAlojamientos.getChildren().add(alojamientoNode);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    @FXML
+
     private void cargarAlojamientos() {
         List<Alojamiento> alojamientos = appReservasPrincipal.getListaAlojamientos();
         for (Alojamiento alojamiento : alojamientos) {
             try {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/buscadorAlojamientos.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/accommodationItem.fxml"));
                 Node node = loader.load();
-
                 AccommodationItemController controller = loader.getController();
                 controller.setAlojamiento(alojamiento);
-
                 vboxAlojamientos.getChildren().add(node);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -114,39 +458,6 @@ public class BuscadorAlojamientosControlador implements Initializable {
         }
     }
 
-    @FXML
-    private void cargarAlojamientosFiltrados() {
-        String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
-        int numeroHuespedes = Integer.parseInt(txtNumeroHuespedes.getText());
-        LocalDate startDate = dpDiasReservar.getValue();
-
-        // Filter the accommodations based on the selected criteria
-        List<Alojamiento> alojamientosFiltrados = appReservasPrincipal.getListaAlojamientos().stream()
-                .filter(alojamiento ->
-                        (ciudadSeleccionada == null || alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada)) &&
-                                alojamiento.getCapacidadMaxima() >= numeroHuespedes &&
-                                alojamiento.isAvailableForDates(startDate, endDate))
-                .collect(Collectors.toList());
-
-        // Clear the VBox and add filtered accommodations
-        vboxAlojamientos.getChildren().clear();
-        for (Alojamiento alojamiento : alojamientosFiltrados) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/accommodationItem.fxml"));
-                Node alojamientoNode = loader.load();
-
-                AccommodationItemController controller = loader.getController();
-                controller.setAlojamiento(alojamiento);
-
-                vboxAlojamientos.getChildren().add(alojamientoNode);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-/*
     private void setupDateRangeSelection() {
         dpDiasReservar.setDayCellFactory(createDayCellFactory());
         dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
@@ -169,43 +480,13 @@ public class BuscadorAlojamientosControlador implements Initializable {
             public String toString(LocalDate date) {
                 return generateDateRangeText();
             }
-            @Override
-            public LocalDate fromString(String string) {
-                return null;
-            }
-        });
-    }*/
 
-    private void setupDateRangeSelection() {
-        dpDiasReservar.setDayCellFactory(createDayCellFactory());
-        dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue == null) return;
-            if (startDate == null || (startDate != null && endDate != null)) {
-                startDate = newValue;
-                endDate = null;
-            } else {
-                endDate = newValue;
-                dpDiasReservar.setValue(null);
-            }
-            txtInfoReserva.setText(generateDateRangeText());
-            dpDiasReservar.hide();
-            dpDiasReservar.show();
-            dpDiasReservar.setDayCellFactory(createDayCellFactory());
-        });
-
-        dpDiasReservar.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(LocalDate date) {
-                return generateDateRangeText();
-            }
             @Override
             public LocalDate fromString(String string) {
                 return null;
             }
         });
     }
-
-
 
     private String generateDateRangeText() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -246,75 +527,201 @@ public class BuscadorAlojamientosControlador implements Initializable {
         };
     }
 
+
     private long calculateReservationDays() {
         if (startDate != null && endDate != null) {
             return java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
         }
         return 0;
     }
-/*
-    private Callback<DatePicker, DateCell> createDayCellFactory() {
-        return datePicker -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item.isBefore(LocalDate.now())) {
-                    setDisable(true);
-                    setStyle("-fx-background-color: #d3d3d3;");
-                } else if (startDate != null && endDate != null) {
-                    if (item.equals(startDate)) {
-                        setStyle("-fx-background-color: #add8e6;");
-                    } else if (item.equals(endDate)) {
-                        setStyle("-fx-background-color: #ffa07a;");
-                    } else if (!item.isBefore(startDate) && !item.isAfter(endDate)) {
-                        setStyle("-fx-background-color: #90ee90;");
-                    } else {
-                        setStyle("");
-                    }
-                }
-            }
-        };
-    }*/
-
 
     public List<String> cargarCiudades() {
         return Arrays.stream(Ciudad.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());
     }
+}*/
+//    -----------------------------------------------------//    -----------------------------------------------------//    -----------------------------------------------------
+        /*@FXML
+    private void cargarAlojamientosFiltrados() {
+        String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
+        int numeroHuespedes = Integer.parseInt(txtNumeroHuespedes.getText());
+        LocalDate startDate = dpDiasReservar.getValue();
 
-    public void setAccommodationData(Alojamiento alojamiento) {
-        lblAccommodationName.setText(alojamiento.getNombre());
-        lblLocation.setText(alojamiento.getCiudad().name());
-        txtDescription.setText(alojamiento.getDescripcion());
-        images = alojamiento.getGalleryImages();
-        showImage();
+        List<Alojamiento> alojamientosFiltrados = AppReservasPrincipal.getInstance().getListaAlojamientos().stream()
+                .filter(alojamiento ->
+                        (ciudadSeleccionada == null || alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada)) &&
+                                alojamiento.getCapacidadMaxima() >= numeroHuespedes &&
+                                alojamiento.isAvailableForDates(startDate, endDate))
+                .collect(Collectors.toList());
+
+        actualizarListaAlojamientos(alojamientosFiltrados);
+    }*/
+//    @FXML
+//    private void cargarAlojamientos() {
+//        List<Alojamiento> alojamientos = appReservasPrincipal.getListaAlojamientos();
+//        for (Alojamiento alojamiento : alojamientos) {
+//            try {
+//                FXMLLoader loader = new FXMLLoader();
+//                loader.setLocation(getClass().getResource("/buscadorAlojamientos.fxml"));
+//                Node node = loader.load();
+//                AccommodationItemController controller = loader.getController();
+//                controller.setAlojamiento(alojamiento);
+//                vboxAlojamientos.getChildren().add(node);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+
+
+
+     /* private void setupDateRangeSelection() {
+        dpDiasReservar.setDayCellFactory(createDayCellFactory());
+        dpDiasReservar.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null) return;
+            if (startDate == null || (startDate != null && endDate != null)) {
+                startDate = newValue;
+                endDate = null;
+            } else {
+                endDate = newValue;
+                dpDiasReservar.setValue(null);
+            }
+            txtInfoReserva.setText(generateDateRangeText());
+        });
+
+        dpDiasReservar.setConverter(new StringConverter<>() {
+            @Override public String toString(LocalDate date) { return generateDateRangeText(); }
+            @Override public LocalDate fromString(String string) { return null; }
+        });
     }
 
-    private void showImage() {
-        if (images != null && !images.isEmpty()) {
-            String imagePath = images.get(currentImageIndex);
-            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
-            imgCarousel.setImage(image);
+*/
+        /*@FXML
+    private void cargarAlojamientosFiltrados() {
+        String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
+        int numeroHuespedes = Integer.parseInt(txtNumeroHuespedes.getText());
+        LocalDate startDate = dpDiasReservar.getValue();
+        // Filter the accommodations based on the selected criteria
+        List<Alojamiento> alojamientosFiltrados = appReservasPrincipal.getListaAlojamientos().stream()
+                .filter(alojamiento ->
+                        (ciudadSeleccionada == null || alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada)) &&
+                                alojamiento.getCapacidadMaxima() >= numeroHuespedes &&
+                                alojamiento.isAvailableForDates(startDate, endDate))
+                .collect(Collectors.toList());
+        actualizarListaAlojamientos(alojamientosFiltrados);
+        // Clear the VBox and add filtered accommodations
+       vboxAlojamientos.getChildren().clear();
+        for (Alojamiento alojamiento : alojamientosFiltrados) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/accommodationItem.fxml"));
+                Node alojamientoNode = loader.load();
+
+                AccommodationItemController controller = loader.getController();
+                controller.setAlojamiento(alojamiento);
+
+                vboxAlojamientos.getChildren().add(alojamientoNode);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    }
+    }*/
 
+/*
     @FXML
-    private void showPreviousImage() {
-        if (images != null && !images.isEmpty()) {
-            currentImageIndex = (currentImageIndex - 1 + images.size()) % images.size();
-            showImage();
-        }
-    }
+    private void cargarAlojamientosPorCiudad(String ciudadSeleccionada) {
+        vboxAlojamientos.getChildren().clear(); // Clear existing items
+        List<Alojamiento> alojamientosFiltrados = appReservasPrincipal.getListaAlojamientos().stream()
+                .filter(alojamiento -> alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada))
+                .collect(Collectors.toList());
+        for (Alojamiento alojamiento : alojamientosFiltrados) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/accommodationItem.fxml"));
+                Node alojamientoNode = loader.load();
 
-    @FXML
-    private void showNextImage() {
-        if (images != null && !images.isEmpty()) {
-            currentImageIndex = (currentImageIndex + 1) % images.size();
-            showImage();
+                // Set accommodation data in the controller
+                AccommodationItemController controller = loader.getController();
+                controller.setAlojamiento(alojamiento);
+
+                vboxAlojamientos.getChildren().add(alojamientoNode); // Add each accommodation to VBox
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }*/
+
+    /*
+    private Callback<DatePicker, DateCell> createDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item.isBefore(LocalDate.now())) setDisable(true);
+                else if (startDate != null && endDate != null && !item.isBefore(startDate) && !item.isAfter(endDate)) {
+                    setStyle("-fx-background-color: #90ee90;");
+                }
+            }
+        };
     }
-}
+*/
+//    -----------------------------------------------------
+
+//    @FXML
+//    private ImageView imgCarousel;
+
+    //    --------------------------------------------
+//    private List<String> images;
+//    private int currentImageIndex = 0;
+//-------------------------------------------------
+/*    private void cargarAlojamientosPorCiudad(String ciudadSeleccionada) {
+        vboxAlojamientos.getChildren().clear();
+        List<Alojamiento> alojamientosFiltrados = appReservasPrincipal.getListaAlojamientos().stream()
+                .filter(alojamiento -> alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada))
+                .collect(Collectors.toList());
+
+        for (Alojamiento alojamiento : alojamientosFiltrados) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/buscadorAlojamientos.fxml"));
+                Node alojamientoNode = loader.load();
+
+                // Setting the data for the loaded accommodation item
+                AccommodationItemController controller = loader.getController();
+                controller.setAlojamiento(alojamiento);
+
+                vboxAlojamientos.getChildren().add(alojamientoNode);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
+
+//    @FXML
+//    private void showPreviousImage() {
+//        if (images != null && !images.isEmpty()) {
+//            currentImageIndex = (currentImageIndex - 1 + images.size()) % images.size();
+//            showImage();
+//        }
+//    }
+//    @FXML
+//    private void showNextImage() {
+//        if (images != null && !images.isEmpty()) {
+//            currentImageIndex = (currentImageIndex + 1) % images.size();
+//            showImage();
+//        }
+//    }
+
+//    private void showImage() {
+//        if (images != null && !images.isEmpty()) {
+//            String imagePath = images.get(currentImageIndex);
+//            Image image = new Image(getClass().getResource(imagePath).toExternalForm());
+//            imgCarousel.setImage(image);
+//        }
+//    }
+
+
+
+
 
 
 /*

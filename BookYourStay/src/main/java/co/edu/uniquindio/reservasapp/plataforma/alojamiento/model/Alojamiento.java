@@ -69,12 +69,18 @@ public abstract class Alojamiento {
         return imagePaths;
     }
 
-    public boolean isAvailableForDates(LocalDate startDate, LocalDate endDate) {
-        if (this.fechaInicio == null || this.fechaFin == null) {
-            return true; // If no dates are set, assume it's available
-        }
-        return (startDate.isAfter(this.fechaFin) || endDate.isBefore(this.fechaInicio));
-    }
+//    public boolean isAvailableForDates(LocalDate startDate, LocalDate endDate) {
+//
+//        if (this.fechaInicio == null || this.fechaFin == null) {
+//            return true; // If no dates are set, assume it's available
+//        }
+//        return (startDate.isAfter(this.fechaFin) || endDate.isBefore(this.fechaInicio));
+//    }
+public boolean isAvailableForDates(LocalDate startDate, LocalDate endDate) {
+    // For now, assume all accommodations are available
+    return true;
+}
+
 
 }
 

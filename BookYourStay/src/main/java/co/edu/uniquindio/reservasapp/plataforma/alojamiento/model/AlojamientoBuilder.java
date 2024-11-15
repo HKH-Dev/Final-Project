@@ -2,6 +2,8 @@ package co.edu.uniquindio.reservasapp.plataforma.alojamiento.model;
 
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 
+import java.util.List;
+
 //import lombok.ToString;
 //
 //@ToString
@@ -9,7 +11,8 @@ public abstract class AlojamientoBuilder<T extends AlojamientoBuilder<T>> {
     protected String nombre;
     protected Ciudad ciudad;
     protected String descripcion;
-    protected String imagen;
+    protected List<String> imagenes;
+//    protected String imagen;
     protected double precioNoche;
     protected int capacidadMaxima;
 
@@ -28,10 +31,15 @@ public abstract class AlojamientoBuilder<T extends AlojamientoBuilder<T>> {
         return (T) this;
     }
 
-    public T imagen(String imagen) {
-        this.imagen = imagen;
+//    public T imagen(String imagen) {
+//        this.imagen = imagen;
+//        return (T) this;
+//    }
+    public T imagenes(List<String> imagenes) {
+        this.imagenes = imagenes;
         return (T) this;
     }
+
 
     public T precioNoche(double precioNoche) {
         this.precioNoche = precioNoche;

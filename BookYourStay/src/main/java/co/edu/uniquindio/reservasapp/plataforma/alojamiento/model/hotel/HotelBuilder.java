@@ -29,5 +29,6 @@ public class HotelBuilder extends AlojamientoBuilder<HotelBuilder> {
     public Hotel build() {
         return new Hotel(nombre, ciudad, descripcion, imagenes, precioNoche, capacidadMaxima, habitacionNumero, precioHabitacion);
     }
+
 }
 

@@ -18,57 +18,29 @@ import java.util.stream.Stream;
 
 @Getter
 public class AppReservasPrincipal implements ServiciosApp {
-    public static AppReservasPrincipal INSTANCIA;
+    private static AppReservasPrincipal instance;
     private List<Persona> listaClientes;
+    @Getter
     private List<Alojamiento> listaAlojamientos;
     private List<Reserva> listaReservas;
-
 
     private AppReservasPrincipal() {
         this.listaClientes = new ArrayList<>();
         this.listaAlojamientos = new ArrayList<>();
         this.listaReservas = new ArrayList<>();
-
     }
 
-    public static synchronized AppReservasPrincipal getInstance() {
-        if (INSTANCIA == null) {
-            INSTANCIA = new AppReservasPrincipal();
+    public static AppReservasPrincipal getInstance() {
+        if (instance == null) {
+            instance = new AppReservasPrincipal();
         }
-        return INSTANCIA;
+        return instance;
     }
 
-//    @Override
-//    public void registrarPersona(String cedula, String nombre, String Apellido, String email, String contrasena) throws Exception {
-//        // Perform validations...
-//        String ValidationMessage = "";
-//        if (cedula == null || cedula.isEmpty()) {
-//            ValidationMessage += "La cedula no puede ser nula o vacia\n";
-//        }
-//        if (nombre == null || nombre.isEmpty()) {
-//            ValidationMessage += "El nombre no puede ser nulo o vacio\n";
-//        }
-//        if (Apellido == null || Apellido.isEmpty()) {
-//            ValidationMessage += "El apellido no puede ser nulo o vacio\n";
-//        }
-//        if (email == null || email.isEmpty()) {
-//            ValidationMessage += "El correo no puede ser nulo o vacio\n";
-//        }
-//        if (contrasena == null || contrasena.isEmpty()) {
-//            ValidationMessage += "La contraseña no puede ser nula o vacia\n";
-//        }
-//        if (!ValidationMessage.isEmpty()) {
-//            throw new Exception(ValidationMessage);
-//        }
-//        if (listaClientes.stream().anyMatch(cliente -> cliente.getCedula().equals(cedula))) {
-//            throw new Exception("La cédula ya está registrada");
-//        }
-//        // Password hashing
-//        String hashedPassword = BCrypt.hashpw(contrasena, BCrypt.gensalt());
-//
-//        Persona clienteNuevo = new Persona(cedula, nombre, Apellido, email, hashedPassword);
-//        listaClientes.add(clienteNuevo);
-//    }
+    public void agregarAlojamiento(Alojamiento alojamiento) {
+        listaAlojamientos.add(alojamiento);
+    }
+
 
     @Override
     public void registrarPersona(String cedula, String nombre, String apellido, String email, String contrasena) throws Exception {
