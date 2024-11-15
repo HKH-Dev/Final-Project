@@ -48,12 +48,8 @@ public class BuscadorAlojamientosControlador implements Initializable {
         // Load initial accommodations
         cargarAlojamientos();
     }
-
-    @FXML
-    private void cargarAlojamientosFiltrados() {
-
+    /*@FXML private void cargarAlojamientosFiltrados() {
         String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
-
         // Parse number of guests
         final int numeroHuespedes;
         try {
@@ -93,6 +89,30 @@ public class BuscadorAlojamientosControlador implements Initializable {
 
         System.out.println("Filtered accommodations: " + alojamientosFiltrados.size());
 
+    }*/
+    @FXML
+    private void cargarAlojamientosFiltrados() {
+        String ciudadSeleccionada = cbCiudadSeleccionado.getValue();
+        int numeroHuespedes;
+        try {
+            numeroHuespedes = Integer.parseInt(txtNumeroHuespedes.getText());
+        } catch (NumberFormatException e) {
+            System.out.println("Número de huéspedes inválido.");
+            return;
+        }
+        LocalDate startDate = dpFechaInicio.getValue();
+        LocalDate endDate = dpFechaFin.getValue();
+        if (startDate == null || endDate == null || endDate.isBefore(startDate)) {
+            System.out.println("Fechas de reserva inválidas.");
+            return;
+        }
+        List<Alojamiento> alojamientosFiltrados = listaAlojamientos.stream()
+                .filter(alojamiento ->
+                        (ciudadSeleccionada == null || alojamiento.getCiudad().name().equalsIgnoreCase(ciudadSeleccionada)) &&
+                                alojamiento.getCapacidadMaxima() >= numeroHuespedes &&
+                                alojamiento.isAvailableForDates(startDate, endDate))
+                .collect(Collectors.toList());
+        actualizarListaAlojamientos(alojamientosFiltrados); // Update VBox with filtered results
     }
 
     private void actualizarListaAlojamientos(List<Alojamiento> alojamientos) {
@@ -150,18 +170,13 @@ private void setupDateRangeSelection() {
             endDate = null;
             dpFechaFin.setValue(null);
             txtInfoReserva.setText(generateDateRangeText());
-
-            // Refresh DatePickers to show updated highlighted range
             refreshDatePickers();
         }
     });
-
     dpFechaFin.valueProperty().addListener((obs, oldValue, newValue) -> {
         if (newValue != null) {
             endDate = newValue;
             txtInfoReserva.setText(generateDateRangeText());
-
-            // Refresh DatePickers to show updated highlighted range
             refreshDatePickers();
         }
     });
@@ -187,19 +202,6 @@ private void setupDateRangeSelection() {
         return sb.toString();
     }
 
-
-    //        dpDiasReservar.setConverter(new StringConverter<>() {
-//            @Override
-//            public String toString(LocalDate date) {
-//                return generateDateRangeText();
-//            }
-//
-//            @Override
-//            public LocalDate fromString(String string) {
-//                return null;
-//            }
-//        });
-//    }
     private Callback<DatePicker, DateCell> createDayCellFactory() {
         return datePicker -> new DateCell() {
             @Override
@@ -230,7 +232,7 @@ private void setupDateRangeSelection() {
             }
         };
     }
-    
+
     private long calculateReservationDays() {
         return startDate != null && endDate != null ? java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1 : 0;
     }
@@ -260,7 +262,18 @@ private void setupDateRangeSelection() {
             }
         };
     }*/
-
+    //        dpDiasReservar.setConverter(new StringConverter<>() {
+//            @Override
+//            public String toString(LocalDate date) {
+//                return generateDateRangeText();
+//            }
+//
+//            @Override
+//            public LocalDate fromString(String string) {
+//                return null;
+//            }
+//        });
+//    }
     /*
     ///    -----------------------------------------------------
 private void setupDateRangeSelection() {

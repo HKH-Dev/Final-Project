@@ -15,9 +15,6 @@ public abstract class Alojamiento {
     protected String nombre;
     protected Ciudad ciudad;
     protected String descripcion;
-// Method to return the list of image URLs
-    //    protected String imagen;
-    @Getter
     protected List<String> imagenes;  // List to hold paths to multiple images
     protected double precioNoche;
     protected int capacidadMaxima;
@@ -69,6 +66,11 @@ public abstract class Alojamiento {
         return imagePaths;
     }
 
+    public boolean isAvailableForDates(LocalDate startDate, LocalDate endDate) {
+        // For now, assume all accommodations are available
+        return true;
+    }
+
 //    public boolean isAvailableForDates(LocalDate startDate, LocalDate endDate) {
 //
 //        if (this.fechaInicio == null || this.fechaFin == null) {
@@ -76,10 +78,6 @@ public abstract class Alojamiento {
 //        }
 //        return (startDate.isAfter(this.fechaFin) || endDate.isBefore(this.fechaInicio));
 //    }
-public boolean isAvailableForDates(LocalDate startDate, LocalDate endDate) {
-    // For now, assume all accommodations are available
-    return true;
-}
 
 
 }
