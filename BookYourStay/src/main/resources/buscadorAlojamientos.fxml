@@ -1,63 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<HBox alignment="CENTER" prefHeight="1150.0" prefWidth="1150.0" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.BuscadorAlojamientosControlador">
+<!--<HBox alignment="CENTER" prefHeight="1150.0" prefWidth="1150.0" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.BuscadorAlojamientosControlador">-->
+<!--    &lt;!&ndash; Search and Filtering Section &ndash;&gt;-->
+<!--    <VBox alignment="TOP_CENTER" prefHeight="1004.0" prefWidth="502.0" spacing="20.0">-->
+<!--        <Label text="Agendar Reservación" textFill="#0f0f0f">-->
+<!--            <font>-->
+<!--                <Font size="20.0" />-->
+<!--            </font>-->
+<!--        </Label>-->
+<!--        <GridPane alignment="TOP_CENTER" hgap="20.0" vgap="40.0">-->
+<!--            <Label text="Ciudad Hospedaje:" GridPane.columnIndex="0" GridPane.rowIndex="0" />-->
+<!--            <ComboBox fx:id="cbCiudadSeleccionado" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />-->
+<!--            <Label text="Información de Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="1" />-->
+<!--            <TextArea fx:id="txtInfoReserva" editable="false" prefHeight="100.0" prefWidth="250.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
+<!--            <Label text="Número de Huéspedes:" GridPane.columnIndex="0" GridPane.rowIndex="4" />-->
+<!--            <TextField fx:id="txtNumeroHuespedes" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />-->
+<!--            <Button mnemonicParsing="false" onAction="#cargarAlojamientosFiltrados" text="Buscar" GridPane.columnIndex="1" GridPane.rowIndex="5" />-->
+<!--         <SplitPane dividerPositions="0.36693548387096775" prefHeight="36.0" prefWidth="222.0" GridPane.columnIndex="1" GridPane.rowIndex="3">-->
+<!--           <items>-->
+<!--             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="71.0" prefWidth="88.0">-->
+<!--                  <children>-->
+<!--                        <Label layoutX="5.0" layoutY="1.0" prefHeight="30.0" prefWidth="83.0" text="Fecha Fin:" />-->
+<!--                  </children>-->
+<!--               </AnchorPane>-->
+<!--             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="34.0" prefWidth="127.0">-->
+<!--                  <children>-->
+<!--                        <DatePicker fx:id="dpFechaFin" layoutY="1.0" prefHeight="30.0" prefWidth="118.0" />-->
+<!--                  </children>-->
+<!--               </AnchorPane>-->
+<!--           </items>-->
+<!--         </SplitPane>-->
+<!--         <SplitPane dividerPositions="0.3888888888888889" prefHeight="0.0" prefWidth="200.0" GridPane.rowIndex="3">-->
+<!--           <items>-->
+<!--             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">-->
+<!--                  <children>-->
+<!--            -->
+<!--                        <Label prefHeight="30.0" prefWidth="65.0" text="Fecha Inicio:" />-->
+<!--                  </children>-->
+<!--               </AnchorPane>-->
+<!--             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="136.0">-->
+<!--                  <children>-->
+<!--                        <DatePicker fx:id="dpFechaInicio" layoutY="2.0" prefHeight="30.0" prefWidth="118.0" />-->
+<!--                  </children>-->
+<!--               </AnchorPane>-->
+<!--           </items>-->
+<!--         </SplitPane>-->
+<!--         <columnConstraints>-->
+<!--            <ColumnConstraints />-->
+<!--            <ColumnConstraints />-->
+<!--         </columnConstraints>-->
+<!--         <rowConstraints>-->
+<!--            <RowConstraints />-->
+<!--            <RowConstraints />-->
+<!--            <RowConstraints />-->
+<!--            <RowConstraints />-->
+<!--            <RowConstraints />-->
+<!--            <RowConstraints />-->
+<!--            <RowConstraints minHeight="10.0" prefHeight="30.0" />-->
+<!--         </rowConstraints>-->
+<!--        </GridPane>-->
+<!--    </VBox>-->
+<!--    <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="807.0" prefWidth="602.0">-->
+<!--        <VBox fx:id="vboxAlojamientos" alignment="TOP_CENTER" prefHeight="1040.0" prefWidth="539.0" spacing="20.0">-->
+<!--            <Label text="Detalles del Alojamiento">-->
+<!--                <font>-->
+<!--                    <Font size="16.0" />-->
+<!--                </font>-->
+<!--            </Label>-->
+<!--            &lt;!&ndash; Accommodation items will be added here dynamically by the controller &ndash;&gt;-->
+<!--        </VBox>-->
+<!--    </ScrollPane>-->
+<!--</HBox>-->
 
-    <!-- Search and Filtering Section -->
-    <VBox alignment="TOP_CENTER" prefHeight="1004.0" prefWidth="502.0" spacing="20.0">
-        <Label text="Agendar Reservación" textFill="#0f0f0f">
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Label>
-        <GridPane alignment="TOP_CENTER" hgap="20.0" vgap="40.0">
-            <Label text="Ciudad Hospedaje:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <ComboBox fx:id="cbCiudadSeleccionado" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+<HBox alignment="CENTER" prefHeight="800.0" prefWidth="1200.0" spacing="10.0" style="-fx-font-size: 13px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.BuscadorAlojamientosControlador">
+        <!-- Search and Filtering Section -->
+        <VBox alignment="TOP_CENTER" prefHeight="1004.0" prefWidth="502.0" spacing="20.0">
+            <Label style="-fx-font-size: 20px;" text="Agendar Reservación">
+         <VBox.margin>
+            <Insets bottom="20.0" top="20.0" />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding></Label>
 
-            <Label text="Información de Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextArea fx:id="txtInfoReserva" editable="false" prefHeight="100.0" prefWidth="250.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <GridPane alignment="TOP_CENTER" hgap="20.0" style="-fx-font-size: 13px;" vgap="40.0">
+                <Label style="-fx-font-size: 13px;" text="Ciudad Hospedaje:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <ComboBox fx:id="cbCiudadSeleccionado" prefWidth="250.0" style="-fx-font-size: 13px;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
+                <Label style="-fx-font-size: 13px;" text="Fecha Inicio Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <DatePicker fx:id="dpFechaInicio" prefWidth="250.0" style="-fx-font-size: 13px;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-            <Label text="Número de Huéspedes:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <TextField fx:id="txtNumeroHuespedes" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label style="-fx-font-size: 13px;" text="Fecha Fin Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <DatePicker fx:id="dpFechaFin" prefWidth="250.0" style="-fx-font-size: 13px;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-            <Button mnemonicParsing="false" onAction="#cargarAlojamientosFiltrados" text="Buscar" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <Label style="-fx-font-size: 13px;" text="Número de Huéspedes:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                <TextField fx:id="txtNumeroHuespedes" prefWidth="250.0" style="-fx-font-size: 13px;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-         <SplitPane dividerPositions="0.36693548387096775" prefHeight="36.0" prefWidth="222.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-           <items>
-             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="71.0" prefWidth="88.0">
-                  <children>
-                        <Label layoutX="5.0" layoutY="1.0" prefHeight="30.0" prefWidth="83.0" text="Fecha Fin:" />
-                  </children>
-               </AnchorPane>
-             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="34.0" prefWidth="127.0">
-                  <children>
-                        <DatePicker fx:id="dpFechaFin" layoutY="1.0" prefHeight="30.0" prefWidth="118.0" />
-                  </children>
-               </AnchorPane>
-           </items>
-         </SplitPane>
+                <Button onAction="#cargarAlojamientosFiltrados" style="-fx-font-size: 13px;" text="Buscar" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-         <SplitPane dividerPositions="0.3888888888888889" prefHeight="0.0" prefWidth="200.0" GridPane.rowIndex="3">
-           <items>
-             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                  <children>
-            
-                        <Label prefHeight="30.0" prefWidth="65.0" text="Fecha Inicio:" />
-                  </children>
-               </AnchorPane>
-             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="136.0">
-                  <children>
-                        <DatePicker fx:id="dpFechaInicio" layoutY="2.0" prefHeight="30.0" prefWidth="118.0" />
-                  </children>
-               </AnchorPane>
-           </items>
-         </SplitPane>
-
-
+                <Label style="-fx-font-size: 13px;" text="Información de Reserva:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <TextArea fx:id="txtInfoReserva" editable="false" prefHeight="100.0" prefWidth="250.0" style="-fx-font-size: 13px;" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />
@@ -69,20 +125,14 @@
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
          </rowConstraints>
-
-        </GridPane>
-    </VBox>
-
-    <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="807.0" prefWidth="602.0">
-        <VBox fx:id="vboxAlojamientos" alignment="TOP_CENTER" prefHeight="1040.0" prefWidth="539.0" spacing="20.0">
-            <Label text="Detalles del Alojamiento">
-                <font>
-                    <Font size="16.0" />
-                </font>
-            </Label>
-            <!-- Accommodation items will be added here dynamically by the controller -->
+            </GridPane>
         </VBox>
-    </ScrollPane>
-</HBox>
+
+        <!-- Accommodation List Section -->
+        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="807.0" prefWidth="602.0">
+            <VBox fx:id="vboxAlojamientos" alignment="TOP_CENTER" spacing="20.0" style="-fx-font-size: 13px;">
+                <!-- Accommodation items will be added here dynamically by the controller -->
+            </VBox>
+        </ScrollPane>
+    </HBox>

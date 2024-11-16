@@ -13,6 +13,7 @@ import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.hotel.Hotel;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.hotel.HotelBuilder;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.servicio.ServicioAlojamiento;
 import co.edu.uniquindio.reservasapp.plataforma.controlador.InicioControlador;
+import co.edu.uniquindio.reservasapp.plataforma.modelo.resevacion.Reserva;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +21,9 @@ import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +33,7 @@ public class AppMain extends Application {
         cargarHospedajes();
         cargarDatosAppReserva();
         FXMLLoader fxmlLoader = new FXMLLoader(AppMain.class.getResource("/inicio.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 900, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
         stage.setTitle("Reserva App");
         stage.setScene(scene);
         stage.setResizable(true);
@@ -404,6 +408,12 @@ public class AppMain extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static void cargarBaseDatosReserva() {
+
+        AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
+        Reserva reserva = new Reserva("Armenia", "Casa Cafetera", "123", LocalDate.of(2024, 11, 20),LocalDate.of(2024, 12, 8    ),("16:00"), "5:45", 300000, 6);
+
     }
 
     public static void main(String[] args) {

@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,25 +15,9 @@ public class InicioControlador implements Initializable {
 
     @FXML
     private ImageView imgCarousel;
-
-    private final List<String> imagenesHome = List.of(
-
-            "images/HOME/HOME1.jpg",
-            "images/HOME/HOME2.jpg",
-            "images/HOME/HOME3.jpg",
-            "images/HOME/HOME4.jpg",
-            "images/HOME/HOME5.jpg",
-            "images/HOME/HOME6.jpg",
-            "images/HOME/HOME7.jpg",
-            "images/HOME/HOME8.jpg",
-            "images/HOME/HOME9.jpg",
-            "images/HOME/HOME10.jpg",
-            "images/HOME/HOME11.jpg",
-            "images/HOME/HOME12jpgp"
-    );
-
     private int currentImageIndex = 0; // To track the current image in the carousel
-    private final ControladorPrincipal controladorPrincipal;
+    ControladorPrincipal controladorPrincipal = ControladorPrincipal.getInstancia();
+    private final List<String> imagenesHome = List.of("images/HOME/HOME1.jpg", "images/HOME/HOME2.jpg", "images/HOME/HOME3.jpg", "images/HOME/HOME4.jpg", "images/HOME/HOME5.jpg", "images/HOME/HOME6.jpg", "images/HOME/HOME7.jpg", "images/HOME/HOME8.jpg", "images/HOME/HOME9.jpg", "images/HOME/HOME10.jpg","images/HOME/HOME11.jpg","images/HOME/HOME12jpgp");
 
     public InicioControlador() {
         this.controladorPrincipal = ControladorPrincipal.getInstancia();
@@ -50,6 +33,7 @@ public class InicioControlador implements Initializable {
 
     public void irIniciarSesion(ActionEvent actionEvent) {
         controladorPrincipal.navegarVentana("/login.fxml", "Iniciar Sesión");
+        controladorPrincipal.cerrarVentana(imgCarousel);
     }
 
     public void irRegistroCliente(ActionEvent actionEvent) {

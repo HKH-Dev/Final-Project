@@ -7,20 +7,26 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import lombok.Getter;
 import org.mindrot.jbcrypt.BCrypt;
-
+@Getter
 public class LoginControlador {
-    @FXML
-    public TextField txtCorreo;
-    @FXML
-    public TextField txtPassword;
+    @FXML public TextField txtCorreo;
+    @FXML public TextField txtPassword;
 
-    private final ControladorPrincipal controladorPrincipal;
+    private static LoginControlador instance;
+    ControladorPrincipal controladorPrincipal = ControladorPrincipal.getInstancia();
     private final AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
     private final Sesion sesion = Sesion.getInstancia();
     Persona persona = sesion.getPersona();
 
 
+    public static LoginControlador getInstance() {
+        if (instance == null) {
+            instance = new LoginControlador();
+        }
+        return instance;
+    }
     public LoginControlador() {
         this.controladorPrincipal = ControladorPrincipal.getInstancia();
     }

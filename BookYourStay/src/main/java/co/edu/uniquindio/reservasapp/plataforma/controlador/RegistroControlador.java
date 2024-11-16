@@ -67,6 +67,7 @@ public class RegistroControlador implements Initializable {
                 limpiarFormularioRegistro();
                 mostrarAlerta("Persona registrada correctamente", Alert.AlertType.INFORMATION);
 
+
                 controladorPrincipal.cerrarVentana(txtCedula);
                 controladorPrincipal.navegarVentana("/profile.fxml", "Perfil");
             }

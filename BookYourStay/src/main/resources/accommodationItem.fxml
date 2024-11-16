@@ -5,24 +5,49 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.AccommodationItemController">
+
+<HBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.AccommodationItemController"
+      spacing="20.0">
+
     <!-- Accommodation Details Section -->
-    <VBox prefHeight="200.0" prefWidth="237.0" spacing="10.0">
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
-         <children>
-              <Label fx:id="lblNombreAlojamiento" layoutX="57.0" layoutY="6.0" text="Accommodation Name" textAlignment="CENTER" />
-              <Label fx:id="lblUbicacion" layoutX="12.0" layoutY="59.0" text="Location" />
-              <Text fx:id="txtDescripcion" layoutX="12.0" layoutY="144.0" text="Description of the accommodation" wrappingWidth="130.0" />
-         </children>
-      </AnchorPane>
+    <VBox spacing="10.0" prefWidth="250.0">
+        <Label fx:id="lblNombreAlojamiento" text="Accommodation Name" style="-fx-font-size: 16px;" />
+        <Label fx:id="lblUbicacion" text="Location" />
+        <Text fx:id="txtDescripcion" text="Description of the accommodation" wrappingWidth="250.0" />
     </VBox>
+
+    <!-- Image and Navigation Section -->
     <VBox alignment="CENTER" spacing="10.0">
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
-         <children>
-              <ImageView fx:id="imgCarousel" fitHeight="200.0" fitWidth="303.0" />
-               <Button layoutX="-5.0" layoutY="88.0" onAction="#showPreviousImage" text="&lt;" />
-               <Button layoutX="277.0" layoutY="88.0" onAction="#showNextImage" text="&gt;" />
-         </children>
-      </AnchorPane>
+        <StackPane>
+            <ImageView fx:id="imgCarousel" fitHeight="200.0" fitWidth="300.0" />
+            <HBox alignment="CENTER" spacing="10.0">
+                <Button onAction="#showPreviousImage" text="&lt;" />
+                <Button onAction="#showNextImage" text="&gt;" />
+            </HBox>
+        </StackPane>
     </VBox>
 </HBox>
+
+<!--<HBox spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.AccommodationItemController">-->
+<!--    &lt;!&ndash; Accommodation Details Section &ndash;&gt;-->
+<!--    <VBox prefHeight="200.0" prefWidth="237.0" spacing="10.0">-->
+<!--      <AnchorPane prefHeight="200.0" prefWidth="200.0">-->
+<!--         <children>-->
+<!--              <Label fx:id="lblNombreAlojamiento" layoutX="57.0" layoutY="6.0" text="Accommodation Name" textAlignment="CENTER" />-->
+<!--              <Label fx:id="lblUbicacion" layoutX="12.0" layoutY="59.0" text="Location" />-->
+<!--              <Text fx:id="txtDescripcion" layoutX="12.0" layoutY="144.0" text="Description of the accommodation" wrappingWidth="130.0" />-->
+<!--         </children>-->
+<!--      </AnchorPane>-->
+<!--    </VBox>-->
+<!--    <VBox alignment="CENTER" spacing="10.0">-->
+<!--      <AnchorPane prefHeight="200.0" prefWidth="200.0">-->
+<!--         <children>-->
+<!--              <ImageView fx:id="imgCarousel" fitHeight="200.0" fitWidth="303.0" />-->
+<!--               <Button layoutX="-5.0" layoutY="88.0" onAction="#showPreviousImage" text="&lt;" />-->
+<!--               <Button layoutX="277.0" layoutY="88.0" onAction="#showNextImage" text="&gt;" />-->
+<!--         </children>-->
+<!--      </AnchorPane>-->
+<!--    </VBox>-->
+<!--</HBox>-->

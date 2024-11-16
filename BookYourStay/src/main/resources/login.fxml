@@ -6,7 +6,7 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.LoginControlador"
-      prefHeight="400.0" prefWidth="400.0" alignment="center" spacing="30.0" >
+      prefHeight="800.0" prefWidth="800.0" alignment="center" spacing="30.0" >
 
     <Label text="Iniciar sesión" >
         <font>
