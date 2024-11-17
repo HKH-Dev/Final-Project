@@ -22,41 +22,28 @@ import java.util.ResourceBundle;
 
 
 public class PerfilControlador implements Initializable {
-    public ControladorPrincipal controladorPrincipal = ControladorPrincipal.getInstancia();
+
+    @FXML private MenuItem btnEditarDatos;
+    @FXML private MenuItem btnCerrarsesion;
+    @FXML private Label lblCargo;
+    @FXML private TableView<Reserva> tablaReservas;
+    @FXML private TableColumn<Reserva, String> idColumn;
+    @FXML private TableColumn<Reserva, String> horaColumn;
+    @FXML private TableColumn<Reserva, String> fechaColumn;
+    @FXML private TableColumn<Reserva, String> instalacionColumn;
+    @FXML private Label lblName;
+
+
+    ControladorPrincipal controladorPrincipal = ControladorPrincipal.getInstancia();
     AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
     ObservableList <Reserva> reservas;
     FilteredList <Reserva> reservasUsuarioActual;
 
     private Persona usarioActual;
 
-    @FXML
-    private MenuItem btnEditarDatos;
 
     @FXML
-    private MenuItem btnCerrarsesion;
-
-    @FXML
-    private Label lblCargo;
-
-    @FXML
-    private TableView<Reserva> tablaReservas;
-
-    @FXML
-    private TableColumn<Reserva, String> idColumn;
-
-    @FXML
-    private TableColumn<Reserva, String> horaColumn;
-
-    @FXML
-    private TableColumn<Reserva, String> fechaColumn;
-
-    @FXML
-    private TableColumn<Reserva, String> instalacionColumn;
-
-    @FXML
-    private Label lblName;
-        @FXML
-        void onCancelarReserva(ActionEvent event) {
+    void onCancelarReserva(ActionEvent event) {
             for (Reserva reserva : appReservasPrincipal.getListaReservas()){
                 if (tablaReservas.getSelectionModel().getSelectedItem() == reserva){
                     reservas.remove(reserva);
@@ -90,26 +77,53 @@ public class PerfilControlador implements Initializable {
                 controladorPrincipal.navegarVentana("/profileEditarDatos.fxml", "Editar mis datos");
             } catch (Exception e) {e.printStackTrace();}
         }
-        @Override
-        public void initialize(URL location, ResourceBundle resources){
-            usarioActual = Sesion.getInstancia().getPersona();
-            lblName.setText(usarioActual.getNombre());
-//            lblCargo.setText(usarioActual.getTipoPersona().toString());
-            reservas = FXCollections.observableArrayList(appReservasPrincipal.getListaReservas());
-            reservasUsuarioActual = new FilteredList<Reserva>(reservas, p -> p.getCedulaReservante().equals(usarioActual.getCedula()));
-            tablaReservas.setItems(reservasUsuarioActual);
-            idColumn.setCellValueFactory(new PropertyValueFactory<>("idInstalacion"));
-            horaColumn.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
-            fechaColumn.setCellValueFactory(new PropertyValueFactory<>("diaReserva"));
-            instalacionColumn.setCellValueFactory(celldata -> {
-            return new SimpleStringProperty(celldata.getValue().getNombreHospedaje());
-        });
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        usarioActual = Sesion.getInstancia().getPersona();
+        lblName.setText(usarioActual.getNombre());
+        configurarColumnasTabla();
+        actualizarTabla();
+
+//        @Override
+//        public void initialize(URL location, ResourceBundle resources){
+
+//            usarioActual = Sesion.getInstancia().getPersona();
+//            lblName.setText(usarioActual.getNombre());
+//
+//            reservas = FXCollections.observableArrayList(appReservasPrincipal.getListaReservas());
+//            reservasUsuarioActual = new FilteredList<Reserva>(reservas, p -> p.getCedulaReservante().equals(usarioActual.getCedula()));
+//            tablaReservas.setItems(actualizarTabla());
+//            idColumn.setCellValueFactory(new PropertyValueFactory<>("idInstalacion"));
+//            horaColumn.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
+//            fechaColumn.setCellValueFactory(new PropertyValueFactory<>("diaReserva"));
+//            instalacionColumn.setCellValueFactory(celldata -> {
+//            return new SimpleStringProperty(celldata.getValue().getNombreHospedaje());});
+//            configurarColumnasTabla();
+//            actualizarTabla();
     }
 
-        private void actualizarTabla(){
-
-        }
+    private void configurarColumnasTabla() {
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
+        horaColumn.setCellValueFactory(new PropertyValueFactory<>("horaInicioReserva"));
+        fechaColumn.setCellValueFactory(new PropertyValueFactory<>("diaInicioReserva"));
+        instalacionColumn.setCellValueFactory(new PropertyValueFactory<>("nombreHospedaje"));
     }
+
+    private void actualizarTabla() {
+        reservas = FXCollections.observableArrayList(appReservasPrincipal.getListaReservas());
+        reservasUsuarioActual = new FilteredList<>(reservas, p -> p.getCedulaReservante().equals(usarioActual.getCedula()));
+        tablaReservas.setItems(reservasUsuarioActual);
+        tablaReservas.refresh();
+    }
+
+    /*private ObservableList actualizarTabla() {
+        reservas = FXCollections.observableArrayList(appReservasPrincipal.getListaReservas());
+        reservasUsuarioActual = new FilteredList<Reserva>(reservas, p -> p.getCedulaReservante().equals(usarioActual.getCedula()));
+        tablaReservas.setItems(reservasUsuarioActual);
+        return reservasUsuarioActual;
+    }*/
+}
 
 
 

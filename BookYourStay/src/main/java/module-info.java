@@ -6,6 +6,10 @@ module BookYourStay {
     requires static lombok;
     requires org.simplejavamail;
     requires org.simplejavamail.core;
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
+    requires java.desktop;
+    requires jakarta.mail;
 
     opens co.edu.uniquindio.reservasapp to javafx.fxml;
     exports co.edu.uniquindio.reservasapp;

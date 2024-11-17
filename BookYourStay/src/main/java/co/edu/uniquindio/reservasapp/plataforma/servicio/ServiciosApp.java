@@ -11,20 +11,20 @@ import java.util.Optional;
 
 public interface ServiciosApp {
     Persona login(String correo, String contrasena) throws Exception;
+
     void registrarPersona(String cedula, String nombres, String apellidos, String email, String contrasena) throws Exception;
+
     List<Reserva> listarTodasReservas();
 
+    Reserva crearReserva(String idReserva, String ciudadAlojamiento, String nombreHospedaje, String cedulaReservante, LocalDate diaInicioReserva, LocalDate diaFinReserva, String horaInicioReserva, String horaFinReserva, double costo, int capacidadMaxima) throws Exception;
 
-    Reserva crearReserva(String ciudadAlojamiento, String nombreHospedaje, String cedulaReservante, LocalDate diaInicioReserva, LocalDate diaFinReserva, String horaInicioReserva, String horaFinReserva, double costo, int capacidadMaxima)throws Exception;
+    void generarFactura(Reserva reserva) throws Exception;
 
-//    Reserva crearReserva(String tipoInstalacion, String idInstalacion, String cedula, LocalDate diaReserva, String horaReserva) throws Exception;
+//    void generarFactura(String codigo, String fechaIncioReserva, String fechaFinReserva, double subtotalDia, double total)throws Exception;
 
 
-//    Persona login(String correo, String contrasena) throws Exception;
-//    void registrarPersona(String cedula, String nombres, String apellidos,  String email, String contrasena) throws Exception;
-//
-//    void crearInstalacion(String id, String nombre, int aforo, float costo, LocalDateTime horaInicio, LocalDateTime horaFin);
-//
+    void generarCodigoQR()throws Exception;
+
 
     Optional<Persona> obtenerPersona(String cedulaCliente);
 //

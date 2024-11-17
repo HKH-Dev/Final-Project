@@ -7,11 +7,12 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
-@Builder
 public class Reserva {
+    private String idReserva;
     private String ciudadAlojamiento;
     private String nombreHospedaje;
     private String cedulaReservante;
@@ -22,7 +23,9 @@ public class Reserva {
     private double costo;
     private int capacidadMaxima;
 
-    public Reserva(String ciudadAlojamiento, String nombreHospedaje, String cedulaReservante, LocalDate diaInicioReserva, LocalDate diaFinReserva, String horaInicioReserva, String horaFinReserva, double costo, int capacidadMaxima) {
+
+    public Reserva( String idReserva, String ciudadAlojamiento, String nombreHospedaje, String cedulaReservante, LocalDate diaInicioReserva, LocalDate diaFinReserva, String horaInicioReserva, String horaFinReserva, double costo, int capacidadMaxima) {
+        this.idReserva = UUID.randomUUID().toString();
         this.ciudadAlojamiento = ciudadAlojamiento;
         this.nombreHospedaje = nombreHospedaje;
         this.cedulaReservante = cedulaReservante;
@@ -34,12 +37,4 @@ public class Reserva {
         this.capacidadMaxima = capacidadMaxima;
     }
 
-//    public String getNombreInstalacion(List<Instalaciones> listaInstalaciones) {
-//        for (Instalaciones instalacion : listaInstalaciones) {
-//            if (instalacion.getId().equals(this.idInstalacion)) {
-//                return instalacion.getNombre();
-//            }
-//        }
-//        return "Instalacion no encontrada";
-//    }
 }

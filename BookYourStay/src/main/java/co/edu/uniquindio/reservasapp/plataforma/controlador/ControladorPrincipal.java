@@ -38,20 +38,24 @@ public class ControladorPrincipal implements ServiciosApp {
 
     }
 
-//    @Override
-//    public void crearInstalacion(String id, String nombre,int aforo, float costo, LocalDateTime horaInicio, LocalDateTime horaFin) {
-//        appReservasPrincipal.crearInstalacion(id, nombre, aforo, costo, horaInicio, horaFin);
-//    }
 
     @Override
-    public Reserva crearReserva(String ciudadAlojamiento, String nombreHospedaje, String cedulaReservante, LocalDate diaInicioReserva, LocalDate diaFinReserva, String horaInicioReserva, String horaFinReserva, double costo, int capacidadMaxima)throws Exception{
-        return appReservasPrincipal.crearReserva(ciudadAlojamiento, nombreHospedaje, cedulaReservante, diaInicioReserva, diaFinReserva, horaInicioReserva, horaFinReserva, costo, capacidadMaxima);
+    public Reserva crearReserva(String idReserva, String ciudadAlojamiento, String nombreHospedaje, String cedulaReservante, LocalDate diaInicioReserva, LocalDate diaFinReserva, String horaInicioReserva, String horaFinReserva, double costo, int capacidadMaxima)throws Exception{
+        return appReservasPrincipal.crearReserva(idReserva, ciudadAlojamiento, nombreHospedaje, cedulaReservante, diaInicioReserva, diaFinReserva, horaInicioReserva, horaFinReserva, costo, capacidadMaxima);
+    }
+
+    @Override
+    public void generarFactura(Reserva reserva) throws Exception {
+        appReservasPrincipal.generarFactura(reserva);
     }
 
 
-//    crearReserva(String tipoInstalacion, String idInstalacion, String cedula, LocalDate diaReserva, String horaReserva) throws Exception {
-//        return appReservasPrincipal.crearReserva(tipoInstalacion, idInstalacion, cedula, diaReserva, horaReserva);
-//    }
+    @Override
+    public void generarCodigoQR() throws Exception {
+
+    }
+
+
 
 
     @Override
@@ -68,14 +72,14 @@ public class ControladorPrincipal implements ServiciosApp {
 
 
     //TODO Completar con el resto de métodos necesarios para la aplicación
-
-    public void mostrarAlerta(String mensaje, String titulo, Alert.AlertType tipo) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
+//
+//    public void mostrarAlerta(String mensaje, String titulo, Alert.AlertType tipo) {
+//        Alert alert = new Alert(tipo);
+//        alert.setTitle(titulo);
+//        alert.setHeaderText(null);
+//        alert.setContentText(mensaje);
+//        alert.showAndWait();
+//    }
 
     public  void navegarVentana(String nombreArchivoFxml, String tituloVentana) {
         try {

@@ -15,7 +15,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RegistroControlador implements Initializable {
+public class RegistroUsuarioControlador implements Initializable {
     AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
     ControladorPrincipal controladorPrincipal = ControladorPrincipal.getInstancia();
     Sesion sesion = Sesion.getInstancia();
@@ -29,8 +29,6 @@ public class RegistroControlador implements Initializable {
     public TextField txtApellido;
     @FXML
     public TextField txtEmail;
-//    @FXML
-//    private ComboBox<TipoPersona> cbTipoPersona;
     @FXML
     private PasswordField txtPassword;
     @FXML
@@ -51,9 +49,6 @@ public class RegistroControlador implements Initializable {
                 String email = txtEmail.getText();
                 String contrasena = BCrypt.hashpw(txtPassword.getText(), BCrypt.gensalt());
                 String hashedPassword = BCrypt.hashpw(contrasena, BCrypt.gensalt());
-
-
-//                TipoPersona tipoPersona = cbTipoPersona.getValue();
                 appReservasPrincipal.registrarPersona(cedula, nombre, apellido, email, contrasena);
 
                 for (Persona newUser : appReservasPrincipal.getListaClientes()) {
@@ -62,12 +57,9 @@ public class RegistroControlador implements Initializable {
                         break;
                     }
                 }
-
                 sesion.setPersona(persona);
                 limpiarFormularioRegistro();
                 mostrarAlerta("Persona registrada correctamente", Alert.AlertType.INFORMATION);
-
-
                 controladorPrincipal.cerrarVentana(txtCedula);
                 controladorPrincipal.navegarVentana("/profile.fxml", "Perfil");
             }

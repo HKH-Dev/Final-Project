@@ -117,7 +117,6 @@ public class BuscadorAlojamientosControlador implements Initializable {
     private void setupDateRangeSelection() {
         dpFechaInicio.setDayCellFactory(createDayCellFactory());
         dpFechaFin.setDayCellFactory(createDayCellFactory());
-
         dpFechaInicio.valueProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 startDate = newValue;

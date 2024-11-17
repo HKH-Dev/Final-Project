@@ -26,12 +26,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class AppMain extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         cargarHospedajes();
-        cargarDatosAppReserva();
+        cargarUsuariosAppReserva();
+        cargarBaseDatosReserva();
         FXMLLoader fxmlLoader = new FXMLLoader(AppMain.class.getResource("/inicio.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
         stage.setTitle("Reserva App");
@@ -401,19 +403,27 @@ public class AppMain extends Application {
 
         }
 
-    private static void cargarDatosAppReserva() {
+    private static void cargarUsuariosAppReserva() {
         try {
             AppReservasPrincipal AppReserva = AppReservasPrincipal.getInstance();
             AppReserva.registrarPersona("123", "Ana Maria", "Lopez Perez", "ana@email.com", "123");
+            AppReserva.registrarPersona("456", "Juan", "Perez", "juan@email", "456");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public static void cargarBaseDatosReserva() {
-
         AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
-        Reserva reserva = new Reserva("Armenia", "Casa Cafetera", "123", LocalDate.of(2024, 11, 20),LocalDate.of(2024, 12, 8    ),("16:00"), "5:45", 300000, 6);
-
+        try {
+            appReservasPrincipal.crearReserva(UUID.randomUUID().toString(),"Armenia", "Casa Cafetera", "123", LocalDate.of(2025, 1, 10), LocalDate.of(2025, 2, 2), "12:00", "08:00", 600000, 2);
+            appReservasPrincipal.crearReserva(UUID.randomUUID().toString(), "Bogota", "Casa Cedritos", "456", LocalDate.of(2024, 11, 29), LocalDate.of(2024, 12, 15), "12:00", "08:00", 600000, 2);
+            appReservasPrincipal.crearReserva(UUID.randomUUID().toString(), "Medellin", "Hotel La Arepa", "123", LocalDate.of(2025, 4, 29), LocalDate.of(2025, 5, 15), "12:00", "08:00", 600000, 2);
+            appReservasPrincipal.crearReserva(UUID.randomUUID().toString(), "San Andres", "Hotel MarAzul", "123", LocalDate.of(2025, 6, 29), LocalDate.of(2025, 7, 15), "12:00", "08:00", 600000, 2);
+            // Add additional reservations similarly
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

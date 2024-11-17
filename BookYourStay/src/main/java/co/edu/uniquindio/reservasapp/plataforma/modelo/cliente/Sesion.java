@@ -8,17 +8,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+
 public class Sesion {
+    private static Sesion instancia;
     private Persona persona;
-    private static Sesion INSTANCIA;
 
     private Sesion() {}
 
     public static Sesion getInstancia() {
-        if (INSTANCIA == null) {
-            INSTANCIA = new Sesion();
+        if (instancia == null) {
+            instancia = new Sesion();
         }
-        return INSTANCIA;
+        return instancia;
     }
 
     public Persona getPersona() {
@@ -28,10 +29,7 @@ public class Sesion {
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
-
-    public void cerrarSesion() {
-        persona = null;
-    }
 }
+
 
 

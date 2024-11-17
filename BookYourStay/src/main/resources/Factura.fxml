@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.FacturaControlador">
+    <VBox prefHeight="1200.0" prefWidth="800.0">
+        <children>
+            <AnchorPane prefHeight="804.0" prefWidth="416.0">
+                <children>
+                    <Label fx:id="lblNombreHospedaje" layoutX="50" layoutY="50" text="Nombre Hospedaje" />
+                    <Label fx:id="lblCiudadAlojamiento" layoutX="50" layoutY="80" text="Ciudad" />
+                    <Label fx:id="lblFechaInicio" layoutX="50" layoutY="110" text="Fecha Inicio" />
+                    <Label fx:id="lblHoraInicio" layoutX="50" layoutY="140" text="Hora Inicio" />
+                    <Label fx:id="lblFechaFin" layoutX="50" layoutY="170" text="Fecha Fin" />
+                    <Label fx:id="lblHoraFin" layoutX="50" layoutY="200" text="Hora Fin" />
+                    <Label fx:id="lblNumeroHuespedes" layoutX="50" layoutY="230" text="Número de Huéspedes" />
+                    <Label fx:id="lblPrecioPorNoche" layoutX="50" layoutY="260" text="Precio por Noche" />
+                    <Label fx:id="lblSubtotal" layoutX="50" layoutY="290" text="Subtotal por Día" />
+                    <Label fx:id="lblTotal" layoutX="50" layoutY="320" text="Total" />
+                    <Label fx:id="lblSaldoActual" layoutX="50" layoutY="350" text="Saldo Actual" />
+                    <TextField fx:id="txtMontoCarga" layoutX="50" layoutY="380" promptText="Monto a cargar" />
+                    <Button layoutX="50" layoutY="410" text="Cargar Saldo" onAction="#cargarSaldo" />
+                    <Button layoutX="50" layoutY="450" text="Pagar Reserva" onAction="#pagarReserva" />
+                </children>
+            </AnchorPane>
+        </children>
+    </VBox>
+    <VBox prefHeight="800.0" prefWidth="783.0">
+        <children>
+            <AnchorPane prefHeight="803.0" prefWidth="783.0">
+                <children>
+                    <Label layoutX="323.0" layoutY="14.0" style="-fx-font-size: 20px;" text="Factura Reserva" textAlignment="CENTER" />
+                </children>
+            </AnchorPane>
+        </children>
+    </VBox>
+</HBox>
