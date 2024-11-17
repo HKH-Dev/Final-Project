@@ -39,15 +39,27 @@
 
         <!-- Contraseña -->
         <HBox alignment="CENTER_LEFT" spacing="10.0">
-            <Label prefWidth="100.0" text="Contraseña:" />
-            <PasswordField fx:id="txtContrasena" editable="false" prefHeight="25.0" prefWidth="242.0" />
-            <Button fx:id="btnModificarContrasena" prefHeight="25.0" prefWidth="119.0" text="Modificar" />
+            <Label prefWidth="100.0" text="Contraseña actual:" />
+            <PasswordField fx:id="txtContrasena" prefHeight="25.0" prefWidth="242.0" />
+            <Label prefWidth="100" text="Editar"/>
+            <CheckBox fx:id="checkBoxEditPass" onAction="#onCambiarPass" />
         </HBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label fx:id="lblNuevaContrasena" prefWidth="100.0" text="Nueva contraseña:" visible="false" />
+            <PasswordField fx:id="txtContrasenaNueva"  prefHeight="25.0" prefWidth="242.0" visible="false" />
+        </HBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <Label fx:id="lblNuevaContrasenaConf" prefWidth="100.0" text="Confirmar contraseña:" visible="false" />
+            <PasswordField fx:id="txtContrasenaNuevaConf" prefHeight="25.0" prefWidth="242.0" visible="false" />
+        </HBox>
+
     </VBox>
 
     <!-- Botón Volver al Inicio -->
-    <Button fx:id="btnVolverInicio" layoutX="480.0" layoutY="20.0" text="Volver al Inicio" />
+    <Button fx:id="btnVolverInicio" layoutX="480.0" layoutY="20.0" onAction="#onVolverAlInicio" text="Volver al Inicio" />
 
     <!-- Botón Guardar Cambios -->
-    <Button fx:id="btnModificarPerfil" layoutX="240.0" layoutY="330.0" text="Guardar Cambios" />
+    <Button fx:id="btnModificarPerfil" layoutX="240.0" layoutY="346.0" onAction="#onGuardarCambios" text="Guardar Cambios" />
 </AnchorPane>

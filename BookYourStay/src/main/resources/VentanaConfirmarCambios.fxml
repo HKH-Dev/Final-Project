@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.VentanaConfirmarCambiosController"
+            prefHeight="200.0" prefWidth="400.0">
+
+    <!-- Mensaje para el usuario -->
+    <Label fx:id="labelMensaje" layoutX="20.0" layoutY="30.0" wrapText="true" prefWidth="360.0"
+           text="El código ha sido enviado a su correo. Por favor, ingréselo para poder cambiar sus datos."/>
+
+    <!-- Campo de texto para ingresar el código -->
+    <TextField fx:id="txtCodigo" layoutX="20.0" layoutY="80.0" prefWidth="360.0"
+               promptText="Ingrese el código aquí"/>
+
+    <!-- Botón para confirmar -->
+    <Button fx:id="btnConfirmar" layoutX="150.0" layoutY="130.0" text="Confirmar" onAction="#onVerificarCodigo"/>
+</AnchorPane>
