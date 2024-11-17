@@ -74,7 +74,7 @@ public class PerfilControlador implements Initializable {
         @FXML
         void onEditarDatos(ActionEvent event) {
             try {
-                controladorPrincipal.navegarVentana("/profileEditarDatos.fxml", "Editar mis datos");
+                controladorPrincipal.navegarVentana("/UserEditarPerfil.fxml", "Editar mis datos");
             } catch (Exception e) {e.printStackTrace();}
         }
 

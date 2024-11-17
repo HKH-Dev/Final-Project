@@ -12,7 +12,7 @@ import lombok.Setter;
 public class Sesion {
     private static Sesion instancia;
     private Persona persona;
-
+    private Runnable onPersonaChange;
     private Sesion() {}
 
     public static Sesion getInstancia() {
@@ -28,6 +28,9 @@ public class Sesion {
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+    public void setOnPersonaChange(Runnable listener) {
+        this.onPersonaChange = listener;
     }
 }
 

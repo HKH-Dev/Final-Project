@@ -408,6 +408,7 @@ public class AppMain extends Application {
             AppReservasPrincipal AppReserva = AppReservasPrincipal.getInstance();
             AppReserva.registrarPersona("123", "Ana Maria", "Lopez Perez", "ana@email.com", "123");
             AppReserva.registrarPersona("456", "Juan", "Perez", "juan@email", "456");
+            AppReserva.registrarPersona("1006775047", "Sebas", "Lesmes", "gdg4l4x1156@gmail.com", "12345");
         } catch (Exception e) {
             e.printStackTrace();
         }

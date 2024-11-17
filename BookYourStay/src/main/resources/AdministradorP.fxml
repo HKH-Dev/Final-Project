@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ChoiceBox?>
 <AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.AdministradorController">
 
     <!-- Panel Principal -->
@@ -56,33 +57,39 @@
         <Label style="-fx-font-weight: bold; -fx-font-size: 18px;" text="Detalles del Alojamiento Seleccionado" />
 
         <GridPane hgap="10" vgap="10">
+            <!-- Tipo de Establecimiento (ahora al principio) -->
+            <Label text="Tipo de Establecimiento:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <ChoiceBox fx:id="choiceTipoEstablecimiento" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="150"/>
+
             <!-- Nombre -->
-            <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
             <!-- Ciudad -->
-            <Label text="Ciudad:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextField fx:id="txtCiudad" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Ciudad:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+           <ChoiceBox fx:id="choiceCiudad" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="150"/>
 
             <!-- Descripción -->
-            <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <TextArea fx:id="txtDescripcion" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextArea fx:id="txtDescripcion" prefRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
             <!-- Precio por Noche -->
-            <Label text="Precio por Noche:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <TextField fx:id="txtPrecio" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Precio por Noche:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <TextField fx:id="txtPrecio" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
             <!-- Capacidad -->
-            <Label text="Capacidad:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <TextField fx:id="txtCapacidad" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Capacidad:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <TextField fx:id="txtCapacidad" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
             <!-- Servicios -->
-            <Label text="Servicios:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <Button fx:id="btnServicios" onAction="#OnVentanaServicios" text="Seleccionar" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <ImageView fx:id="imgAlojamiento" fitHeight="150" fitWidth="200" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="Servicios:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <Button fx:id="btnServicios" onAction="#OnVentanaServicios" text="Seleccionar" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+            <!-- Imagen del Alojamiento -->
+            <ImageView fx:id="imgAlojamiento" fitHeight="150" fitWidth="200" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
             <!-- Botón para Cambiar Imagen -->
-            <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" onAction="#onCambiarImagen" text="Cambiar Imagen" GridPane.rowIndex="6" />
+            <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" onAction="#onCambiarImagen" text="Cambiar Imagen" GridPane.rowIndex="7" />
 
             <columnConstraints>
                 <ColumnConstraints />
@@ -99,6 +106,7 @@
                 <RowConstraints />
             </rowConstraints>
         </GridPane>
+
 
     </VBox>
 

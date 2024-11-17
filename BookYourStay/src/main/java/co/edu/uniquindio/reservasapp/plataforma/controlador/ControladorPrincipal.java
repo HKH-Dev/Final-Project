@@ -106,4 +106,12 @@ public class ControladorPrincipal implements ServiciosApp {
         stage.close();
     }
 
+    public void mostrarAlerta(String mensaje, Alert.AlertType tipoAlerta) {
+        Alert alerta = new Alert(tipoAlerta);  // Tipo de alerta (puede ser ERROR, WARNING, INFORMATION, etc.)
+        alerta.setTitle("Mensaje");  // Título de la alerta
+        alerta.setHeaderText(null);  // Encabezado (puedes personalizarlo o dejarlo como null)
+        alerta.setContentText(mensaje);  // Mensaje que deseas mostrar
+
+        alerta.showAndWait();  // Muestra la alerta y espera hasta que el usuario la cierre
+    }
 }
