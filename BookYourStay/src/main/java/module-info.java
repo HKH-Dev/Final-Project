@@ -19,6 +19,7 @@ module BookYourStay {
     exports co.edu.uniquindio.reservasapp.plataforma.modelo;
     exports co.edu.uniquindio.reservasapp.plataforma.modelo.resevacion;
     exports co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums;
+    exports co.edu.uniquindio.reservasapp.plataforma.controlador.CRUDControllers;
 
 
 }

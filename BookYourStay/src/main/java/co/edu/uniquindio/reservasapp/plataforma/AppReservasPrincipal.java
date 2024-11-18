@@ -1,6 +1,7 @@
 package co.edu.uniquindio.reservasapp.plataforma;
 
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
+import co.edu.uniquindio.reservasapp.plataforma.modelo.Administrador;
 import co.edu.uniquindio.reservasapp.plataforma.modelo.Factura;
 import co.edu.uniquindio.reservasapp.plataforma.modelo.Persona;
 import co.edu.uniquindio.reservasapp.plataforma.modelo.QRCodeGenerator;
@@ -28,6 +29,7 @@ public class AppReservasPrincipal implements ServiciosApp {
     @Getter
     private List<Alojamiento> listaAlojamientos;
     private List<Reserva> listaReservas;
+    private Administrador administrador;
 
     private AppReservasPrincipal() {
         this.listaClientes = new ArrayList<>();

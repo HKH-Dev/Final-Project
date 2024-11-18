@@ -4,6 +4,7 @@ import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
 import lombok.ToString;
 
+
 import java.util.List;
 
 @ToString

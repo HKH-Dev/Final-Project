@@ -13,6 +13,7 @@ import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.hotel.Hotel;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.hotel.HotelBuilder;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.servicio.ServicioAlojamiento;
 import co.edu.uniquindio.reservasapp.plataforma.controlador.InicioControlador;
+import co.edu.uniquindio.reservasapp.plataforma.modelo.Administrador;
 import co.edu.uniquindio.reservasapp.plataforma.modelo.resevacion.Reserva;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -409,6 +410,7 @@ public class AppMain extends Application {
             AppReserva.registrarPersona("123", "Ana Maria", "Lopez Perez", "ana@email.com", "123");
             AppReserva.registrarPersona("456", "Juan", "Perez", "juan@email", "456");
             AppReserva.registrarPersona("1006775047", "Sebas", "Lesmes", "gdg4l4x1156@gmail.com", "12345");
+            AppReserva.getListaClientes().add(Administrador.getInstancia());
         } catch (Exception e) {
             e.printStackTrace();
         }

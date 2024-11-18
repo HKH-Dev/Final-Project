@@ -26,7 +26,6 @@ public class Persona {
         this.billetera = billetera;
     }
 
-    // Convenience methods to access saldo
     public double getSaldo() {
         return billetera.getSaldo();
     }

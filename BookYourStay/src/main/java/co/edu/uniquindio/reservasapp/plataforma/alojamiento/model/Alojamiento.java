@@ -1,6 +1,7 @@
 package co.edu.uniquindio.reservasapp.plataforma.alojamiento.model;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.servicio.ServicioAlojamiento;
+import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
