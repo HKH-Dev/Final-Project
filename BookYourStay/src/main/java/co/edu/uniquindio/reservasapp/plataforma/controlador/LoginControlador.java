@@ -1,8 +1,10 @@
 package co.edu.uniquindio.reservasapp.plataforma.controlador;
 
 import co.edu.uniquindio.reservasapp.plataforma.AppReservasPrincipal;
+import co.edu.uniquindio.reservasapp.plataforma.modelo.Administrador;
 import co.edu.uniquindio.reservasapp.plataforma.modelo.Persona;
 import co.edu.uniquindio.reservasapp.plataforma.modelo.cliente.Sesion;
+import javafx.beans.binding.When;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -35,17 +37,17 @@ public class LoginControlador {
         return BCrypt.checkpw(String.valueOf(contrasena), hashed);
     }
 
-    public void login(ActionEvent actionEvent) {
+    public void login(ActionEvent actionEvent) {try {
         boolean loginSuccessful = false;
         String errorMsg = "Correo o contraseña incorrectos";
 
         for (Persona persona : appReservasPrincipal.getListaClientes()) {
             if (txtCorreo.getText().equals(persona.getEmail())) {
-                if (validarPassword(txtPassword.getText(), persona.getContrasena())) {
+                if (validarPassword(txtPassword.getText(), persona.getContrasena()) || txtPassword.getText().equals(persona.getContrasena())) {
                     sesion.setPersona(persona);
-                    controladorPrincipal.cerrarVentana(txtCorreo);
                     loginSuccessful = true;
-                    controladorPrincipal.navegarVentana("/profile.fxml", "Perfil");
+                    redirigirSegunRol(persona);
+                    System.out.println("Login correcto");
                     break;
                 } else {
                     errorMsg = "Contraseña incorrecta";
@@ -56,9 +58,22 @@ public class LoginControlador {
             mostrarAlerta(errorMsg, Alert.AlertType.ERROR);
             limpiarFormulario();
         }
+    } catch (Exception e){
+        e.printStackTrace();
+    }
     }
 
 
+    private void redirigirSegunRol(Persona persona) {
+        // Verificamos el tipo de persona y redirigimos a la ventana correspondiente
+        if (persona instanceof Administrador) {
+            controladorPrincipal.cerrarVentana(txtCorreo); // Cerramos la ventana de login
+            controladorPrincipal.navegarVentana("/AdministradorP.fxml", "Panel de Administrador");
+        } else {
+            controladorPrincipal.cerrarVentana(txtCorreo); // Cerramos la ventana de login
+            controladorPrincipal.navegarVentana("/profile.fxml", "Perfil de Cliente");
+        }
+    }
     private void mostrarAlerta(String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle("Información");

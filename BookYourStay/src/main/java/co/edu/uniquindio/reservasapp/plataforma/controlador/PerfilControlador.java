@@ -56,6 +56,7 @@ public class PerfilControlador implements Initializable {
         @FXML
         void onCerrarSesion(ActionEvent event) {
             try {
+                Sesion.getInstancia().setPersona(null);
                 controladorPrincipal.navegarVentana("/inicio.fxml", "Inicio");
                 controladorPrincipal.cerrarVentana(lblName);
             } catch (Exception e){e.printStackTrace();

@@ -9,8 +9,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -113,5 +115,22 @@ public class ControladorPrincipal implements ServiciosApp {
         alerta.setContentText(mensaje);  // Mensaje que deseas mostrar
 
         alerta.showAndWait();  // Muestra la alerta y espera hasta que el usuario la cierre
+    }
+    public void cargarFXMLEnPanel(Pane panelDestino, String rutaFXML) {
+        try {
+            // Cargar el archivo FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFXML));
+            Node contenido = loader.load();
+
+            // Limpiar el panel antes de cargar nuevo contenido (opcional)
+            panelDestino.getChildren().clear();
+
+            // Añadir el contenido cargado al panel destino
+            panelDestino.getChildren().add(contenido);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar el archivo FXML: " + rutaFXML);
+        }
     }
 }
