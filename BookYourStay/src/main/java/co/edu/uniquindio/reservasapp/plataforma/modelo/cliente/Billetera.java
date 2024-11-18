@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Billetera {
-    private double saldo = 5000000;
+    private double saldo = 50000000;
 
     public Billetera(double saldo) {
         this.saldo = saldo;

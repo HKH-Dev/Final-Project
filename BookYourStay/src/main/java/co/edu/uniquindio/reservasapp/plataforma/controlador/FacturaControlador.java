@@ -38,9 +38,6 @@ public class FacturaControlador implements Initializable {
     @FXML private TextField txtMontoCarga;
     @FXML private Label lblSaldoActual;
 
-    // Rest of your code...
-
-
     private Alojamiento currentAlojamiento;
     private Persona usuarioActual;
     private LocalDate diaInicioReserva;
@@ -49,7 +46,6 @@ public class FacturaControlador implements Initializable {
     private String horaFinReserva;
     private int numeroHuespedes;
     private double totalReserva;
-
     AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
 
     @Override
@@ -156,6 +152,22 @@ public class FacturaControlador implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void volverAtras(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservar.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) lblNombreHospedaje.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Error al volver atrás: " + e.getMessage());
+        }
+    }
+
+    public void printFactura(ActionEvent event) {
+
     }
 }
 
