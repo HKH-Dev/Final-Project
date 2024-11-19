@@ -1,5 +1,7 @@
 package co.edu.uniquindio.reservasapp.plataforma.controlador;
 
+import co.edu.uniquindio.reservasapp.ObserverPatern.Observable;
+import co.edu.uniquindio.reservasapp.ObserverPatern.Observer;
 import co.edu.uniquindio.reservasapp.plataforma.modelo.Persona;
 import co.edu.uniquindio.reservasapp.plataforma.AppReservasPrincipal;
 import co.edu.uniquindio.reservasapp.plataforma.modelo.resevacion.Reserva;
@@ -109,28 +111,56 @@ public class ControladorPrincipal implements ServiciosApp {
     }
 
     public void mostrarAlerta(String mensaje, Alert.AlertType tipoAlerta) {
-        Alert alerta = new Alert(tipoAlerta);  // Tipo de alerta (puede ser ERROR, WARNING, INFORMATION, etc.)
-        alerta.setTitle("Mensaje");  // Título de la alerta
-        alerta.setHeaderText(null);  // Encabezado (puedes personalizarlo o dejarlo como null)
-        alerta.setContentText(mensaje);  // Mensaje que deseas mostrar
+        Alert alerta = new Alert(tipoAlerta);
+        alerta.setTitle("Mensaje");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
 
-        alerta.showAndWait();  // Muestra la alerta y espera hasta que el usuario la cierre
+        alerta.showAndWait();
     }
     public void cargarFXMLEnPanel(Pane panelDestino, String rutaFXML) {
         try {
-            // Cargar el archivo FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFXML));
             Node contenido = loader.load();
 
-            // Limpiar el panel antes de cargar nuevo contenido (opcional)
             panelDestino.getChildren().clear();
 
-            // Añadir el contenido cargado al panel destino
             panelDestino.getChildren().add(contenido);
 
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error al cargar el archivo FXML: " + rutaFXML);
+        }
+    }
+    public void cargarFXMLEnPanelcoObserver(Pane panelDestino, String rutaFXML, Observer observer) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFXML));
+            Node contenido = loader.load();
+
+            Observable observable = loader.getController();
+            observable.addObserver(observer);
+            panelDestino.getChildren().clear();
+            panelDestino.getChildren().add(contenido);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar el archivo FXML: " + rutaFXML);
+        }
+    }
+    public  void navegarVentanaObservable(String nombreArchivoFxml, String tituloVentana, Observer observer) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(nombreArchivoFxml));
+            Parent root = loader.load();
+            Observable observable = loader.getController();
+            observable.addObserver(observer);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setResizable(true);
+            stage.setTitle(tituloVentana);
+            stage.show();
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

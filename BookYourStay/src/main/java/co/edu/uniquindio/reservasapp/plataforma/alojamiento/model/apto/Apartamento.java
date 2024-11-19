@@ -2,11 +2,14 @@ package co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.apto;
 
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 
 import java.util.List;
-
+@Setter
+@Getter
 @ToString
 public class Apartamento extends Alojamiento {
     private boolean tieneCocina;

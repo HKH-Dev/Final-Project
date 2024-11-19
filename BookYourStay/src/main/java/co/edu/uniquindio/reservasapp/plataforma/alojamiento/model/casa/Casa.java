@@ -2,42 +2,18 @@ package co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.casa;
 
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 //
 //@ToString
-
+@Getter
+@Setter
 public class Casa extends Alojamiento implements CasaFactory{
     private boolean tieneCocina;
     private boolean tieneJardin;
-//    private Casa(CasaBuilder builder) {
-//        super(builder.nombre, builder.descripcion, builder.imagen, builder.precioNoche, builder.capacidadMaxima);
-//    }
-//    @Override
-//    public void tipoAlojamiento() {
-//        System.out.println("Tipo de alojamiento: Casa");
-//    }
-//    public static class CasaBuilder extends AlojamientoBuilder<CasaBuilder>{
-//        private boolean tieneCocina;
-//        private boolean tieneJardin;
-//
-//        public CasaBuilder alojamientoTieneCocina(boolean tieneCocina){
-//            this.tieneCocina = tieneCocina;
-//            return self();
-//        }
-//        public CasaBuilder alojamientoTieneJardin(boolean tieneJardin){
-//            this.tieneJardin = tieneJardin;
-//            return self();
-//        }
-//        @Override
-//        protected CasaBuilder self(){
-//            return this;
-//        }
-//        @Override
-//        public Casa build(){
-//            return new Casa(this);
-//        }
-//    }
+
     public Casa(String nombre, Ciudad ciudad, String descripcion, List<String> imagenes, double precioNoche, int capacidadMaxima, boolean tieneCocina, boolean tieneJardin) {
         super(nombre, ciudad, descripcion, imagenes, precioNoche, capacidadMaxima);
         this.tieneCocina = tieneCocina;
