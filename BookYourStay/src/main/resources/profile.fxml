@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" prefHeight="559.0" prefWidth="781.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.PerfilControlador">
+<HBox alignment="CENTER" prefHeight="559.0" prefWidth="781.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.PerfilControlador">
    <children>
       <AnchorPane prefHeight="541.0" prefWidth="781.0">
          <children>
@@ -28,9 +38,37 @@
                   <TableColumn fx:id="instalacionColumn" prefWidth="230.0" text="Instalación" />
               </columns>
             </TableView>
-            <Button layoutX="65.0" layoutY="465.0" mnemonicParsing="false" onAction="#onCrearReserva" prefHeight="25.0" prefWidth="106.0" text="Crear Reserva" />
-            <Button layoutX="190.0" layoutY="465.0" mnemonicParsing="false" onAction="#onCancelarReserva" text="Cancelar Reserva" />
-            <Label fx:id="lblCargo" layoutX="638.0" layoutY="141.0" text="Cargo" />
+
+
+             <Label fx:id="lblCargo" layoutX="638.0" layoutY="141.0" text="Cargo" />
+            <HBox layoutX="65.0" layoutY="466.0" prefHeight="36.0" prefWidth="633.0">
+               <children>
+                  <AnchorPane prefHeight="46.0" prefWidth="633.0">
+                     <children>
+                        <GridPane prefHeight="36.0" prefWidth="633.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                               <Button fx:id="btnConsultarReserva" onAction="#onConsultarReserva" text="Consultar Reserva" GridPane.halignment="CENTER" />
+                              <Button mnemonicParsing="false" onAction="#onCancelarReserva" prefHeight="25.0" prefWidth="117.0" text="Cancelar Reserva" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button mnemonicParsing="false" onAction="#onCrearReserva" prefHeight="25.0" prefWidth="106.0" text="Crear Reserva" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </Button>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+
          </children>
       </AnchorPane>
    </children>

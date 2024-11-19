@@ -51,10 +51,10 @@ public class AppMain extends Application {
         // **Accommodations for San Andres**
         // Hotel
         List<String> marAzulImages = List.of(
-                "images/SAI/Hotel/MarAzul/MarAzul1.jpeg",
-                "images/SAI/Hotel/MarAzul/MarAzul2.jpeg",
-                "images/SAI/Hotel/MarAzul/MarAzul3.jpeg",
-                "images/SAI/Hotel/MarAzul/MarAzul4.jpeg"
+                "images/SAI/Hotel/MarAzul/MarAzul1.jpg",
+                "images/SAI/Hotel/MarAzul/MarAzul2.jpg",
+                "images/SAI/Hotel/MarAzul/MarAzul3.jpg",
+                "images/SAI/Hotel/MarAzul/MarAzul4.jpg"
         );
 
         Hotel hotelMarAzul = new HotelBuilder()
@@ -321,6 +321,32 @@ public class AppMain extends Application {
 
         // **Accommodations for Armenia**
         // Hotel
+        List<String> HotelCafeReal = List.of(
+                "images/AXM/Hotel/HotelCafeReal/HotelCafeReal1.jpg",
+                "images/AXM/Hotel/HotelCafeReal/HotelCafeReal2.jpg",
+                "images/AXM/Hotel/HotelCafeReal/HotelCafeReal3.jpg",
+                "images/AXM/Hotel/HotelCafeReal/HotelCafeReal4.jpg"
+        );
+        Hotel hotelCafeReal = new HotelBuilder()
+                .nombre("Hotel Cafe Real")
+                .ciudad(Ciudad.ARMENIA)
+                .descripcion("Hotel en el Quindio")
+                .imagenes(HotelCafeReal)
+                .precioNoche(250000)
+                .capacidadMaxima(100)
+                .habitacionNumero("H-3001")
+                .precioHabitacion(150000)
+                .build();
+        ServicioAlojamiento serviciosHotelCafeReal = ServicioAlojamiento.builder()
+                .wifi(true)
+                .piscina(true)
+                .parqueadero(true)
+                .tv(true)
+                .desayuno(true)
+                .aireAcondicionado(true)
+                .build();
+        hotelCafeReal.agregarServicios(serviciosHotelCafeReal);
+        appReservasPrincipal.agregarAlojamiento(hotelCafeReal);
 
        //House
         List<String> CasaCafeteraImages = List.of(
@@ -347,6 +373,31 @@ public class AppMain extends Application {
         casaCafetera.agregarServicios(serviciosCasaCafetera);
         appReservasPrincipal.agregarAlojamiento(casaCafetera);
 
+        // Apartment
+        List<String> AptoCentroImages = List.of(
+                "images/AXM/Apartamento/AptoCentro/AptoCentro1.jpg",
+                "images/AXM/Apartamento/AptoCentro/AptoCentro2.jpg",
+                "images/AXM/Apartamento/AptoCentro/AptoCentro3.jpg",
+                "images/AXM/Apartamento/AptoCentro/AptoCentro4.jpg"
+        );
+        Apartamento apartamentoCentro = new ApartamentoBuilder()
+                .nombre("Apartamento Centro")
+                .ciudad(Ciudad.ARMENIA)
+                .descripcion("Apartamento en el centro de Armenia")
+                .imagenes(AptoCentroImages)
+                .precioNoche(200000)
+                .capacidadMaxima(4)
+                .tieneBalcon(true)
+                .tieneCocina(true)
+                .build();
+        ServicioAlojamiento serviciosAptoCentro = ServicioAlojamiento.builder()
+                .wifi(true)
+                .parqueadero(true)
+                .tv(true)
+                .aireAcondicionado(true)
+                .build();
+        apartamentoCentro.agregarServicios(serviciosAptoCentro);
+        appReservasPrincipal.agregarAlojamiento(apartamentoCentro);
 
 
         // **Accommodations for Bogota**

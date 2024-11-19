@@ -1,38 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.FacturaControlador">
     <VBox prefHeight="1200.0" prefWidth="800.0">
         <children>
-            <AnchorPane prefHeight="804.0" prefWidth="416.0">
+            <AnchorPane prefHeight="800.0" prefWidth="555.0">
                 <children>
-                    <Label fx:id="lblNombreHospedaje" layoutX="50" layoutY="50" text="Nombre Hospedaje" />
-                    <Label fx:id="lblCiudadAlojamiento" layoutX="50" layoutY="80" text="Ciudad" />
-                    <Label fx:id="lblFechaInicio" layoutX="50" layoutY="110" text="Fecha Inicio" />
-                    <Label fx:id="lblHoraInicio" layoutX="50" layoutY="140" text="Hora Inicio" />
-                    <Label fx:id="lblFechaFin" layoutX="50" layoutY="170" text="Fecha Fin" />
-                    <Label fx:id="lblHoraFin" layoutX="50" layoutY="200" text="Hora Fin" />
-                    <Label fx:id="lblNumeroHuespedes" layoutX="50" layoutY="230" text="Número de Huéspedes" />
-                    <Label fx:id="lblPrecioPorNoche" layoutX="50" layoutY="260" text="Precio por Noche" />
-                    <Label fx:id="lblSubtotal" layoutX="50" layoutY="290" text="Subtotal por Día" />
-                    <Label fx:id="lblTotal" layoutX="50" layoutY="320" text="Total" />
-                    <Label fx:id="lblSaldoActual" layoutX="50" layoutY="350" text="Saldo Actual" />
-                    <TextField fx:id="txtMontoCarga" layoutX="50" layoutY="380" promptText="Monto a cargar" />
-                    <Button layoutX="50" layoutY="410" text="Cargar Saldo" onAction="#cargarSaldo" />
-                    <Button layoutX="50" layoutY="450" text="Pagar Reserva" onAction="#pagarReserva" />
+               <GridPane alignment="CENTER" hgap="10.0" layoutX="96.0" layoutY="285.0" prefHeight="227.0" prefWidth="422.0" vgap="10.0">
+                 <columnConstraints>
+                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                 </columnConstraints>
+                 <rowConstraints>
+                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                 </rowConstraints>
+                  <children>
+                          <Label fx:id="lblPrecioPorNoche" text="Precio por Noche" GridPane.columnIndex="1" />
+                          <Label fx:id="lblSubtotal" text="Subtotal por Día" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                          <Label style="-fx-font-size: 13px" text="Número de Huéspedes:" GridPane.rowIndex="1" />
+                          <Label fx:id="lblNumeroHuespedes" text="Número de Huéspedes" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                          <Label fx:id="lblSaldoActual" text="Saldo Actual" GridPane.rowIndex="6" />
+                          <Label style="-fx-font-size: 13px" text="Saldo Actual: $" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                          <Label fx:id="lblTotal" text="Total" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                          <Label style="-fx-font-size: 13px" text="Precio por Noche:" />
+                          <Label prefHeight="0.0" prefWidth="32.0" style="-fx-font-size: 13px" text="Total:" GridPane.rowIndex="4" />
+                          <Label style="-fx-font-size: 13px" text="Subtotal:" GridPane.rowIndex="3" />
+                  </children>
+               </GridPane>
+                    <Label layoutX="232.0" layoutY="14.0" style="-fx-font-size: 20px;" text="Detalles Reserva" />
+               <GridPane alignment="CENTER_LEFT" hgap="10.0" layoutX="96.0" layoutY="55.0" prefHeight="227.0" prefWidth="422.0" vgap="10.0">
+                 <columnConstraints>
+                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                   <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" />
+                 </columnConstraints>
+                 <rowConstraints>
+                   <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="25.0" valignment="CENTER" vgrow="NEVER" />
+                   <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                   <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+                     <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                     <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                     <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                     <RowConstraints />
+                     <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+                     <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+                 </rowConstraints>
+                  <children>
+
+                          <Label style="-fx-font-size: 13px;" text="Nombre del Hospedaje:" />
+                          <Label fx:id="lblNombreHospedaje" text="Nombre Hospedaje" GridPane.columnIndex="1" />
+                          <Label style="-fx-font-size: 13px" text="Ciudad:" GridPane.rowIndex="1" />
+                          <Label fx:id="lblCiudadAlojamiento" text="Ciudad" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                          <Label fx:id="lblFechaInicio" text="Fecha Inicio" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                          <Label style="-fx-font-size: 13px" text="Fecha Inicio:" GridPane.rowIndex="2" />
+                          <Label fx:id="lblHoraInicio" text="Hora Inicio" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                          <Label style="-fx-font-size: 13px" text="Hora Inicio:" GridPane.rowIndex="3" />
+                          <Label fx:id="lblFechaFin" text="Fecha Fin" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                          <Label style="-fx-font-size: 13px" text="Fecha Fin:" GridPane.rowIndex="4" />
+                          <Label fx:id="lblHoraFin" text="Hora Fin" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                          <Label style="-fx-font-size: 13px" text="Hora Fin:" GridPane.rowIndex="5" />
+                  </children>
+                  <padding>
+                     <Insets top="5.0" />
+                  </padding>
+               </GridPane>
+                    <Button layoutX="304.0" layoutY="646.0" onAction="#pagarReserva" text="Pagar Reserva" />
+                    <TextField fx:id="txtMontoCarga" layoutX="96.0" layoutY="546.0" prefHeight="25.0" prefWidth="158.0" promptText="Monto a cargar" />
+                    <Button layoutX="307.0" layoutY="546.0" onAction="#cargarSaldo" text="Cargar Saldo" textAlignment="CENTER" />
+                    <Button layoutX="96.0" layoutY="646.0" onAction="#volverAtras" text="Volver Atrás" />
+
                 </children>
             </AnchorPane>
         </children>
     </VBox>
-    <VBox prefHeight="800.0" prefWidth="783.0">
+
+    <VBox prefHeight="800.0" prefWidth="947.0">
         <children>
-            <AnchorPane prefHeight="803.0" prefWidth="783.0">
+            <AnchorPane prefHeight="800.0" prefWidth="670.0">
                 <children>
-                    <Label layoutX="323.0" layoutY="14.0" style="-fx-font-size: 20px;" text="Factura Reserva" textAlignment="CENTER" />
+                    <Label layoutX="268.0" layoutY="22.0" style="-fx-font-size: 20px;" text="Factura Reserva" textAlignment="CENTER" />
+                    <GridPane hgap="10" layoutX="100.0" layoutY="100.0" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints minWidth="10.0" prefWidth="200.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                        </rowConstraints>
+                        <children>
+                            <Label text="Subtotal:" />
+                            <Label fx:id="lblInvoiceSubtotal" GridPane.columnIndex="1" />
+                            <Label text="Total:" GridPane.rowIndex="1" />
+                            <Label fx:id="lblInvoiceTotal" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <Label text="Fecha:" GridPane.rowIndex="2" />
+                            <Label fx:id="lblInvoiceDate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label text="Código de Factura:" GridPane.rowIndex="3" />
+                            <Label fx:id="lblInvoiceCode" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        </children>
+                    </GridPane>
+                    <ImageView fx:id="qrCodeImageView" fitHeight="200.0" fitWidth="200.0" layoutX="100.0" layoutY="300.0" />
                 </children>
             </AnchorPane>
         </children>
     </VBox>
+
 </HBox>

@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import co.edu.uniquindio.reservasapp.plataforma.alojamiento.Review;
+
 
 @Setter
 @Getter
@@ -26,6 +28,19 @@ public abstract class Alojamiento {
     protected double Tarifa;
     protected ServicioAlojamiento servicios;
     private String testimage;
+    private List<Review> reviews = new ArrayList<>();
+
+    public void addReview(Review review) {
+        reviews.add(review);
+    }
+
+    public double getAverageRating() {
+        return reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+    }
+
 
     public Alojamiento(String nombre, Ciudad ciudad, String descripcion, List<String> imagenes, double precioNoche, int capacidadMaxima) {
         this.nombre = nombre;
@@ -71,15 +86,6 @@ public abstract class Alojamiento {
         // For now, assume all accommodations are available
         return true;
     }
-
-//    public boolean isAvailableForDates(LocalDate startDate, LocalDate endDate) {
-//
-//        if (this.fechaInicio == null || this.fechaFin == null) {
-//            return true; // If no dates are set, assume it's available
-//        }
-//        return (startDate.isAfter(this.fechaFin) || endDate.isBefore(this.fechaInicio));
-//    }
-
 
 }
 

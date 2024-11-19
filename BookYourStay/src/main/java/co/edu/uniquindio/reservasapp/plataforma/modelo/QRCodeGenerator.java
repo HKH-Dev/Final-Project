@@ -6,16 +6,18 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 
-import java.awt.image.BufferedImage;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.io.IOException;
 
 public class QRCodeGenerator {
+    public static void generateQRCodeImage(String text, int width, int height, String filePath) throws WriterException, IOException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
 
-    public static BufferedImage generateQRCodeImage(String barcodeText) throws Exception {
-        QRCodeWriter barcodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix =
-                barcodeWriter.encode(barcodeText, BarcodeFormat.QR_CODE, 200, 200);
-
-        return MatrixToImageWriter.toBufferedImage(bitMatrix);
+        Path path = FileSystems.getDefault().getPath(filePath);
+        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
     }
 }
+
 

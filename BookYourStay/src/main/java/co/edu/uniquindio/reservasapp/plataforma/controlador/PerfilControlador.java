@@ -10,19 +10,20 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.stage.Stage;
+import javafx.scene.control.Alert;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
 public class PerfilControlador implements Initializable {
-
+    @FXML private Button btnConsultarReserva;
     @FXML private MenuItem btnEditarDatos;
     @FXML private MenuItem btnCerrarsesion;
     @FXML private Label lblCargo;
@@ -32,15 +33,11 @@ public class PerfilControlador implements Initializable {
     @FXML private TableColumn<Reserva, String> fechaColumn;
     @FXML private TableColumn<Reserva, String> instalacionColumn;
     @FXML private Label lblName;
-
-
     ControladorPrincipal controladorPrincipal = ControladorPrincipal.getInstancia();
     AppReservasPrincipal appReservasPrincipal = AppReservasPrincipal.getInstance();
     ObservableList <Reserva> reservas;
     FilteredList <Reserva> reservasUsuarioActual;
-
     private Persona usarioActual;
-
 
     @FXML
     void onCancelarReserva(ActionEvent event) {
@@ -85,23 +82,6 @@ public class PerfilControlador implements Initializable {
         lblName.setText(usarioActual.getNombre());
         configurarColumnasTabla();
         actualizarTabla();
-
-//        @Override
-//        public void initialize(URL location, ResourceBundle resources){
-
-//            usarioActual = Sesion.getInstancia().getPersona();
-//            lblName.setText(usarioActual.getNombre());
-//
-//            reservas = FXCollections.observableArrayList(appReservasPrincipal.getListaReservas());
-//            reservasUsuarioActual = new FilteredList<Reserva>(reservas, p -> p.getCedulaReservante().equals(usarioActual.getCedula()));
-//            tablaReservas.setItems(actualizarTabla());
-//            idColumn.setCellValueFactory(new PropertyValueFactory<>("idInstalacion"));
-//            horaColumn.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
-//            fechaColumn.setCellValueFactory(new PropertyValueFactory<>("diaReserva"));
-//            instalacionColumn.setCellValueFactory(celldata -> {
-//            return new SimpleStringProperty(celldata.getValue().getNombreHospedaje());});
-//            configurarColumnasTabla();
-//            actualizarTabla();
     }
 
     private void configurarColumnasTabla() {
@@ -117,6 +97,64 @@ public class PerfilControlador implements Initializable {
         tablaReservas.setItems(reservasUsuarioActual);
         tablaReservas.refresh();
     }
+    @FXML
+    void onConsultarReserva(ActionEvent event) {
+        Reserva selectedReserva = tablaReservas.getSelectionModel().getSelectedItem();
+
+        if (selectedReserva != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/factura.fxml"));
+                Parent root = loader.load();
+
+                // Get the controller
+                FacturaControlador facturaController = loader.getController();
+
+                // Set the reservation data
+                facturaController.setDatosReservaFromReserva(selectedReserva);
+
+                // Show the invoice view
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Factura Reserva");
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "Error al consultar la reserva: " + e.getMessage());
+            }
+        } else {
+            mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Por favor, seleccione una reserva de la tabla.");
+        }
+    }
+
+    private void mostrarAlerta(Alert.AlertType tipoAlerta, String titulo, String mensage) {
+        Alert alert = new Alert(tipoAlerta);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensage);
+        alert.showAndWait();
+    }
+
+}
+
+
+//    intialize
+    //        @Override
+//        public void initialize(URL location, ResourceBundle resources){
+
+//            usarioActual = Sesion.getInstancia().getPersona();
+//            lblName.setText(usarioActual.getNombre());
+//
+//            reservas = FXCollections.observableArrayList(appReservasPrincipal.getListaReservas());
+//            reservasUsuarioActual = new FilteredList<Reserva>(reservas, p -> p.getCedulaReservante().equals(usarioActual.getCedula()));
+//            tablaReservas.setItems(actualizarTabla());
+//            idColumn.setCellValueFactory(new PropertyValueFactory<>("idInstalacion"));
+//            horaColumn.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
+//            fechaColumn.setCellValueFactory(new PropertyValueFactory<>("diaReserva"));
+//            instalacionColumn.setCellValueFactory(celldata -> {
+//            return new SimpleStringProperty(celldata.getValue().getNombreHospedaje());});
+//            configurarColumnasTabla();
+//            actualizarTabla();
 
     /*private ObservableList actualizarTabla() {
         reservas = FXCollections.observableArrayList(appReservasPrincipal.getListaReservas());
@@ -124,7 +162,7 @@ public class PerfilControlador implements Initializable {
         tablaReservas.setItems(reservasUsuarioActual);
         return reservasUsuarioActual;
     }*/
-}
+
 
 
 

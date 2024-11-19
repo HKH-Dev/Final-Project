@@ -2,7 +2,7 @@ package co.edu.uniquindio.reservasapp.plataforma.modelo;
 
 //La reserva debe almacenar la información del cliente, alojamiento, fechas, número de huéspedes, y generar una factura. La factura debe contener el subtotal, el total, una fecha y un código generado aleatoriamente (UUID).
 
-import co.edu.uniquindio.reservasapp.plataforma.modelo.cliente.utils.EnvioEmail;
+import co.edu.uniquindio.reservasapp.Utils.EnvioEmail;
 import co.edu.uniquindio.reservasapp.plataforma.modelo.resevacion.Reserva;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
