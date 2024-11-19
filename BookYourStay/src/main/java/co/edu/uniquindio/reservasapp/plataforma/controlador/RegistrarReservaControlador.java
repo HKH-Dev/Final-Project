@@ -36,7 +36,7 @@ public class RegistrarReservaControlador implements Initializable {
     @FXML private ComboBox<String> cbHoraInicioReserva;
     @FXML private ComboBox<String> cbHoraFinReserva;
     @FXML private TextArea txtTarifaReserva;
-
+    @FXML private Label lblAverageRating;
     private List<String> imagenes;
     private int currentImageIndex = 0;
     private Alojamiento currentAlojamiento;
@@ -63,8 +63,11 @@ public class RegistrarReservaControlador implements Initializable {
         cbHoraFinReserva.valueProperty().addListener((obs, oldVal, newVal) -> updateTarifaReserva());
     }
 
-    public void setAlojamiento(Alojamiento alojamiento, LocalDate startDate, LocalDate endDate, int numeroHuespedes, Persona usuarioActual) {
-        this.currentAlojamiento = alojamiento;
+public void setAlojamiento(Alojamiento alojamiento, LocalDate startDate, LocalDate endDate, int numeroHuespedes, Persona usuarioActual) {
+    if (alojamiento != null) {
+        lblAverageRating.setText(String.valueOf(alojamiento.getAverageRating()));
+    }
+    this.currentAlojamiento = alojamiento;
         this.startDate = startDate;
         this.endDate = endDate;
         this.numeroHuespedes = numeroHuespedes;
@@ -78,6 +81,9 @@ public class RegistrarReservaControlador implements Initializable {
         lblNumeroHuespedes.setText(String.valueOf(numeroHuespedes));
         lblCedulaReservante.setText(usuarioActual.getCedula());
         lblCosto.setText(String.valueOf(alojamiento.getPrecioNoche()));
+
+        double averageRating = currentAlojamiento.getAverageRating();
+        lblAverageRating.setText(String.format("%.1f", averageRating));
 
         // Load images
         imagenes = alojamiento.getImagenes();

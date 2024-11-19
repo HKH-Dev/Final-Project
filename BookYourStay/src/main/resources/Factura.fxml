@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.FacturaControlador">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.FacturaControlador">
     <VBox prefHeight="1200.0" prefWidth="800.0">
         <children>
             <AnchorPane prefHeight="800.0" prefWidth="555.0">
@@ -79,22 +73,47 @@
                      <Insets top="5.0" />
                   </padding>
                </GridPane>
-                    <Button layoutX="259.0" layoutY="646.0" onAction="#pagarReserva" text="Pagar Reserva" />
+                    <Button layoutX="304.0" layoutY="646.0" onAction="#pagarReserva" text="Pagar Reserva" />
                     <TextField fx:id="txtMontoCarga" layoutX="96.0" layoutY="546.0" prefHeight="25.0" prefWidth="158.0" promptText="Monto a cargar" />
                     <Button layoutX="307.0" layoutY="546.0" onAction="#cargarSaldo" text="Cargar Saldo" textAlignment="CENTER" />
+                    <Button layoutX="96.0" layoutY="646.0" onAction="#volverAtras" text="Volver Atrás" />
+
                 </children>
             </AnchorPane>
         </children>
     </VBox>
+
     <VBox prefHeight="800.0" prefWidth="947.0">
         <children>
             <AnchorPane prefHeight="800.0" prefWidth="670.0">
                 <children>
                     <Label layoutX="268.0" layoutY="22.0" style="-fx-font-size: 20px;" text="Factura Reserva" textAlignment="CENTER" />
-
-
+                    <GridPane hgap="10" layoutX="100.0" layoutY="100.0" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints minWidth="10.0" prefWidth="200.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                        </rowConstraints>
+                        <children>
+                            <Label text="Subtotal:" />
+                            <Label fx:id="lblInvoiceSubtotal" GridPane.columnIndex="1" />
+                            <Label text="Total:" GridPane.rowIndex="1" />
+                            <Label fx:id="lblInvoiceTotal" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <Label text="Fecha:" GridPane.rowIndex="2" />
+                            <Label fx:id="lblInvoiceDate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <Label text="Código de Factura:" GridPane.rowIndex="3" />
+                            <Label fx:id="lblInvoiceCode" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        </children>
+                    </GridPane>
+                    <ImageView fx:id="qrCodeImageView" fitHeight="200.0" fitWidth="200.0" layoutX="100.0" layoutY="300.0" />
                 </children>
             </AnchorPane>
         </children>
     </VBox>
+
 </HBox>
