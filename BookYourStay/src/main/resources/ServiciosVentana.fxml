@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.CRUDControllers.ServiciosVentanaController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <VBox spacing="15" alignment="CENTER" layoutX="100" layoutY="50">
+        <!-- Servicio: WiFi -->
+        <HBox spacing="10">
+            <Label text="WiFi" />
+            <CheckBox fx:id="chkWifi" />
+        </HBox>
+
+        <!-- Servicio: Piscina -->
+        <HBox spacing="10">
+            <Label text="Piscina" />
+            <CheckBox fx:id="chkPiscina" />
+        </HBox>
+
+        <!-- Servicio: Parqueadero -->
+        <HBox spacing="10">
+            <Label text="Parqueadero" />
+            <CheckBox fx:id="chkParqueadero" />
+        </HBox>
+
+        <!-- Servicio: TV -->
+        <HBox spacing="10">
+            <Label text="TV" />
+            <CheckBox fx:id="chkTV" />
+        </HBox>
+
+        <!-- Servicio: Desayuno -->
+        <HBox spacing="10">
+            <Label text="Desayuno" />
+            <CheckBox fx:id="chkDesayuno" />
+        </HBox>
+
+        <!-- Servicio: Gimnasio -->
+        <HBox spacing="10">
+            <Label text="Gimnasio" />
+            <CheckBox fx:id="chkGimnasio" />
+        </HBox>
+
+        <!-- Servicio: Aire Acondicionado -->
+        <HBox spacing="10">
+            <Label text="Aire Acondicionado" />
+            <CheckBox fx:id="chkAireAcondicionado" />
+        </HBox>
+
+        <!-- Botón para Guardar Cambios -->
+        <Button text="Guardar cambios" fx:id="btnGuardar" onAction="#guardarCambios"/>
+    </VBox>
+</AnchorPane>

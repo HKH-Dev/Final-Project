@@ -4,10 +4,11 @@ import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.enums.Ciudad;
 import co.edu.uniquindio.reservasapp.plataforma.alojamiento.model.Alojamiento;
 //import co.edu.uniquindio.plataforma.alojamiento.model.servicio.*;
 
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-
+@Getter
 @Setter
 public class Hotel extends Alojamiento {
     private String habitacionNumero;

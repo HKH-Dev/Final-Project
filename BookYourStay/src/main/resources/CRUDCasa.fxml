@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="co.edu.uniquindio.reservasapp.plataforma.controlador.CRUDControllers.CRUDCasaController"
+            prefHeight="330.0" prefWidth="800.0">
+
+    <!-- Contenedor principal con HBox para mayor alineación horizontal -->
+    <HBox layoutX="20.0" layoutY="20.0" spacing="10" alignment="TOP_CENTER">
+
+        <!-- VBox para los campos de texto -->
+        <VBox spacing="10" alignment="CENTER_LEFT">
+
+            <!-- Fila de entrada de texto para Nombre y Ciudad (ComboBox) -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Nombre:"/>
+                <TextField fx:id="txtNombre" prefWidth="180"/>
+                <Label text="Ciudad:"/>
+                <ComboBox fx:id="comboCiudad" prefWidth="180">
+                </ComboBox>
+            </HBox>
+
+            <!-- Fila de entrada para Descripción -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Descripción:"/>
+                <TextArea fx:id="txtDescripcion" prefWidth="370" prefHeight="50"/>
+            </HBox>
+
+            <!-- Fila de entrada para Imágenes -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Imágenes:"/>
+                <TextField fx:id="txtImagenes" prefWidth="180"/>
+            </HBox>
+
+            <!-- Fila de botones de Agregar y Borrar Imagen -->
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Agregar" fx:id="btnAgregarImagen"/>
+                <Button text="Borrar" fx:id="btnBorrarImagen"/>
+            </HBox>
+
+            <!-- Fila de entrada para Precio/Noche -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Precio/Noche:"/>
+                <TextField fx:id="txtPrecioNoche" prefWidth="180"/>
+            </HBox>
+
+            <!-- Fila de entrada para Capacidad y Número de Habitación -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Capacidad:"/>
+                <TextField fx:id="txtCapacidadMaxima" prefWidth="180"/>
+            </HBox>
+
+            <!-- Fila de entrada para Cocina y Jardín -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="¿Tiene Cocina?" />
+                <CheckBox fx:id="chkTieneCocina"/>
+                <Label text="¿Tiene Jardín?" />
+                <CheckBox fx:id="chkTieneJardin"/>
+                <Button fx:id="btnServicios" text="Servicios" onAction="#onMirarServicios"/>
+            </HBox>
+            <HBox spacing="20" alignment="CENTER">
+                <Region prefWidth="150"/>
+                <Button text="Guardar" fx:id="btnActualizar" onAction="#onGuardarCambios"/>
+            </HBox>
+        </VBox>
+
+        <!-- VBox para el ImageView y los botones de navegación de imagen -->
+        <VBox spacing="10" alignment="CENTER">
+            <Label text="Imagenes de Casa:"/>
+            <ImageView fx:id="imageView" fitWidth="200" fitHeight="150" preserveRatio="true"/>
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Anterior Imagen" fx:id="btnAnteriorImagen" onAction="#onAnteriorImagen"/>
+                <Button text="Siguiente Imagen" fx:id="btnSiguienteImagen" onAction="#onSiguienteImagen"/>
+            </HBox>
+        </VBox>
+
+    </HBox>
+
+
+</AnchorPane>
